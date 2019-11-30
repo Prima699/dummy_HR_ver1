@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'User Profile',
-    'activePage' => 'profile',
+    'namePage' => 'data display',
+    'activePage' => 'datadisplay',
     'activeNav' => '',
 ])
  
@@ -9,8 +9,8 @@
 <table class="table table-striped">
 <tr>
 
+<th> Id</th>
 <th> Name</th>
-<th> Age</th>
 </tr>
 
 @foreach($data as $list)

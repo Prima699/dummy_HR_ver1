@@ -18,6 +18,7 @@
           <p>{{ ('Dashboard') }}</p>
         </a>
       </li>
+      {{-- Setting management --}}
       <li>
         <a data-toggle="collapse" href="#settingmanagement">
             <i class="now-ui-icons loader_gear"></i>
@@ -43,6 +44,7 @@
           </ul>
         </div>
       </li>
+      {{-- employe management --}}
       <li>
         <a data-toggle="collapse" href="#employeemanagement">
             <i class="now-ui-icons users_circle-08"></i>
@@ -59,12 +61,6 @@
                 <p> {{ ("Data Employee") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('user.departemen') }}">
-                <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Data Departemen") }} </p>
-              </a>
-            </li>
             <li class="@if ($activePage == 'users') active @endif">
               <a href="{{ route('user.index') }}">
                 <i class="now-ui-icons design_bullet-list-67"></i>
@@ -74,6 +70,29 @@
           </ul>
         </div>
       </li>
+      {{-- display data --}}
+      <li>
+        <a data-toggle="collapse" href="#datadisplay">
+            <i class="now-ui-icons users_circle-08"></i>
+          <p>
+            {{ ("Data Display(temporary)") }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="datadisplay">
+          <ul class="nav">
+            {{-- departemen --}}
+            <li class="@if ($activePage == 'datadisplay') active @endif">
+              <a href="{{ route('user.departemen') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Departemen") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+          </ul>
+        </div>
+      </li>
+      {{-- icons --}}
       <li class="@if ($activePage == 'icons') active @endif">
         <a href="{{ route('page.index','icons') }}">
           <i class="now-ui-icons education_atom"></i>
