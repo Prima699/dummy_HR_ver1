@@ -17,4 +17,7 @@ class PageController extends Controller
         }
         return abort(404);
     }
+    public function departemen(){
+        return view("pages.departemen");
+    }
 }

@@ -29,7 +29,7 @@
         <div class="collapse" id="settingmanagement">
           <ul class="nav">
             <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('profile.edit') }}">
+              <a href="{{ route('profile.edit') }}"> 
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ ("User Profile") }} </p>
               </a>
@@ -57,6 +57,12 @@
               <a href="{{ route('profile.edit') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Employee") }} </p>
+              </a>
+            </li>
+            <li class="@if ($activePage == 'profile') active @endif">
+              <a href="{{ route('user.departemen') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Departemen") }} </p>
               </a>
             </li>
             <li class="@if ($activePage == 'users') active @endif">

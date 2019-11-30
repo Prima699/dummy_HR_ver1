@@ -19,6 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -26,5 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
+
+	// master data
+	
+
+
+	// Route::resource('data', 'UserController');
 });
 
