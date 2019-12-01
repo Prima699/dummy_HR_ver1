@@ -82,10 +82,34 @@
         <div class="collapse" id="datadisplay">
           <ul class="nav">
             {{-- departemen --}}
-            <li class="@if ($activePage == 'datadisplay') active @endif">
-              <a href="{{ route('user.departemen') }}">
+            <li class="@if ($activePage == 'departemen') active @endif">
+              <a href="{{ route('data.departemen') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Departemen") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- perusahaan --}}
+            <li class="@if ($activePage == 'perusahaan') active @endif">
+              <a href="{{ route('data.perusahaan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Perusahaan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- jabatan --}}
+            <li class="@if ($activePage == 'jabatan') active @endif">
+              <a href="{{ route('data.jabatan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data jabatan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- golongan --}}
+            <li class="@if ($activePage == 'golongan') active @endif">
+              <a href="{{ route('data.golongan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Golongan") }} </p>
               </a>
             </li>
             {{--  --}}

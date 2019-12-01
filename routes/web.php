@@ -19,8 +19,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
+// route untuk tampil data sementara belum bisa diberi auth
 
+Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
+Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
+Route::get('Jabatan', ['as' => 'data.jabatan', 'uses' => 'JabatanController@index']);
+Route::get('Golongan', ['as' => 'data.golongan', 'uses' => 'GolonganController@index']);
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);

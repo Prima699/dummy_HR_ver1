@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => 'data display',
-    'activePage' => 'departemen',
+    'activePage' => 'perusahaan',
     'activeNav' => '',
 ])
  
@@ -11,14 +11,18 @@
 
 <th> Id</th>
 <th> Name</th>
+<th> Type</th>
+<th> Logo</th>
 </tr>
 
 @foreach($data as $list)
 
 
 <tr>
-<td>{{ $list['departemen_id'] }}</td>
-<td>{{ $list['departemen_name']}}</td>                                    
+<td>{{ $list['perusahaan_id'] }}</td>
+<td>{{ $list['perusahaan_name']}}</td>  
+<td>{{ $list['bussiness_type_id']}}</td>   
+<td>{{ $list['perusahaan_logo']}}</td>                                    
 </tr>
 @endforeach 
 
@@ -31,8 +35,8 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('user.create') }}">{{ __('Add Departemen') }}</a>
-            <h4 class="card-title">{{ __('Departemen') }}</h4>
+              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('user.create') }}">{{ __('Add Perusahaan') }}</a>
+            <h4 class="card-title">{{ __('Perusahaan') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -47,6 +51,8 @@
                 <tr>
                   <th>{{ __('id') }}</th>
                   <th>{{ __('Name') }}</th>
+                  <th>{{ __('Type') }}</th>
+                  <th>{{ __('Logo') }}</th>
                   <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                 </tr>
               </thead>
@@ -54,14 +60,18 @@
                 <tr>
                   <th>{{ __('id') }}</th>
                   <th>{{ __('Name') }}</th>
+                  <th>{{ __('Type') }}</th>
+                  <th>{{ __('Logo') }}</th>
                   <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
                 </tr>
               </tfoot>
               <tbody>
                 @foreach($data as $list)
                   <tr>
-                    <td>{{$list['departemen_id']}}</td>
-                    <td>{{$list['departemen_name']}}</td>
+                    <td>{{ $list['perusahaan_id'] }}</td>
+					<td>{{ $list['perusahaan_name']}}</td>  
+					<td>{{ $list['bussiness_type_id']}}</td>   
+					<td>{{ $list['perusahaan_logo']}}</td>   
                     {{-- edit belom bisa kang --}}
                      {{--  <td class="text-right">
                       @if($user->id!=auth()->user()->id)

@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => 'data display',
-    'activePage' => 'departemen',
+    'activePage' => 'jabatan',
     'activeNav' => '',
 ])
  
@@ -17,8 +17,9 @@
 
 
 <tr>
-<td>{{ $list['departemen_id'] }}</td>
-<td>{{ $list['departemen_name']}}</td>                                    
+<td>{{ $list['jabatan_id'] }}</td>
+<td>{{ $list['jabatan_name']}}</td>  
+                               
 </tr>
 @endforeach 
 
@@ -31,8 +32,8 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('user.create') }}">{{ __('Add Departemen') }}</a>
-            <h4 class="card-title">{{ __('Departemen') }}</h4>
+              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('user.create') }}">{{ __('Add Jabatan') }}</a>
+            <h4 class="card-title">{{ __('Jabatan') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -60,8 +61,8 @@
               <tbody>
                 @foreach($data as $list)
                   <tr>
-                    <td>{{$list['departemen_id']}}</td>
-                    <td>{{$list['departemen_name']}}</td>
+                    <td>{{ $list['jabatan_id'] }}</td>
+					<td>{{ $list['jabatan_name']}}</td>  
                     {{-- edit belom bisa kang --}}
                      {{--  <td class="text-right">
                       @if($user->id!=auth()->user()->id)
