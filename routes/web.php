@@ -23,8 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
+Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
 Route::get('Jabatan', ['as' => 'data.jabatan', 'uses' => 'JabatanController@index']);
 Route::get('Golongan', ['as' => 'data.golongan', 'uses' => 'GolonganController@index']);
+
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);

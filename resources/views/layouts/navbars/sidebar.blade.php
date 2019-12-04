@@ -97,6 +97,14 @@
               </a>
             </li>
             {{--  --}}
+            {{-- perusahaan cabang --}}
+            <li class="@if ($activePage == 'perusahaan_cabang') active @endif">
+              <a href="{{ route('data.perusahaan_cabang') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Perusahaan Cabang") }} </p>
+              </a>
+            </li>
+            {{--  --}}
             {{-- jabatan --}}
             <li class="@if ($activePage == 'jabatan') active @endif">
               <a href="{{ route('data.jabatan') }}">
