@@ -59,9 +59,7 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ ("My profile") }}</a>
             <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ ("Edit profile") }}</a>
-            <a class="dropdown-item" href="{{ route('logout') }}"
-            onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();">
+            <a class="dropdown-item" href="{{ route('auth.logout') }}">
               {{ ('Logout') }}
             </a>
           </div>

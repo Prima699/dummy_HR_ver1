@@ -11,14 +11,46 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
+Route::get('/test', 'test'); // invoked
 
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
+
+/* start auth */
+Route::group([
+	'prefix' => 'auth',
+	'namespace' => 'Auth'
+], function () {	
+	Route::post('login', 'AuthController@LogIn')->name('auth.login');
+	Route::get('logout', 'AuthController@LogOut')->name('auth.logout');
+});
+/* end auth */
+
+/* start employee */
+Route::group([
+	'middleware' => ['employee'],
+	'prefix' => 'employee',
+	'name' => 'employee'
+], function () {
+	Route::get('/', function(){
+		echo "employee";
+	});
+});
+/* end employee */
+
+/* start employee */
+Route::group([
+	'middleware' => ['admin'],
+	'prefix' => 'admin',
+	'name' => 'admin'
+], function () {
+	Route::get('/', function(){
+		echo "admin";
+	});
+});
+/* end employee */
 // route untuk tampil data sementara belum bisa diberi auth
 
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
@@ -43,3 +75,9 @@ Route::group(['middleware' => 'auth'], function () {
 	// Route::resource('data', 'UserController');
 });
 
+	// master data
+	
+
+
+	// Route::resource('data', 'UserController');
+});
