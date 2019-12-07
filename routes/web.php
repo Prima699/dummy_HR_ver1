@@ -74,10 +74,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Route::resource('data', 'UserController');
 });
-
-	// master data
-	
-
-
-	// Route::resource('data', 'UserController');
-});
