@@ -18,6 +18,7 @@
           <p>{{ ('Dashboard') }}</p>
         </a>
       </li>
+      {{-- Setting management --}}
       <li>
         <a data-toggle="collapse" href="#settingmanagement">
             <i class="now-ui-icons loader_gear"></i>
@@ -29,7 +30,7 @@
         <div class="collapse" id="settingmanagement">
           <ul class="nav">
             <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('profile.edit') }}">
+              <a href="{{ route('profile.edit') }}"> 
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ ("User Profile") }} </p>
               </a>
@@ -43,6 +44,7 @@
           </ul>
         </div>
       </li>
+      {{-- employe management --}}
       <li>
         <a data-toggle="collapse" href="#employeemanagement">
             <i class="now-ui-icons users_circle-08"></i>
@@ -68,6 +70,61 @@
           </ul>
         </div>
       </li>
+      {{-- display data --}}
+      <li>
+        <a data-toggle="collapse" href="#datadisplay">
+            <i class="now-ui-icons users_circle-08"></i>
+          <p>
+            {{ ("Data Display(temporary)") }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="datadisplay">
+          <ul class="nav">
+            {{-- departemen --}}
+            <li class="@if ($activePage == 'departemen') active @endif">
+              <a href="{{ route('data.departemen') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Departemen") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- perusahaan --}}
+            <li class="@if ($activePage == 'perusahaan') active @endif">
+              <a href="{{ route('data.perusahaan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Perusahaan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- perusahaan cabang --}}
+            <li class="@if ($activePage == 'perusahaan_cabang') active @endif">
+              <a href="{{ route('data.perusahaan_cabang') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Perusahaan Cabang") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- jabatan --}}
+            <li class="@if ($activePage == 'jabatan') active @endif">
+              <a href="{{ route('data.jabatan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data jabatan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- golongan --}}
+            <li class="@if ($activePage == 'golongan') active @endif">
+              <a href="{{ route('data.golongan') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Golongan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+          </ul>
+        </div>
+      </li>
+      {{-- icons --}}
       <li class="@if ($activePage == 'icons') active @endif">
         <a href="{{ route('page.index','icons') }}">
           <i class="now-ui-icons education_atom"></i>
