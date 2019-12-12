@@ -1,7 +1,9 @@
 <?php
+namespace App\Helpers;
 
-if (! function_exists('authAPI')) {
-    function authAPI($key=NULL) {
+class Auth {
+	
+	public static function user($key=NULL) {
 		if(session("auth")==NULL OR session("auth")==FALSE OR session("auth")==""){
 			return NULL;
 		}
@@ -20,6 +22,5 @@ if (! function_exists('authAPI')) {
 		}
 		return $r;
     }
+	
 }
-
-?>

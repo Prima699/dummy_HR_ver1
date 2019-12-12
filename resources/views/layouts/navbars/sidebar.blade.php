@@ -7,7 +7,7 @@
       {{ ('GT') }}
     </a>
     <a href="#" class="simple-text logo-normal">
-      {{ authAPI("user.name") }}
+      {{ Auths::user("user.name") }}
     </a>
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">

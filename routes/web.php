@@ -13,6 +13,9 @@
 
 Auth::routes();
 Route::get('/test', 'test'); // invoked
+Route::get('refresh-csrf', function(){
+    return csrf_token();
+});
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -51,7 +54,6 @@ Route::group([
 	});
 });
 /* end employee */
-// route untuk tampil data sementara belum bisa diberi auth
 
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
@@ -65,12 +67,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
-
-	
-
-	// master data
-	
-
-
-	// Route::resource('data', 'UserController');
 });

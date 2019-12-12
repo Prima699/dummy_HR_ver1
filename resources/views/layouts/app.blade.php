@@ -100,7 +100,7 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
-    @if(authAPI()!=NULL)
+    @if(Auths::user()!=NULL)
 		@include('layouts.page_template.auth')
 	@else
 		@include('layouts.page_template.guest')

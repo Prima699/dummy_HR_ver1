@@ -36,4 +36,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+	
+	public function showLoginForm(){
+		$message = NULL;
+		
+		if(session("error")!=NULL AND session("error")['response']!=NULL){
+			$res = session("error")['response'];
+			$message = "Error Code : ".$res->errorcode ."<br>".$res->errormsg;
+		}
+		
+		session(["error"=>NULL]);
+		return view("auth.login", compact("message"));
+	}
 }
