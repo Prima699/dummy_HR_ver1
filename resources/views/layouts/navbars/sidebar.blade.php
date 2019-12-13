@@ -115,7 +115,7 @@
             {{--  --}}
             {{-- golongan --}}
             <li class="@if ($activePage == 'golongan') active @endif">
-              <a href="{{ route('data.golongan') }}">
+              <a href="{{ route('admin.golongan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Golongan") }} </p>
               </a>

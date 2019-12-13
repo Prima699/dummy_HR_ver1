@@ -45,6 +45,10 @@ class LoginController extends Controller
 			$message = "Error Code : ".$res->errorcode ."<br>".$res->errormsg;
 		}
 		
+		if(session("auth")!=NULL){
+			return redirect("/");
+		}
+		
 		session(["error"=>NULL]);
 		return view("auth.login", compact("message"));
 	}
