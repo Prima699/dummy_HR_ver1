@@ -63,8 +63,7 @@
                   <tr>
                     <td>{{$list['golongan_id']}}</td>
                     <td>{{$list['golongan_name']}}</td>
-                    {{-- edit belom bisa kang --}}
-                     {{--  <td class="text-right">
+                     <td class="text-right">
                       @if($user->id!=auth()->user()->id)
                         <a type="button" href="{{route("user.edit",$user)}}" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
                           <i class="now-ui-icons ui-2_settings-90"></i>
@@ -81,7 +80,7 @@
                         <i class="now-ui-icons ui-2_settings-90"></i>
                       </a>
                     @endif
-                    </td> --}}
+                    </td>
                     {{-- akhir edit belom bisa --}}
                   </tr>
                 @endforeach

@@ -25,8 +25,17 @@ class AuthController extends Controller
 		));
 		
 		if($curl->error){ // if curl error
-			$res = json_decode($curl->error_code);
-			dump($res);
+			$err = json_decode($curl->error_code);
+			$res = json_decode($curl->response);
+			
+			session([
+				"error" => [
+					"errorCode" => $err,
+					"response" => $res
+				]
+			]);
+			
+			return redirect("/login");
 		}else{ // curl succeed
 			$res = json_decode($curl->response);
 			session(["auth" => $res->data]); // restore auth to auth session
