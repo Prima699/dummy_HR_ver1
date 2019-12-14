@@ -55,6 +55,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/data', 'GolonganController@data')->name('data');
 	});
 	/* end golongan */
+
+	/* start Pegawai */
+	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
+		Route::get('/', 'PegawaiController@index')->name('index');
+		Route::get('/data', 'PegawaiController@data')->name('data');
+	});
+	/* end Pegawai */
 });
 /* end admin */
 
