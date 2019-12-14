@@ -18,7 +18,7 @@ class PerusahaanCabangController extends Controller{
 
 	public function index(){
 		$curl = new Curl();
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan_cabang/user_id/3/access_token/ApmzLXaiIQKwEHr2BFvC3SjtT5DudgUGNfYe1ZO80khcqPlys6/platform/dashboard/location/xxx');
+        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan_cabang/user_id/3/access_token/GCOpsFiZzNnB4y2ghrRv8taVPLkJX6AHqM0xEdfSojD5ewuY3U/platform/dashboard/location/xxx');
         
         // Convert JSON string to Array
 		  $someArray = json_decode($curl->response, true);
