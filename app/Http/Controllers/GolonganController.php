@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
 use Auths;
 use Response;
+use Illuminate\Http\Request;
 
 class GolonganController extends Controller{
 
@@ -33,7 +34,7 @@ class GolonganController extends Controller{
         return view("pages.golongan");
     }
 	
-	public function data(){
+	public function data(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
@@ -45,21 +46,32 @@ class GolonganController extends Controller{
 			'location' => 'xxx'
 		));
 		
-		if($curl->error){ // if curl error
-			$res = NULL;
-		}else{ // curl succeed
-			$res = json_decode($curl->response);
-		}
+		$res = json_decode($curl->response);
+		// dump(count($res->data));
+		// dd($res->data);
 		
-		$tmp = [];
+		$length = $r['length']; //limit data per page
+		$search = $r['search']['value']; //filter keyword
+		$start = $r['start']; //offset data
+		$draw = $r['draw'];
+		
+		$recordsTotal = count($res->data); //count all data by
+		$recordsFiltered = $recordsTotal;
+		
+		$data = [];
+		$data["draw"] = $draw;
+		$data["recordsTotal"] = $recordsTotal;
+		$data["recordsFiltered"] = $recordsFiltered;
+		$data["data"] = [];
+		
 		$i = 1;
 		foreach($res->data as $a){
-			$tmp[] = [$i, $a->golongan_name, $a->golongan_id];
+			$tmp = [$i, $a->golongan_name, $a->golongan_id];
+			$data["data"][] = $tmp;
 			$i++;
 		}
 		
-		$r["data"] = $tmp;
-		return Response()->json($r);
+		return Response()->json($data);
 	}
 
 }

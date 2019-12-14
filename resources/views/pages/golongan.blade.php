@@ -43,12 +43,12 @@
             <div class="toolbar">
               <!--        Here you can write extra buttons/actions for the toolbar              -->
             </div>
-            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="datatable" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>No</th>
+                  <th width="5%">No</th>
                   <th>Name</th>
-                  <th class="disabled-sorting text-right">Action</th>
+                  <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
 			  <tbody>
@@ -68,6 +68,11 @@
 
 @push('css')
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
+	<style>
+		table tbody td:nth-child(2) {
+			text-align : left;
+		}
+	</style>
 @endpush 
 
 @push('js')
