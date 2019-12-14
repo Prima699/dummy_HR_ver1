@@ -34,6 +34,24 @@ class GolonganController extends Controller{
         return view("pages.golongan");
     }
 	
+	private function totalData($r){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', array(
+			'user_id' => $userID,
+			'access_token' => $token,
+			'platform' => 'dashboard',
+			'location' => 'xxx',
+			'field' => 'golongan_name;golongan_id',
+			'search' => $r['search']['value']
+		));
+		
+		$res = json_decode($curl->response);
+		return count($res->data);
+	}
+	
 	public function data(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
@@ -43,20 +61,29 @@ class GolonganController extends Controller{
 			'user_id' => $userID,
 			'access_token' => $token,
 			'platform' => 'dashboard',
-			'location' => 'xxx'
+			'location' => 'xxx',
+			'field' => 'golongan_name;golongan_id',
+			'search' => $r['search']['value'],
+			'page' => $r['start'],
+			'n_item' => $r['length']
 		));
 		
-		$res = json_decode($curl->response);
-		// dump(count($res->data));
-		// dd($res->data);
-		
 		$length = $r['length']; //limit data per page
+		$res = json_decode($curl->response);
+		
+		if($res->data==NULL){
+			$amount = 0;
+		}else{			
+			// $amount = count($res->data);
+			$amount = $this->totalData($r);
+		}
+		
 		$search = $r['search']['value']; //filter keyword
 		$start = $r['start']; //offset data
 		$draw = $r['draw'];
 		
-		$recordsTotal = count($res->data); //count all data by
-		$recordsFiltered = $recordsTotal;
+		$recordsTotal = $amount; //count all data by
+		$recordsFiltered = $amount;
 		
 		$data = [];
 		$data["draw"] = $draw;
@@ -65,10 +92,12 @@ class GolonganController extends Controller{
 		$data["data"] = [];
 		
 		$i = 1;
-		foreach($res->data as $a){
-			$tmp = [$i, $a->golongan_name, $a->golongan_id];
-			$data["data"][] = $tmp;
-			$i++;
+		if($res->data!=NULL){
+			foreach($res->data as $a){
+				$tmp = [$i, $a->golongan_name, $a->golongan_id];
+				$data["data"][] = $tmp;
+				$i++;
+			}
 		}
 		
 		return Response()->json($data);

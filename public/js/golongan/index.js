@@ -2,10 +2,9 @@ $(document).ready(function() {
     $('#datatable').DataTable({
 		"ajax" : dataTableAPI(),
 		"lengthChange" : false,
-		// "columns" : [
-			// {
-			// }
-		// ]
+        "processing" : true,
+        "serverSide" : true,
+		"pageLength" : 10
 	});
 	
 	$('#datatable').on( 'draw.dt', function () {
