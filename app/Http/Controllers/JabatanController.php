@@ -13,7 +13,7 @@ class JabatanController extends Controller{
      * Display a listing of the users
      *
      * @param  \App\User  $model
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View 
      */
 
 	public function index(){
@@ -91,6 +91,19 @@ class JabatanController extends Controller{
         
         return Response()->json($data);
     }
+
+    public function created(){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");     
+
+        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
+            "jabatan_name" => "jabatan2",
+        ));
+
+        // dd($curl->response);
+            return view("pages.jabatan"); 
+    }      
 
 }
 

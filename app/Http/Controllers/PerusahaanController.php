@@ -12,7 +12,7 @@ class PerusahaanController extends Controller{
 	/**
      * Display a listing of the users
      *
-     * @param  \App\User  $model
+     * @param  \App\User  $model 
      * @return \Illuminate\View\View
      */
 
@@ -90,6 +90,19 @@ class PerusahaanController extends Controller{
         
         return Response()->json($data);
     }
+
+    public function created(){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");     
+
+        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
+            "perusahaan_name" => "perusahaan2",
+        ));
+
+        // dd($curl->response);
+            return view("pages.golongan"); 
+    }      
 
 }
 
