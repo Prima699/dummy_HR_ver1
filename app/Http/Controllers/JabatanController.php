@@ -17,16 +17,79 @@ class JabatanController extends Controller{
      */
 
 	public function index(){
-		$curl = new Curl();
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan/user_id/3/access_token/GCOpsFiZzNnB4y2ghrRv8taVPLkJX6AHqM0xEdfSojD5ewuY3U/dashboard/location/xxx');
-        
-        // Convert JSON string to Array
-		  $someArray = json_decode($curl->response, true);
-		  $data = $someArray['data'];
-		  // dd($data);
-		  
-        return view("pages.jabatan",compact('data'));
 
+		  
+        return view("pages.jabatan");
+
+    }
+
+    private function totalData($r){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan', array(
+            'user_id' => $userID,
+            'access_token' => $token,
+            'platform' => 'dashboard',
+            'location' => 'xxx',
+            'field' => 'jabatan_name;jabatan_id',
+            'search' => $r['search']['value']
+        ));
+        
+        $res = json_decode($curl->response);
+        return count($res->data);
+    }
+    
+    public function data(Request $r){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan', array(
+            'user_id' => $userID,
+            'access_token' => $token,
+            'platform' => 'dashboard',
+            'location' => 'xxx',
+            'field' => 'jabatan_name;jabatan_id',
+            'search' => $r['search']['value'],
+            'page' => $r['start'],
+            'n_item' => $r['length']
+        ));
+        
+        $length = $r['length']; //limit data per page
+        $res = json_decode($curl->response);
+        
+        if($res->data==NULL){
+            $amount = 0;
+        }else{          
+            // $amount = count($res->data);
+            $amount = $this->totalData($r);
+        }
+        
+        $search = $r['search']['value']; //filter keyword
+        $start = $r['start']; //offset data
+        $draw = $r['draw'];
+        
+        $recordsTotal = $amount; //count all data by
+        $recordsFiltered = $amount;
+        
+        $data = [];
+        $data["draw"] = $draw;
+        $data["recordsTotal"] = $recordsTotal;
+        $data["recordsFiltered"] = $recordsFiltered;
+        $data["data"] = [];
+        
+        $i = 1;
+        if($res->data!=NULL){
+            foreach($res->data as $a){
+                $tmp = [$i, $a->jabatan_name, $a->jabatan_id];
+                $data["data"][] = $tmp;
+                $i++;
+            }
+        }
+        
+        return Response()->json($data);
     }
 
 }

@@ -107,7 +107,7 @@
             {{--  --}}
             {{-- jabatan --}}
             <li class="@if ($activePage == 'jabatan') active @endif">
-              <a href="{{ route('data.jabatan') }}">
+              <a href="{{ route('admin.jabatan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data jabatan") }} </p>
               </a>

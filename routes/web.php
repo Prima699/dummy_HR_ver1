@@ -56,6 +56,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	/* end golongan */
 
+	// start jabatan
+	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
+		Route::get('/',  'JabatanController@index')->name('index');
+		Route::get('/data', 'JabatanController@data')->name('data');
+	});
+	// end jabatan
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
@@ -68,7 +75,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
 Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
-Route::get('Jabatan', ['as' => 'data.jabatan', 'uses' => 'JabatanController@index']);
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
