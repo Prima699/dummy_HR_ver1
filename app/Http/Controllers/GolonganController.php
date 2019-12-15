@@ -74,6 +74,19 @@ class GolonganController extends Controller{
 		return Response()->json($data);
 	}
 
+    public function created(){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");     
+
+        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
+            "golongan_name" => "Golongan1",
+        ));
+
+        // dd($curl->response);
+            return view("pages.golongan"); 
+    }       
+
 }
 
 

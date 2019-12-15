@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="red">
+<div class="sidebar" data-color="blue">
   <!--
     Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
 -->
@@ -70,12 +70,15 @@
           </ul>
         </div>
       </li>
-      {{-- display data --}}
+
+
+
+      {{-- Master data --}}
       <li>
         <a data-toggle="collapse" href="#datadisplay">
             <i class="now-ui-icons users_circle-08"></i>
           <p>
-            {{ ("Data Display(temporary)") }}
+            {{ ("Master Data") }}
             <b class="caret"></b>
           </p>
         </a>
