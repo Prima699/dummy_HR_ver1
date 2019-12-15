@@ -63,6 +63,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	// end jabatan
 
+	// start perusahaan
+	Route::prefix('Perusahaan')->name('perusahaan.')->group(function(){		
+		Route::get('/',  'PerusahaanController@index')->name('index');
+		Route::get('/data', 'PerusahaanController@data')->name('data');
+	});
+	// end perusahaan
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');

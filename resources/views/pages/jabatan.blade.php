@@ -48,6 +48,7 @@
                 <tr>
                   <th width="5%">No</th>
                   <th>Name</th>
+                  <th>Parent</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -65,6 +66,7 @@
   </div>
   
 @endsection
+
 @push('css')
   <link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
   <style>
@@ -82,5 +84,5 @@
     }
   </script>
   <script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-  <script src="{{ asset('public/js/golongan/index.js') }}"></script>
+  <script src="{{ asset('public/js/jabatan/index.js') }}"></script>
 @endpush

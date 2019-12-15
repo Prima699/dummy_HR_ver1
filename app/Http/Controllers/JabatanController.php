@@ -56,7 +56,7 @@ class JabatanController extends Controller{
             'page' => $r['start'],
             'n_item' => $r['length']
         ));
-        
+
         $length = $r['length']; //limit data per page
         $res = json_decode($curl->response);
         

@@ -91,7 +91,7 @@
             {{--  --}}
             {{-- perusahaan --}}
             <li class="@if ($activePage == 'perusahaan') active @endif">
-              <a href="{{ route('data.perusahaan') }}">
+              <a href="{{ route('admin.perusahaan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Perusahaan") }} </p>
               </a>
