@@ -52,6 +52,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* start golongan */
 	Route::prefix('golongan')->name('golongan.')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
+		Route::get('/created', 'GolonganController@created')->name('created');
 		Route::get('/data', 'GolonganController@data')->name('data');
 	});
 	/* end golongan */
