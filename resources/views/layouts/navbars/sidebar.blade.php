@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="green">
+<div class="sidebar" data-color="red">
   <!--
     Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
 -->
@@ -56,7 +56,7 @@
         <div class="collapse" id="employeemanagement">
           <ul class="nav">
             <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('profile.edit') }}">
+              <a href="{{ route('admin.pegawai.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Employee") }} </p>
               </a>
@@ -115,7 +115,7 @@
             {{--  --}}
             {{-- golongan --}}
             <li class="@if ($activePage == 'golongan') active @endif">
-              <a href="{{ route('data.golongan') }}">
+              <a href="{{ route('admin.golongan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Golongan") }} </p>
               </a>

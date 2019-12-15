@@ -91,6 +91,7 @@
       console.log('Facebook Track Error:', err);
     }
   </script>
+  @stack('css')
 </head>
 
 <body class="{{ $class ?? '' }}">
