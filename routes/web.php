@@ -57,6 +57,22 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	/* end golongan */
 
+	// start jabatan
+	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
+		Route::get('/',  'JabatanController@index')->name('index');
+		Route::get('/data', 'JabatanController@data')->name('data');
+		Route::get('/created', 'JabatanController@created')->name('created');
+	});
+	// end jabatan
+
+	// start perusahaan
+	Route::prefix('Perusahaan')->name('perusahaan.')->group(function(){		
+		Route::get('/',  'PerusahaanController@index')->name('index');
+		Route::get('/data', 'PerusahaanController@data')->name('data');
+		Route::get('/created', 'PerusahaanController@created')->name('created');
+	});
+	// end perusahaan
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
@@ -69,7 +85,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
 Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
-Route::get('Jabatan', ['as' => 'data.jabatan', 'uses' => 'JabatanController@index']);
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
