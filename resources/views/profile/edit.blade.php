@@ -91,12 +91,12 @@
       <div class="col-md-4">
         <div class="card card-user">
           <div class="image">
-            <img src="{{asset('public/'.'assets')}}/img/bg5.jpg" alt="...">
+            <img src="{{asset('assets')}}/img/bg5.jpg" alt="...">
           </div>
           <div class="card-body">
             <div class="author">
               <a href="#">
-                <img class="avatar border-gray" src="{{asset('public/'.'assets')}}/img/default-avatar.png" alt="...">
+                <img class="avatar border-gray" src="{{asset('assets')}}/img/default-avatar.png" alt="...">
                 <h5 class="title">{{ auth()->user()->name }}</h5>
               </a>
               <p class="description">

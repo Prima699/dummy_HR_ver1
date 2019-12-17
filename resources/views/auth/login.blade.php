@@ -2,7 +2,7 @@
     'namePage' => 'Login page',
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'login',
-    'backgroundImage' => asset('public/'.'assets') . "/img/bg14.jpg",
+    'backgroundImage' => asset('assets') . "/img/bg14.jpg",
 ])
 
 @section('content')
@@ -31,7 +31,7 @@
             <div class="card card-login card-plain">
                 <div class="card-header ">
                 <div class="logo-container">
-                    <img src="{{ asset('public/'.'assets/img/now-logo.png') }}" alt="">
+                    <img src="{{ asset('assets/img/now-logo.png') }}" alt="">
                 </div>
 				@if($message!=NULL)
 					<center><p class="text-danger">{!! $message !!}</p></center>

@@ -48,7 +48,7 @@
                   <tr>
                     <td>
                       <span class="avatar avatar-sm rounded-circle">
-                        <img src="{{asset('public/'.'assets')}}/img/default-avatar.png" alt="" style="max-width: 80px; border-radiu: 100px">
+                        <img src="{{asset('assets')}}/img/default-avatar.png" alt="" style="max-width: 80px; border-radiu: 100px">
                       </span>
                     </td>
                     <td>{{$user->name}}</td>

@@ -2,7 +2,7 @@
     'namePage' => 'Dashboard',
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'home',
-    'backgroundImage' => asset('public/'.'now') . "/img/bg14.jpg",
+    'backgroundImage' => asset('now') . "/img/bg14.jpg",
 ])
 
 @section('content')
