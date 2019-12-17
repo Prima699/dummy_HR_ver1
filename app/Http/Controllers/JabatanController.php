@@ -7,6 +7,9 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
+use Illuminate\Http\Request;
+use Auths;
+use Response;
 
 class JabatanController extends Controller{
 	/**
@@ -83,7 +86,7 @@ class JabatanController extends Controller{
         $i = 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->jabatan_name, $a->jabatan_id];
+                $tmp = [$i, $a->jabatan_name, $a->jabatan_parent];
                 $data["data"][] = $tmp;
                 $i++;
             }

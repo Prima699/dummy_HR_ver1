@@ -7,6 +7,8 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
+use Illuminate\Http\Request;
+use Auths;
 
 class PerusahaanController extends Controller{
 	/**
@@ -20,7 +22,7 @@ class PerusahaanController extends Controller{
 		  
         return view("pages.perusahaan");
 
-    }
+    } 
 
     private function totalData($r){
         $curl = new Curl();
