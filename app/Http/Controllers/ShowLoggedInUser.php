@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auths;
 
-class test extends Controller
+class ShowLoggedInUser extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +15,6 @@ class test extends Controller
      */
     public function __invoke(Request $request)
     {
-		return view("test");
+		dd(Auths::user());
     }
 }

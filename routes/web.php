@@ -13,6 +13,7 @@
 
 Auth::routes();
 Route::get('/test', 'test'); // invoked
+Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
@@ -32,19 +33,18 @@ Route::group([
 /* end auth */
 
 /* start employee */
-Route::group([
-	'middleware' => ['employee'],
-	'prefix' => 'employee',
-	'name' => 'employee'
-], function () {
+Route::name('employee.')->middleware('employee')->prefix('employee')->group(function () {
 	Route::get('/', function(){
 		echo "employee";
+	});
+	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){
+		Route::get('/', 'PresenceController@index')->name('index');
 	});
 });
 /* end employee */
 
 /* start admin */
-Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
+Route::name('admin.')->prefix('admin')->group(function () {
 	Route::get('/', function(){
 		echo "admin";
 	});

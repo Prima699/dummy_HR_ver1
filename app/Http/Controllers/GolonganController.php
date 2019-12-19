@@ -14,23 +14,6 @@ use Illuminate\Http\Request;
 class GolonganController extends Controller{
 
 	public function index(){$curl = new Curl();
-		// $userID = Auths::user('user.user_id');
-		// $token = Auths::user("access_token");
-		
-		// $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', array(
-			// 'user_id' => $userID,
-			// 'access_token' => $token,
-			// 'platform' => 'dashboard',
-			// 'location' => 'xxx'
-		// ));
-		
-		// if($curl->error){ // if curl error
-			// $res = NULL;
-		// }else{ // curl succeed
-			// $res = json_decode($curl->response);
-		// }
-		// $r["data"] = $res->data;
-		// dd(json_encode($r));
         return view("pages.golongan");
     }
 	
@@ -39,14 +22,26 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', array(
-			'user_id' => $userID,
-			'access_token' => $token,
-			'platform' => 'dashboard',
-			'location' => 'xxx',
-			'field' => 'golongan_name;golongan_id',
-			'search' => $r['search']['value']
-		));
+		$search = $r['search']['value'];
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
+		
+		if(isset($r->token)){
+			$token = $r->token;
+		}
+		
+		if(isset($r->userID)){
+			$userID = $r->userID;
+		}
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['field'] = 'golongan_name;golongan_id';
+		$params['search'] = $search;
+		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', $params);
 		
 		$res = json_decode($curl->response);
 		return count($res->data);
@@ -57,18 +52,33 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', array(
-			'user_id' => $userID,
-			'access_token' => $token,
-			'platform' => 'dashboard',
-			'location' => 'xxx',
-			'field' => 'golongan_name;golongan_id',
-			'search' => $r['search']['value'],
-			'page' => $r['start'],
-			'n_item' => $r['length']
-		));
+		if(isset($r->token)){
+			$token = $r->token;
+		}
 		
-		$length = $r['length']; //limit data per page
+		if(isset($r->userID)){
+			$userID = $r->userID;
+		}
+		
+		$search = $r['search']['value'];
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
+		
+		if($r['start']!=0){
+			$r['start'] = $r['start'] / $r['length'];
+		}
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['field'] = 'golongan_name;golongan_id';
+		$params['search'] = $search;
+		$params['page'] = $r['start'];
+		$params['n_item'] = $r['length'];
+		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', $params);
+		
 		$res = json_decode($curl->response);
 		
 		if($res->data==NULL){
@@ -85,13 +95,13 @@ class GolonganController extends Controller{
 		$recordsTotal = $amount; //count all data by
 		$recordsFiltered = $amount;
 		
-		$data = [];
+		$data = []; // datatable format
 		$data["draw"] = $draw;
 		$data["recordsTotal"] = $recordsTotal;
 		$data["recordsFiltered"] = $recordsFiltered;
 		$data["data"] = [];
 		
-		$i = 1;
+		$i = ($r['length'] * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
 				$tmp = [$i, $a->golongan_name, $a->golongan_id];
