@@ -18,6 +18,15 @@
           <p>{{ ('Dashboard') }}</p>
         </a>
       </li>
+      {{-- Presence --}}
+      <li class="@if ($activePage == 'presence') active @endif">
+        <a href="{{ route('employee.presence.index') }}">
+            <i class="now-ui-icons users_single-02"></i>
+          <p>
+            {{ ("Presence") }}
+          </p>
+        </a>
+      </li>
       {{-- Setting management --}}
       <li>
         <a data-toggle="collapse" href="#settingmanagement">

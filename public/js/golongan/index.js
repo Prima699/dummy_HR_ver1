@@ -4,15 +4,15 @@ $(document).ready(function() {
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
-		"pageLength" : 10
-	});
+		"pageLength" : 5
+	}); // call datatable
 	
-	$('#datatable').on( 'draw.dt', function () {
+	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
 		var empty = $(".dataTables_empty").html();
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
-				var td = $(tr[i]).find("td:nth-child(2)");
+				var td = $(tr[i]).find("td:nth-child(2)"); // get data action column / id record
 				var name = $(td).html();
 				
 				var td = $(tr[i]).find("td:last");
@@ -25,7 +25,7 @@ $(document).ready(function() {
 		// $(".paginate_button").addClass("btn btn-sm btn-info clr-white");
 	} );
 	
-	function action(name, id){
+	function action(name, id){ // create form action
 		var info = generateInfo(name, id);
 		var edit = generateEdit(name, id);
 		
@@ -39,7 +39,7 @@ $(document).ready(function() {
 		return form;
 	}
 	
-	function generateInfo(name,id){
+	function generateInfo(name,id){ // create button info
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-info");
 			$(a).attr("href","" + id);
@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return a;
 	}
 
-	function generateEdit(name,id){
+	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
 			$(a).attr("href","" + id);
