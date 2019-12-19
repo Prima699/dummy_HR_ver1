@@ -73,6 +73,14 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	// end perusahaan
 
+	// start country
+	Route::prefix('Country')->name('country.')->group(function(){		
+		Route::get('/',  'CountryController@index')->name('index');
+		Route::get('/data', 'CountryController@data')->name('data');
+		Route::get('/created', 'CountryController@created')->name('created');
+	});
+	// end country
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');

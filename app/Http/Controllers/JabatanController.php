@@ -102,6 +102,7 @@ class JabatanController extends Controller{
 
         $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
             "jabatan_name" => "jabatan2",
+            "jabatan_parent" => "1"
         ));
 
         // dd($curl->response);

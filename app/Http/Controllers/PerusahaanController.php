@@ -100,10 +100,12 @@ class PerusahaanController extends Controller{
 
         $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
             "perusahaan_name" => "perusahaan2",
+            "perusahaan_logo" => "",
+            "bussiness_type_id" => "1"
         ));
 
         // dd($curl->response);
-            return view("pages.golongan"); 
+            return view("pages.perusahaan"); 
     }      
 
 }
