@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\User;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequest; 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class JabatanController extends Controller{
             'access_token' => $token,
             'platform' => 'dashboard',
             'location' => 'xxx',
-            'field' => 'jabatan_name;jabatan_id',
+            'field' => 'jabatan_name;jabatan_id;jabatan_parent',
             'search' => $r['search']['value']
         ));
         
@@ -54,7 +54,7 @@ class JabatanController extends Controller{
             'access_token' => $token,
             'platform' => 'dashboard',
             'location' => 'xxx',
-            'field' => 'jabatan_name;jabatan_id',
+            'field' => 'jabatan_name;jabatan_id;jabatan_parent',
             'search' => $r['search']['value'],
             'page' => $r['start'],
             'n_item' => $r['length']
@@ -86,7 +86,7 @@ class JabatanController extends Controller{
         $i = 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->jabatan_name, $a->jabatan_parent];
+                $tmp = [$i, $a->jabatan_name, $a->jabatan_parent, $a->jabatan_id];
                 $data["data"][] = $tmp;
                 $i++;
             }

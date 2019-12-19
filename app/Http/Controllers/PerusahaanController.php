@@ -84,7 +84,7 @@ class PerusahaanController extends Controller{
         $i = 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->bussiness_type_id, $a->perusahaan_logo, $a->perusahaan_name, $a->perusahaan_id];
+                $tmp = [$i, $a->perusahaan_name, $a->perusahaan_logo, $a->bussiness_type_id, $a->perusahaan_id];
                 $data["data"][] = $tmp;
                 $i++;
             }

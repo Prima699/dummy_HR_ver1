@@ -53,7 +53,6 @@
                 <tr>
                   <th>No</th>
                   <th>Name</th>
-                  <th>Type</th>
                   <th>Logo</th>
                   <th>Business type</th>
                   <th class="disabled-sorting" width="15%">Action</th>
