@@ -132,6 +132,14 @@
               </a>
             </li>
             {{--  --}}
+             {{-- province --}}
+            <li class="@if ($activePage == 'province') active @endif">
+              <a href="{{ route('admin.province.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Province") }} </p>
+              </a>
+            </li>
+            {{--  --}}
           </ul>
         </div>
       </li>

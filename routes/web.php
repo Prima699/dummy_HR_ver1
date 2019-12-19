@@ -81,6 +81,14 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	// end country
 
+	// start province
+	Route::prefix('Province')->name('province.')->group(function(){		
+		Route::get('/',  'ProvinceController@index')->name('index');
+		Route::get('/data', 'ProvinceController@data')->name('data');
+		Route::get('/created', 'ProvinceController@created')->name('created');
+	});
+	// end province
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
