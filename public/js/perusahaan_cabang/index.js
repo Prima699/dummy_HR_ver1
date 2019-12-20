@@ -1,18 +1,18 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
 		"ajax" : dataTableAPI(),
-		"lengthChange" : false, 
+		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
-		"pageLength" : 5
-	}); // call datatable
+		"pageLength" : 10
+	});
 	
-	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
+	$('#datatable').on( 'draw.dt', function () {
 		var empty = $(".dataTables_empty").html();
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
-				var td = $(tr[i]).find("td:nth-child(2)"); // get data action column / id record
+				var td = $(tr[i]).find("td:nth-child(2)");
 				var name = $(td).html();
 				
 				var td = $(tr[i]).find("td:last");
@@ -25,7 +25,7 @@ $(document).ready(function() {
 		// $(".paginate_button").addClass("btn btn-sm btn-info clr-white");
 	} );
 	
-	function action(name, id){ // create form action
+	function action(name, id){
 		var info = generateInfo(name, id);
 		var edit = generateEdit(name, id);
 		
@@ -39,7 +39,7 @@ $(document).ready(function() {
 		return form;
 	}
 	
-	function generateInfo(name,id){ // create button info
+	function generateInfo(name,id){
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-info");
 			$(a).attr("href","" + id);
@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return a;
 	}
 
-	function generateEdit(name,id){ // create button edit
+	function generateEdit(name,id){
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
 			$(a).attr("href","" + id);

@@ -73,6 +73,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	});
 	// end perusahaan
 
+	// start perusahaan_cabang
+	Route::prefix('PerusahaanCabang')->name('perusahaan_cabang.')->group(function(){		
+		Route::get('/',  'PerusahaanCabangController@index')->name('index');
+		Route::get('/data', 'PerusahaanCabangController@data')->name('data');
+		Route::get('/created', 'PerusahaanCabangController@created')->name('created');
+	});
+	// end perusahaan
+
 	// start country
 	Route::prefix('Country')->name('country.')->group(function(){		
 		Route::get('/',  'CountryController@index')->name('index');

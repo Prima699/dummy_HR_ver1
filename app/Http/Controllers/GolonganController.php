@@ -88,7 +88,7 @@ class GolonganController extends Controller{
 		
 		$res = json_decode($curl->response);
 		
-		if($res->data==NULL){
+		if($res->data==NULL){ 
 			$amount = 0;
 		}else{			
 			// $amount = count($res->data);
