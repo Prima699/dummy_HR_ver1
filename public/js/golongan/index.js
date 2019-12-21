@@ -4,7 +4,7 @@ $(document).ready(function() {
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
-		"pageLength" : 5
+		"pageLength" : 10
 	}); // call datatable
 	
 	$('#datatable').on( 'draw.dt', function () { // event datatable on draw

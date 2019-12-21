@@ -52,7 +52,7 @@
                   <th>Name</th>
                   <th>Address</th>
                   <th>Contact</th>
-                  <th class="disabled-sorting" width="15%">Action</th>
+                  <th class="disabled-sorting" width="20%">Action</th>
                 </tr>
               </thead>
 			  <tbody>
@@ -68,6 +68,35 @@
     <!-- end row -->
   </div>
   
+  <!-- Modal -->
+<div id="faceTrain" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Modal Header</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">				
+				<table id="faceTrainDT" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th width="5%">No</th>
+							<th>Image</th>
+							<th width="5%">Face Detect</th>
+							<th width="5%">Tag Save</th>
+							<th width="5%">Face Train</th>
+							<th class="disabled-sorting" width="5%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+  
 @endsection
 
 @push('css')
@@ -81,8 +110,15 @@
 
 @push('js')
 	<script>
-		function dataTableAPI(){
-			var r = "{{ route('admin.pegawai.data') }}";
+		function API(str,id=null){
+			var r = "";
+			if(str=="data"){
+				r = "{{ route('admin.pegawai.data') }}";
+			}else if(str=="image"){
+				r = "{{ route('admin.pegawai.image') }}?id=" + id;
+			}else if(str=="detect"){
+				r = "{{ route('admin.pegawai.detect') }}";
+			}
 			return r;
 		}
 	</script>

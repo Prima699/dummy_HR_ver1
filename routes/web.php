@@ -37,9 +37,6 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 	Route::get('/', function(){
 		echo "employee";
 	});
-	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){
-		Route::get('/', 'PresenceController@index')->name('index');
-	});
 });
 /* end employee */
 
@@ -61,6 +58,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
+		Route::get('/image', 'PegawaiController@getImage')->name('image');
+		Route::post('/detect', 'PegawaiController@faceDetect')->name('detect');
 	});
 	/* end Pegawai */
 });
