@@ -54,6 +54,46 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	});
 	/* end golongan */
 
+	// start jabatan
+	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
+		Route::get('/',  'JabatanController@index')->name('index');
+		Route::get('/data', 'JabatanController@data')->name('data');
+		Route::get('/created', 'JabatanController@created')->name('created');
+	});
+	// end jabatan
+
+	// start perusahaan
+	Route::prefix('Perusahaan')->name('perusahaan.')->group(function(){		
+		Route::get('/',  'PerusahaanController@index')->name('index');
+		Route::get('/data', 'PerusahaanController@data')->name('data');
+		Route::get('/created', 'PerusahaanController@created')->name('created');
+	});
+	// end perusahaan
+
+	// start perusahaan_cabang
+	Route::prefix('PerusahaanCabang')->name('perusahaan_cabang.')->group(function(){		
+		Route::get('/',  'PerusahaanCabangController@index')->name('index');
+		Route::get('/data', 'PerusahaanCabangController@data')->name('data');
+		Route::get('/created', 'PerusahaanCabangController@created')->name('created');
+	});
+	// end perusahaan
+
+	// start country
+	Route::prefix('Country')->name('country.')->group(function(){		
+		Route::get('/',  'CountryController@index')->name('index');
+		Route::get('/data', 'CountryController@data')->name('data');
+		Route::get('/created', 'CountryController@created')->name('created');
+	});
+	// end country
+
+	// start province
+	Route::prefix('Province')->name('province.')->group(function(){		
+		Route::get('/',  'ProvinceController@index')->name('index');
+		Route::get('/data', 'ProvinceController@data')->name('data');
+		Route::get('/created', 'ProvinceController@created')->name('created');
+	});
+	// end province
+
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
@@ -68,7 +108,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
 Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
-Route::get('Jabatan', ['as' => 'data.jabatan', 'uses' => 'JabatanController@index']);
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);

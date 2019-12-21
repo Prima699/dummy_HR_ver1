@@ -50,8 +50,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('user.create') }}">{{ __('Add Departemen') }}</a>
-            <h4 class="card-title">{{ __('Departemen') }}</h4>
+              <button type="button" class="btn btn-primary btn-round text-white pull-right" data-toggle="modal" data-target="#myModal">
+                  Add Data
+              </button>
+            <h4 class="card-title">{{ __('Perusahaan Cabang') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -64,7 +66,7 @@
             <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th> Id Cabang</th>
+                  <th width="5%">No</th>
                   <th> Id Perusahaan</th>
                   <th> Alamat</th>
                   <th> Kota</th>
@@ -73,57 +75,10 @@
                   <th> Latitude</th>
                   <th> Longitude</th>
                   <th> Status</th>
-                  <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
+                  <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
-              <tfoot>
-                <tr>
-                  <th> Id Cabang</th>
-                  <th> Id Perusahaan</th>
-                  <th> Alamat</th>
-                  <th> Kota</th>
-                  <th> Provinsi</th>
-                  <th> Country</th>
-                  <th> Latitude</th>
-                  <th> Longitude</th>
-                  <th> Status</th>
-                  <th class="disabled-sorting text-right">{{ __('Actions') }}</th>
-                </tr>
-              </tfoot>
               <tbody>
-                @foreach($data as $list)
-                  <tr>
-                    <td>{{ $list['perusahaan_cabang_id'] }}</td>
-                    <td>{{ $list['perusahaan_id']}}</td> 
-                    <td>{{ $list['pc_address']}}</td>  
-                    <td>{{ $list['ID_t_md_city']}}</td>  
-                    <td>{{ $list['ID_t_md_province']}}</td>
-                    <td>{{ $list['ID_t_md_country']}}</td>  
-                    <td>{{ $list['pc_lat']}}</td>        
-                    <td>{{ $list['pc_long']}}</td>        
-                    <td>{{ $list['pc_status']}}</td>   
-                    {{-- edit belom bisa kang --}}
-                     {{--  <td class="text-right">
-                      @if($user->id!=auth()->user()->id)
-                        <a type="button" href="{{route("user.edit",$user)}}" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
-                          <i class="now-ui-icons ui-2_settings-90"></i>
-                        </a>
-                      <form action="{{ route('user.destroy', $user) }}" method="post" style="display:inline-block;" class ="delete-form">
-                        @csrf
-                        @method('delete')
-                        <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm delete-button" data-original-title="" title="" onclick="confirm('{{ __('Are you sure you want to delete this user?') }}') ? this.parentElement.submit() : ''">
-                          <i class="now-ui-icons ui-1_simple-remove"></i>
-                        </button>
-                      </form>
-                    @else
-                      <a type="button" href="{{ route('profile.edit') }}" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </a>
-                    @endif
-                    </td> --}}
-                    {{-- akhir edit belom bisa --}}
-                  </tr>
-                @endforeach
               </tbody>
             </table>
           </div>
@@ -135,5 +90,51 @@
     </div>
     <!-- end row -->
   </div>
+
+  <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Data Country</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.perusahaan_cabang.created') }}">{{ ('Add Data') }}</a>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
   
 @endsection
+
+@push('css')
+  <link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
+  <style>
+    table tbody td:nth-child(2) {
+      text-align : left;
+    }
+  </style>
+@endpush 
+
+@push('js')
+  <script>
+    function dataTableAPI(){
+      var r = "{{ route('admin.perusahaan_cabang.data') }}";
+      return r;
+    }
+  </script>
+  <script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
+  <script src="{{ asset('public/js/country/index.js') }}"></script>
+@endpush
+  

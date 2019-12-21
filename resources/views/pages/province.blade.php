@@ -1,25 +1,28 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => 'data display',
-    'activePage' => 'jabatan',
+    'activePage' => 'province',
     'activeNav' => '',
-]) 
+])
  
-@section('content') 
+@section('content')
 {{-- <table class="table table-striped">
 <tr>
 
 <th> Id</th>
 <th> Name</th>
+<th> Type</th>
+<th> Logo</th> 
 </tr>
 
 @foreach($data as $list)
 
 
 <tr>
-<td>{{ $list['jabatan_id'] }}</td>
-<td>{{ $list['jabatan_name']}}</td>  
-                               
+<td>{{ $list['perusahaan_id'] }}</td>
+<td>{{ $list['perusahaan_name']}}</td>  
+<td>{{ $list['bussiness_type_id']}}</td>   
+<td>{{ $list['perusahaan_logo']}}</td>                                    
 </tr>
 @endforeach 
 
@@ -35,22 +38,24 @@
               <button type="button" class="btn btn-primary btn-round text-white pull-right" data-toggle="modal" data-target="#myModal">
                   Add Data
               </button>
-            <h4 class="card-title">{{ __('Jabatan') }}</h4>
+            <h4 class="card-title">{{ __('Provinces') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
           </div>
-          <div class="card-body">
+          <div class="card-body"> 
             <div class="toolbar">
               <!--        Here you can write extra buttons/actions for the toolbar              -->
             </div>
             <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th width="5%">No</th>
+                  <th>No</th>
                   <th>Name</th>
-                  <th>Parent</th>
+                  <th>Region</th>
+                  <th>Province Name</th>
+                  <th>Id Country</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -74,13 +79,13 @@
 
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Add Data Golongan</h4>
+            <h4 class="modal-title">Add Data Province</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.jabatan.created') }}">{{ ('Add Data') }}</a>
+                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.province.created') }}">{{ ('Add Data') }}</a>
           </div>
 
           <!-- Modal footer -->
@@ -106,10 +111,10 @@
 @push('js')
   <script>
     function dataTableAPI(){
-      var r = "{{ route('admin.jabatan.data') }}";
+      var r = "{{ route('admin.province.data') }}";
       return r;
     }
   </script>
   <script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-  <script src="{{ asset('public/js/jabatan/index.js') }}"></script>
+  <script src="{{ asset('public/js/province/index.js') }}"></script>
 @endpush

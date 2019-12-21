@@ -94,7 +94,7 @@
             {{--  --}}
             {{-- perusahaan --}}
             <li class="@if ($activePage == 'perusahaan') active @endif">
-              <a href="{{ route('data.perusahaan') }}">
+              <a href="{{ route('admin.perusahaan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Perusahaan") }} </p>
               </a>
@@ -110,7 +110,7 @@
             {{--  --}}
             {{-- jabatan --}}
             <li class="@if ($activePage == 'jabatan') active @endif">
-              <a href="{{ route('data.jabatan') }}">
+              <a href="{{ route('admin.jabatan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data jabatan") }} </p>
               </a>
@@ -121,6 +121,22 @@
               <a href="{{ route('admin.golongan.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Golongan") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- country --}}
+            <li class="@if ($activePage == 'country') active @endif">
+              <a href="{{ route('admin.country.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Country") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+             {{-- province --}}
+            <li class="@if ($activePage == 'province') active @endif">
+              <a href="{{ route('admin.province.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Province") }} </p>
               </a>
             </li>
             {{--  --}}

@@ -12,6 +12,13 @@ use Response;
 use Illuminate\Http\Request;
 
 class GolonganController extends Controller{
+	/**
+     * Display a listing of the users
+     *
+     * @param  \App\User  $model
+     * @return \Illuminate\View\View
+     */
+
 
 	public function index(){$curl = new Curl();
         return view("pages.golongan");
@@ -81,7 +88,7 @@ class GolonganController extends Controller{
 		
 		$res = json_decode($curl->response);
 		
-		if($res->data==NULL){
+		if($res->data==NULL){ 
 			$amount = 0;
 		}else{			
 			// $amount = count($res->data);
@@ -119,7 +126,7 @@ class GolonganController extends Controller{
         $token = Auths::user("access_token");     
 
         $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
-            "golongan_name" => "Golongan1",
+            "golongan_name" => "Golongan2",
         ));
 
         // dd($curl->response);
