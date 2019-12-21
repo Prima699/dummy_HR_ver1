@@ -32,7 +32,7 @@
   <meta name="twitter:creator" content="@creativetim">
   <meta name="twitter:image" content="https://s3.amazonaws.com/creativetim_bucket/products/72/opt_nudp_thumbnail.jpg">
 
-
+ 
   <!-- Open Graph data -->
   <meta property="fb:app_id" content="655968634437471">
   <meta property="og:title" content="Now Ui Dashboard PRO by Creative Tim" />
@@ -53,6 +53,8 @@
   <link href="{{ asset('public/'.'assets') }}/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('public/'.'assets') }}/demo/demo.css" rel="stylesheet" />
+  {{-- DataTables --}}
+  <link rel="stylesheet" href="{{ asset('public/'.'assets') }}/datatables/datatables.min.css">
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

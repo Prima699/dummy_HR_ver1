@@ -3,33 +3,34 @@
 namespace App\Http\Controllers;
 
 
-use App\User;
+use App\User; 
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
-use Auths;
-use Response;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
+use Auths;
+use Response;
+use Illuminate\Http\Request;
 
-class PerusahaanCabangController extends Controller{
+class ProvinceController extends Controller{
 	/**
      * Display a listing of the users
      *
-     * @param  \App\User  $model
+     * @param  \App\User  $model 
      * @return \Illuminate\View\View
      */
 
-public function index(){$curl = new Curl();
+	public function index(){
+		  
+        return view("pages.province");
 
-        return view("pages.perusahaancabang");
-  
-    }
-    
+    } 
+
     private function totalData($r){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
+
         $search = $r['search']['value'];
         if($search==NULL OR $search==""){
             $search = "";
@@ -42,14 +43,13 @@ public function index(){$curl = new Curl();
         if(isset($r->userID)){
             $userID = $r->userID;
         }
-        
         $params['user_id'] = $userID;
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'perusahaan_id;pc_address;ID_t_md_city;ID_t_md_province;ID_t_md_country;pc_lat;pc_long;pc_status;perusahaan_cabang_id';
+        $params['field'] = 'name; region; name_province; ID_t_md_country; ID_t_md_province';
         $params['search'] = $search;
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan_cabang', $params);
+        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', $params);
         
         $res = json_decode($curl->response);
         return count($res->data);
@@ -60,7 +60,19 @@ public function index(){$curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        if(isset($r->token)){
+        // $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', array(
+        //     'user_id' => $userID,
+        //     'access_token' => $token,
+        //     'platform' => 'dashboard',
+        //     'location' => 'xxx',
+        //     'field' => 'name; region; name_province; ID_t_md_country; ID_t_md_province',
+        //     'search' => $r['search']['value'],
+        //     'page' => $r['start'],
+        //     'n_item' => $r['length']
+        // ));
+
+        
+       if(isset($r->token)){
             $token = $r->token;
         }
         
@@ -81,14 +93,15 @@ public function index(){$curl = new Curl();
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'perusahaan_id;pc_address;ID_t_md_city;ID_t_md_province;ID_t_md_country;pc_lat;pc_long;pc_status;perusahaan_cabang_id';
+        $params['field'] = 'name; region; name_province; ID_t_md_country; ID_t_md_province';
         $params['search'] = $search;
         $params['page'] = $r['start'];
         $params['n_item'] = $r['length'];
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan_cabang', $params);
+        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', $params);
+        
         $res = json_decode($curl->response);
         
-        if($res->data==NULL){ 
+        if($res->data==NULL){
             $amount = 0;
         }else{          
             // $amount = count($res->data);
@@ -110,8 +123,8 @@ public function index(){$curl = new Curl();
         
         $i = ($r['length'] * $start) + 1;
         if($res->data!=NULL){
-            foreach($res->data as $a){ 
-                $tmp = [$i, $a->perusahaan_id, $a->pc_address, $a->ID_t_md_city, $a->ID_t_md_province, $a->ID_t_md_country, $a->pc_lat, $a->pc_long, $a->pc_status, $a->perusahaan_cabang_id];
+            foreach($res->data as $a){
+                $tmp = [$i, $a->name, $a->region, $a->name_province, $a->ID_t_md_country, $a->ID_t_md_province];
                 $data["data"][] = $tmp;
                 $i++;
             }
@@ -125,13 +138,16 @@ public function index(){$curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");     
 
-        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan_cabang/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
-            "golongan_name" => "Golongan2",
+        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/province/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
+            "ID_t_md_country" => "1",
+            "name" => "Indonesia",
+            "region" => "ASIA",
+            "name_province" => "Jawa Tengah"
         ));
 
         // dd($curl->response);
-            return view("pages.golongan"); 
-    }       
+            return view("pages.province"); 
+    }      
 
 }
 

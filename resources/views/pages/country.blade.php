@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => 'data display',
-    'activePage' => 'jabatan',
+    'activePage' => 'country',
     'activeNav' => '',
 ]) 
  
@@ -35,7 +35,7 @@
               <button type="button" class="btn btn-primary btn-round text-white pull-right" data-toggle="modal" data-target="#myModal">
                   Add Data
               </button>
-            <h4 class="card-title">{{ __('Jabatan') }}</h4>
+            <h4 class="card-title">{{ __('Country') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -50,7 +50,7 @@
                 <tr>
                   <th width="5%">No</th>
                   <th>Name</th>
-                  <th>Parent</th>
+                  <th>Region</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -74,13 +74,13 @@
 
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Add Data Golongan</h4>
+            <h4 class="modal-title">Add Data Country</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.jabatan.created') }}">{{ ('Add Data') }}</a>
+                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.country.created') }}">{{ ('Add Data') }}</a>
           </div>
 
           <!-- Modal footer -->
@@ -106,10 +106,10 @@
 @push('js')
   <script>
     function dataTableAPI(){
-      var r = "{{ route('admin.jabatan.data') }}";
+      var r = "{{ route('admin.country.data') }}";
       return r;
     }
   </script>
   <script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-  <script src="{{ asset('public/js/jabatan/index.js') }}"></script>
+  <script src="{{ asset('public/js/country/index.js') }}"></script>
 @endpush
