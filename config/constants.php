@@ -2,6 +2,6 @@
 
 return [
 	"url" => [
-		"api"  => "http://digitasAPI.teaq.co.id/index.php/"
+		"api"  => "http://digitasAPI.teaq.co.id/index.php/Bridge"
 	]
 ];

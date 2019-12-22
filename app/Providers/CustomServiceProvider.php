@@ -14,6 +14,7 @@ class CustomServiceProvider extends ServiceProvider
     public function register()
     {
 		require_once app_path() . '/Helpers/Auth.php';
+		require_once app_path() . '/Helpers/Constants.php';
     }
 
     /**

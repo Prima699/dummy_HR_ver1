@@ -1,30 +1,11 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'data display',
-    'activePage' => 'golongan',
+    'namePage' => Breadcrumbs::render('category'),
+    'activePage' => 'category',
     'activeNav' => '',
 ])
  
 @section('content')
-{{-- <table class="table table-striped">
-<tr>
-
-<th> Id</th>
-<th> Name</th>
-</tr>
-
-@foreach($data as $list)
-
-
-<tr>
-<td>{{ $list['golongan_id'] }}</td>
-<td>{{ $list['golongan_name']}}</td>  
-                                 
-</tr>
-@endforeach 
-
-</table> --}}
-
 <div class="panel-header">
   </div>
   <div class="content">
@@ -32,10 +13,11 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <button type="button" class="btn btn-primary btn-round text-white pull-right" data-toggle="modal" data-target="#myModal">
-                  Add Data
-              </button>
-            <h4 class="card-title">{{ __('Golongan') }}</h4>
+              <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+				  <span class="fa fa-plus"></span>
+                  Create
+              </a>
+            <h4 class="card-title">{{ __('Category') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -65,32 +47,6 @@
     </div>
     <!-- end row -->
   </div>
-
-  <!-- The Modal -->
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Add Data Golongan</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.golongan.created') }}">{{ ('Add Data') }}</a>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  
 @endsection
 
 @push('css')
@@ -103,12 +59,6 @@
 @endpush 
 
 @push('js')
-	<script>
-		function dataTableAPI(){
-			var r = "{{ route('admin.golongan.data') }}";
-			return r;
-		}
-	</script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/golongan/index.js') }}"></script>
 @endpush

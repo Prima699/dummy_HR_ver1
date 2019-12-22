@@ -21,6 +21,7 @@ Route::get('refresh-csrf', function(){
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
 
 /* start auth */
@@ -47,13 +48,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
 		echo "admin";
 	});
 	
-	/* start golongan */
-	Route::prefix('golongan')->name('golongan.')->group(function(){		
+	/* start category */
+	Route::prefix('category')->name('category.')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
-		Route::get('/created', 'GolonganController@created')->name('created');
 		Route::get('/data', 'GolonganController@data')->name('data');
+		Route::get('/create', 'GolonganController@create')->name('create');
+		Route::post('/store', 'GolonganController@store')->name('store');
 	});
-	/* end golongan */
+	/* end category */
 
 	// start jabatan
 	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
