@@ -12,15 +12,8 @@ use Response;
 use Illuminate\Http\Request;
 
 class GolonganController extends Controller{
-	/**
-     * Display a listing of the users
-     *
-     * @param  \App\User  $model
-     * @return \Illuminate\View\View
-     */
 
-
-	public function index(){$curl = new Curl();
+	public function index(){
         return view("pages.golongan");
     }
 	
@@ -129,8 +122,7 @@ class GolonganController extends Controller{
             "golongan_name" => "Golongan2",
         ));
 
-        // dd($curl->response);
-            return view("pages.golongan"); 
+        return view("pages.golongan"); 
     }       
 
 }

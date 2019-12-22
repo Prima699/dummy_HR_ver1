@@ -109,7 +109,31 @@
 		@include('layouts.page_template.guest')
 	@endif
   </div>
+	<div id="app-notification-session-end" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-body" style="padding:0px;">
+					<div class="alert alert-warning" role="alert" style="margin:0px;">
+						<div class="container">
+							<div class="alert-icon">
+								<i class="now-ui-icons travel_info"> </i>
+								<strong> Oh snap!</strong> your session is ended. Please <a href="{{ url('login') }}" style="text-decoration:underline;">log in</a> again to continue.
+							</div>
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">
+									<i class="now-ui-icons ui-1_simple-remove"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
   <!--   Core JS Files   -->
+  <script>
+	var digitasLink = "{{ route('index') }}";
+  </script>
   <script src="{{ asset('public/'.'assets') }}/js/core/jquery.min.js"></script>
   <script src="{{ asset('public/'.'assets') }}/js/core/popper.min.js"></script>
   <script src="{{ asset('public/'.'assets') }}/js/core/bootstrap.min.js"></script>
@@ -124,6 +148,7 @@
   <script src="{{ asset('public/'.'assets') }}/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{ asset('public/'.'assets') }}/demo/demo.js"></script>
+  <script src="{{ asset('public/') }}/js/app/index.js"></script>
   @stack('js')
 </body>
 

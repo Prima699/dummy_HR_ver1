@@ -14,11 +14,12 @@
 Auth::routes();
 Route::get('/test', 'test'); // invoked
 Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
+Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
 

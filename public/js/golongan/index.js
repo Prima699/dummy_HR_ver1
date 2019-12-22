@@ -22,7 +22,6 @@ $(document).ready(function() {
 				$(td).html(act);
 			}
 		}
-		// $(".paginate_button").addClass("btn btn-sm btn-info clr-white");
 	} );
 	
 	function action(name, id){ // create form action
