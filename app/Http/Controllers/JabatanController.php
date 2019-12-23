@@ -95,18 +95,56 @@ class JabatanController extends Controller{
         return Response()->json($data);
     }
 
-    public function created(){
+    public function created(Request $request){
+        $res = $request->request->all();
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");     
 
         $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
-            "jabatan_name" => "jabatan2",
+            "jabatan_name" => $res['name_jabatan'],
             "jabatan_parent" => "1"
         ));
 
         // dd($curl->response);
-            return view("pages.jabatan"); 
+            $res = json_decode($curl->response);
+        
+        if($res->errorcode!="0000"){
+            $error = "Failed created";
+            session(['error' => $error]);
+            return redirect()->route('admin.jabatan.index');
+        }else{
+            $status = "Success created";
+            session(["status" => $status]);
+            return redirect()->route('admin.jabatan.index');
+        }
+    }
+
+    public function edited(Request $request){
+        $res = $request->request->all();
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");     
+
+        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
+            "jabatan_name" => $res['name_jabatan'],
+            "jabatan_parent" => "1"
+        ));
+
+        $res = json_decode($curl->response);
+        
+        if($res->errorcode!="0000"){
+            $error = "Failed created";
+            session(['error' => $error]);
+            return redirect()->route('admin.jabatan.index');
+        }else{
+            $status = "Success created";
+            session(["status" => $status]);
+            return redirect()->route('admin.jabatan.index');
+        }
+
+        // dd($curl->response);
+             
     }      
 
 }
