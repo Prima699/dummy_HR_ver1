@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\User; 
+use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
@@ -47,7 +47,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'name; region; name_province; ID_t_md_country; ID_t_md_province';
+        $params['field'] = 'name;region;name_province;ID_t_md_country;ID_t_md_province';
         $params['search'] = $search;
         $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', $params);
         
@@ -60,17 +60,6 @@ class ProvinceController extends Controller{
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        // $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', array(
-        //     'user_id' => $userID,
-        //     'access_token' => $token,
-        //     'platform' => 'dashboard',
-        //     'location' => 'xxx',
-        //     'field' => 'name; region; name_province; ID_t_md_country; ID_t_md_province',
-        //     'search' => $r['search']['value'],
-        //     'page' => $r['start'],
-        //     'n_item' => $r['length']
-        // ));
-
         
        if(isset($r->token)){
             $token = $r->token;
@@ -93,7 +82,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'name; region; name_province; ID_t_md_country; ID_t_md_province';
+        $params['field'] = 'name;region;name_province;ID_t_md_country;ID_t_md_province';
         $params['search'] = $search;
         $params['page'] = $r['start'];
         $params['n_item'] = $r['length'];
@@ -101,7 +90,7 @@ class ProvinceController extends Controller{
         
         $res = json_decode($curl->response);
         
-        if($res->data==NULL){
+        if($res->data==NULL){ 
             $amount = 0;
         }else{          
             // $amount = count($res->data);
