@@ -15,6 +15,7 @@ Auth::routes();
 Route::get('/test', 'test'); // invoked
 Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
 Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
+Route::get('/getSessionError', 'getSessionError'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
@@ -49,11 +50,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	});
 	
 	/* start category */
-	Route::prefix('category')->name('category.')->group(function(){		
+	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
 		Route::get('/data', 'GolonganController@data')->name('data');
 		Route::get('/create', 'GolonganController@create')->name('create');
 		Route::post('/store', 'GolonganController@store')->name('store');
+		Route::get('/edit/{id}', 'GolonganController@edit')->name('edit');
+		Route::put('/update/{id}', 'GolonganController@update')->name('update');
 	});
 	/* end category */
 

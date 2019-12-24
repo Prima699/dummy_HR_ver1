@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('category.create'),
+    'namePage' => Breadcrumbs::render($master->breadcrumb),
     'activePage' => 'category',
     'activeNav' => '',
 ])
@@ -13,7 +13,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">{{ __('Create Category') }}</h4>
+            <h4 class="card-title">{{ $master->title }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
               @include('alerts.errors')
@@ -23,14 +23,17 @@
             <div class="toolbar">
               <!--        Here you can write extra buttons/actions for the toolbar              -->
             </div>
-			<form method="post" action="{{ route('admin.category.store') }}">
+			<form method="post" action="{{ $master->action }}">
 			@csrf
+			@if($master->method=="PUT")
+				@method('PUT')
+			@endif
 			<div class="row">
 				<div class="col-md-1">
 					<label class="label" for="name">Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" placeholder="" required />
+					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->golongan_name:'' }}" required />
 				</div>
 			</div>
 			<br/>

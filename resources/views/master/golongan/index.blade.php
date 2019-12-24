@@ -18,7 +18,7 @@
                   Create
               </a>
             <h4 class="card-title">{{ __('Category') }}</h4>
-            <div class="col-12 mt-2">
+            <div class="col-12 mt-2 container-category-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
