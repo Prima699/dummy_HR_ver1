@@ -31,7 +31,6 @@ $(document).ready(function() {
 			url: digitasLink + "/getSessionError",
 			type: "GET",
 			success: function(r){
-				console.log(r);
 				if(r!=false){
 					var div = document.createElement("div");
 						$(div).attr("class","alert alert-danger alert-dismissible fade show");
