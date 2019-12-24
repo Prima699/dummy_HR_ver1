@@ -64,7 +64,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
 		Route::get('/',  'JabatanController@index')->name('index');
 		Route::get('/data', 'JabatanController@data')->name('data');
-		Route::get('/created', 'JabatanController@created')->name('created');
+		Route::post('/created', 'JabatanController@created')->name('created');
 	});
 	// end jabatan
 

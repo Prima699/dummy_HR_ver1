@@ -80,7 +80,14 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.jabatan.created') }}">{{ ('Add Data') }}</a>
+            <form method="post" action="{{ route('admin.jabatan.created') }}" autocomplete="off"
+            enctype="multipart/form-data">
+              @csrf
+              @include('alerts.success')
+                <label>{{("Nama Jabatan")}}</label>
+                <input type="text" name="name_jabatan" class="form-control" value="">
+                <button type="submit" class="btn btn-primary btn-round pull-right">{{('Save')}}</button>
+            </form>
           </div>
 
           <!-- Modal footer -->
