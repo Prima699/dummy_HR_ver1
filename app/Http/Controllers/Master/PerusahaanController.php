@@ -148,7 +148,6 @@ class PerusahaanController extends Controller{
 
     public function created(){
         $master = $this->master("Create Perusahaan","admin.perusahaan.store","perusahaan.created","POST");
-        dd($master);
         return view("master.perusahaan.form", compact('master')); 
     }      
 
@@ -167,16 +166,20 @@ class PerusahaanController extends Controller{
         $params['perusahaan_name'] = $r->name;
         $curl->post(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
+        if($curl->error==TRUE){
+            session(["error" => "Server Unreachable."]);
+            return redirect()->route('admin.perusahaan.created');
+        }
+
         $res = json_decode($curl->response);
         
-        if($res->errorcode!="0000"){
-            $error = "Failed creating new perusahaan.";
-            session(['error' => $error]);
-            return redirect()->route('admin.perusahaan.created');
-        }else{
+        if($res->errorcode=="0000"){
             $status = "Success creating new perusahaan.";
             session(["status" => $status]);
             return redirect()->route('admin.perusahaan.index');
+        }else{
+            session(['error' => $res->errormsg]);
+            return redirect()->route('admin.perusahaan.create');
         }
     }
 

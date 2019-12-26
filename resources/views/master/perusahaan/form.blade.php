@@ -3,6 +3,7 @@
     'namePage' => Breadcrumbs::render($master->breadcrumb),
     'activePage' => 'perusahaan',
     'activeNav' => '',
+
 ])
  
 @section('content')
