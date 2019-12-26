@@ -10,6 +10,7 @@ use App\Http\Requests\Curl;
 use Auths;
 use Response;
 use Illuminate\Http\Request;
+use Constants;
 
 class PegawaiController extends Controller{
 
@@ -77,8 +78,20 @@ class PegawaiController extends Controller{
 	
 	public function getImage(Request $r){
 		$curl = new Curl();
-        $userID = Auths::user('user.user_id');
-        $token = Auths::user("access_token");
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$search = $r['search']['value']; //filter keyword
+		$start = $r['start']; //offset
+		$length = $r['length']; //limit
+		$draw = $r['draw'];
+		$search = $r['search']['value'];
+				
+		$data = []; // datatable format
+		$data["draw"] = $draw;
+		$data["recordsTotal"] = 0;
+		$data["recordsFiltered"] = 0;
+		$data["data"] = [];
 		
 		if(isset($r->token)){
 			$token = $r->token;
@@ -88,8 +101,12 @@ class PegawaiController extends Controller{
 			$userID = $r->userID;
 		}
 		
-		if($r['start']!=0){
-			$r['start'] = $r['start'] / $r['length'];
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
+		
+		if($start!=0){
+			$start = $start / $length;
 		}
 		
 		$params['user_id'] = $userID;
@@ -99,34 +116,38 @@ class PegawaiController extends Controller{
 		$params['pegawai_id'] = $r->id;
 		$params['page'] = $r['start'];
 		$params['n_item'] = $r['length'];
-		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/pegawaiimage', $params);
+		$curl->get(Constants::api() . '/pegawaiimage', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return Response()->json($data);
+		}
 		
 		$res = json_decode($curl->response);
 		
-		if($res->data==NULL){
-			$amount = 0;
-		}else{			
-			// $amount = count($res->data);
-			$amount = $this->totalData($r);
+		if($res->errorcode!="0000"){
+			session(["error" => $res->errormsg]);
+			return Response()->json($data);
 		}
 		
-		$search = $r['search']['value']; //filter keyword
-		$start = $r['start']; //offset data
-		$draw = $r['draw'];
+		if($res->data==NULL){ 
+			$amount = 0;
+		}else{
+			$amount = $this->totalDataImage($r);
+			
+			if($amount==-1){				
+				session(["error" => "Server Unreachable."]);
+				return Response()->json($data);
+			}
+		}
 		
-		$recordsTotal = $amount; //count all data by
-		$recordsFiltered = $amount;
+		$data["recordsTotal"] = $amount;
+		$data["recordsFiltered"] = $amount;
 		
-		$data = []; // datatable format
-		$data["draw"] = $draw;
-		$data["recordsTotal"] = $recordsTotal;
-		$data["recordsFiltered"] = $recordsFiltered;
-		$data["data"] = [];
-		
-		$i = ($r['length'] * $start) + 1;
+		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$image = asset("public/" . $a->path);
+				$image = $a->path;
 				$fd = $a->face_detect;
 				$ts = $a->tag;
 				$ft = $a->train;
@@ -140,11 +161,16 @@ class PegawaiController extends Controller{
 		
 		return Response()->json($data);
 	}
-
-	private function totalData($r){
+	
+	private function totalDataImage($r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
+		
+		$search = $r['search']['value'];
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
 		
 		if(isset($r->token)){
 			$token = $r->token;
@@ -161,16 +187,27 @@ class PegawaiController extends Controller{
 		$params['pegawai_id'] = $r->id;
 		$params['page'] = $r['start'];
 		$params['n_item'] = $r['length'];
-		$curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/pegawaiimage', $params);
+		$curl->get(Constants::api() . '/pegawaiimage', $params);
+		
+		if($curl->error==TRUE){
+			return -1;
+		}
 		
 		$res = json_decode($curl->response);
+		
+		if($res->errorcode!="0000"){
+			return -1;
+		}
+		
 		return count($res->data);
 	}
 	
-	public function faceDetect(Request $r){
+	public function face(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
+		$id = $r->train;
+		$rst = true;
 		
 		if(isset($r->token)){
 			$token = $r->token;
@@ -180,15 +217,22 @@ class PegawaiController extends Controller{
 			$userID = $r->userID;
 		}
 
-		$params['user_id'] = $userID;
-		$params['access_token'] = $token;
-		$params['platform'] = 'dashboard';
-		$params['location'] = 'xxx';
-		$params['image_train_id'] = $r->id;
-		$curl->put('http://digitasAPI.teaq.co.id/index.php/Bridge/pegawaiimage', $params);
+		$params[$r->process] = $r->value;
+		$curl->setHeader('Content-Type','application/x-www-form-urlencoded');
+		$curl->put(Constants::api() . "/pegawaiimage/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/image_train_id/$id", $params);
 		
-		$res = json_decode($curl->response);
-		return count($res->data);
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			$rst = false;
+		}else{
+			$res = json_decode($curl->response);
+			if($res->errorcode!="0000"){
+				session(["error" => $res->errormsg]);
+				$rst = false;
+			}
+		}
+		
+		return Response()->json($rst);
 	}
 
 }

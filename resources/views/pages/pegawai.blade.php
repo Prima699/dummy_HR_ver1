@@ -6,27 +6,6 @@
 ])
  
 @section('content')
-{{-- <table class="table table-striped">
-<tr>
-
-<th> Id</th>
-<th> Name</th>
-</tr>
-
-@foreach($data as $list)
-
-
-<tr>
-<td>{{ $list['pegawai_id'] }}</td>
-<td>{{ $list['pegawai_name']}}</td>
-<td>{{ $list['pegawai_address']}}</td>
-<td>{{ $list['pegawai_telp']}}</td>  
-                                 
-</tr>
-@endforeach 
-
-</table> --}}
-
 <div class="panel-header">
   </div>
   <div class="content">
@@ -77,7 +56,9 @@
 				<h4 class="modal-title">Modal Header</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<div class="modal-body">				
+			<div class="modal-body">
+				@csrf
+				<div class="container-category-image-alert"></div>
 				<table id="faceTrainDT" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
 					<thead>
 						<tr>
@@ -115,13 +96,13 @@
 			if(str=="data"){
 				r = "{{ route('admin.pegawai.data') }}";
 			}else if(str=="image"){
-				r = "{{ route('admin.pegawai.image') }}?id=" + id;
 			}else if(str=="detect"){
-				r = "{{ route('admin.pegawai.detect') }}";
 			}
 			return r;
 		}
 	</script>
+	<script src="{{ asset('public/js/faceTrain/FCClientJS.js') }}"></script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/pegawai/index.js') }}"></script>
+	<script src="{{ asset('public/js/pegawai/faceTrain.js') }}"></script>
 @endpush

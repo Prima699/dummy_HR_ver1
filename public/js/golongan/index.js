@@ -41,7 +41,7 @@ $(document).ready(function() {
 						
 						var btn = document.createElement("button");
 							$(btn).attr("type","button");
-							$(btn).attr("class","close");
+							$(btn).attr("class","close closeButtonPlease");
 							$(btn).attr("data-dismiss","alert");
 							$(btn).attr("aria-label","Close");
 							
@@ -53,6 +53,10 @@ $(document).ready(function() {
 						$(div).append(btn);
 						
 					$("div.container-category-alert").append(div);
+					var interval = setInterval(function(){
+						$("button.closeButtonPlease").click();
+						clearInterval(interval);
+					},10000);
 				}
 			}
 		});

@@ -16,6 +16,7 @@ Route::get('/test', 'test'); // invoked
 Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
 Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
 Route::get('/getSessionError', 'getSessionError'); // invoked
+Route::get('/rootApp', 'rootApp'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
@@ -44,7 +45,7 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 /* end employee */
 
 /* start admin */
-Route::name('admin.')->prefix('admin')->group(function () {
+Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/', function(){
 		echo "admin";
 	});
@@ -104,8 +105,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
-		Route::get('/image', 'PegawaiController@getImage')->name('image');
-		Route::post('/detect', 'PegawaiController@faceDetect')->name('detect');
+		Route::get('/image/{id}', 'PegawaiController@getImage')->name('image');
+		Route::put('/face', 'PegawaiController@face')->name('face');
 	});
 	/* end Pegawai */
 });
