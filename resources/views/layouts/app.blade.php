@@ -42,7 +42,7 @@
   <meta property="og:description" content="Now UI Dashboard PRO is a beautiful Bootstrap 4 admin dashboard with a large number of components, designed to look beautiful, clean and organized. If you are looking for a tool to manage dates about your business, this dashboard is the thing for you." />
   <meta property="og:site_name" content="Creative Tim" />
   <title>
-    Now UI Dashboard by Creative Tim
+    Digitas Information Sistem
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -53,8 +53,6 @@
   <link href="{{ asset('public/'.'assets') }}/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('public/'.'assets') }}/demo/demo.css" rel="stylesheet" />
-  {{-- DataTables --}}
-  <link rel="stylesheet" href="{{ asset('public/'.'assets') }}/datatables/datatables.min.css">
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -109,7 +107,31 @@
 		@include('layouts.page_template.guest')
 	@endif
   </div>
+	<div id="app-notification-session-end" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-body" style="padding:0px;">
+					<div class="alert alert-warning" role="alert" style="margin:0px;">
+						<div class="container">
+							<div class="alert-icon">
+								<i class="now-ui-icons travel_info"> </i>
+								<strong> Oh snap!</strong> your session is ended. Please <a href="{{ url('login') }}" style="text-decoration:underline;">log in</a> again to continue.
+							</div>
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">
+									<i class="now-ui-icons ui-1_simple-remove"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
   <!--   Core JS Files   -->
+  <script>
+	var digitasLink = "{{ route('index') }}";
+  </script>
   <script src="{{ asset('public/'.'assets') }}/js/core/jquery.min.js"></script>
   <script src="{{ asset('public/'.'assets') }}/js/core/popper.min.js"></script>
   <script src="{{ asset('public/'.'assets') }}/js/core/bootstrap.min.js"></script>
@@ -124,6 +146,7 @@
   <script src="{{ asset('public/'.'assets') }}/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{ asset('public/'.'assets') }}/demo/demo.js"></script>
+  <script src="{{ asset('public/') }}/js/app/index.js"></script>
   @stack('js')
 </body>
 

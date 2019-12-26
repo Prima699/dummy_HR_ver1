@@ -12,19 +12,10 @@
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
-      <li class="@if ($activePage == 'home') active @endif">
-        <a href="{{ route('home') }}">
+      <li class="@if ($activePage == 'dashboard') active @endif">
+        <a href="{{ route('dashboard') }}">
           <i class="now-ui-icons design_app"></i>
           <p>{{ ('Dashboard') }}</p>
-        </a>
-      </li>
-      {{-- Presence --}}
-      <li class="@if ($activePage == 'presence') active @endif">
-        <a href="{{ route('employee.presence.index') }}">
-            <i class="now-ui-icons users_single-02"></i>
-          <p>
-            {{ ("Presence") }}
-          </p>
         </a>
       </li>
       {{-- Setting management --}}
@@ -125,11 +116,11 @@
               </a>
             </li>
             {{--  --}}
-            {{-- golongan --}}
-            <li class="@if ($activePage == 'golongan') active @endif">
-              <a href="{{ route('admin.golongan.index') }}">
+            {{-- category --}}
+            <li class="@if ($activePage == 'category') active @endif">
+              <a href="{{ route('admin.category.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Data Golongan") }} </p>
+                <p> {{ ("Category") }} </p>
               </a>
             </li>
             {{--  --}}

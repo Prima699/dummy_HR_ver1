@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 
-use App\User; 
+use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
-use Illuminate\Http\Request;
 use Auths;
+use Response;
+use Illuminate\Http\Request;
+use Constants;
 
 class PerusahaanController extends Controller{
 	/**
@@ -20,7 +22,7 @@ class PerusahaanController extends Controller{
 
 	public function index(){
 		  
-        return view("pages.perusahaan");
+        return view("master.perusahaan.perusahaan");
 
     } 
 
@@ -29,62 +31,112 @@ class PerusahaanController extends Controller{
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan', array(
-            'user_id' => $userID,
-            'access_token' => $token,
-            'platform' => 'dashboard',
-            'location' => 'xxx',
-            'field' => 'bussiness_type_id;perusahaan_logo;perusahaan_name;perusahaan_id',
-            'search' => $r['search']['value']
-        ));
+       $search = $r['search']['value'];
+        if($search==NULL OR $search==""){
+            $search = "";
+        }
+        
+        if(isset($r->token)){
+            $token = $r->token;
+        }
+        
+        if(isset($r->userID)){
+            $userID = $r->userID;
+        }
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['field'] = 'perusahaan_name;perusahaan_logo;perusahaan_id';
+        $params['search'] = $search;
+        $curl->get(Constants::api() . '/perusahaan', $params);
+        
+        if($curl->error==TRUE){
+            return -1;
+        }
         
         $res = json_decode($curl->response);
         return count($res->data);
     }
     
     public function data(Request $r){
-        $curl = new Curl();
+       $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan', array(
-            'user_id' => $userID,
-            'access_token' => $token,
-            'platform' => 'dashboard',
-            'location' => 'xxx',
-            'field' => 'bussiness_type_id;perusahaan_logo;perusahaan_name;perusahaan_id',
-            'search' => $r['search']['value'],
-            'page' => $r['start'],
-            'n_item' => $r['length']
-        ));
+        $search = $r['search']['value']; //filter keyword
+        $start = $r['start']; //offset
+        $length = $r['length']; //limit
+        $draw = $r['draw'];
+        $search = $r['search']['value'];
         
-        $length = $r['length']; //limit data per page
+        if(isset($r->token)){
+            $token = $r->token;
+        }
+        
+        if(isset($r->userID)){
+            $userID = $r->userID;
+        }
+        
+        if($search==NULL OR $search==""){
+            $search = "";
+        }
+        
+        if($r['start']!=0){
+            $r['start'] = $r['start'] / $r['length'];
+        }
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['field'] = 'perusahaan_name;perusahaan_logo';
+        $params['search'] = $search;
+        $params['page'] = $start;
+        $params['n_item'] = $length;
+        $curl->get(Constants::api() . '/perusahaan', $params);
+        
+        if($curl->error==TRUE){
+            $data = []; // datatable format
+            $data["draw"] = $draw;
+            $data["recordsTotal"] = 0;
+            $data["recordsFiltered"] = 0;
+            $data["data"] = [[0,0,0]];
+            return Response()->json($data);
+        }
+        
         $res = json_decode($curl->response);
         
-        if($res->data==NULL){
+        if($res->data==NULL){ 
             $amount = 0;
         }else{          
             // $amount = count($res->data);
             $amount = $this->totalData($r);
+            
+            if($amount==-1){                
+                $data = []; // datatable format
+                $data["draw"] = $draw;
+                $data["recordsTotal"] = 0;
+                $data["recordsFiltered"] = 0;
+                $data["data"] = [[0,0,0]];
+                return Response()->json($data);
+            }
         }
-        
-        $search = $r['search']['value']; //filter keyword
-        $start = $r['start']; //offset data
-        $draw = $r['draw'];
         
         $recordsTotal = $amount; //count all data by
         $recordsFiltered = $amount;
         
-        $data = [];
+        $data = []; // datatable format
         $data["draw"] = $draw;
         $data["recordsTotal"] = $recordsTotal;
         $data["recordsFiltered"] = $recordsFiltered;
         $data["data"] = [];
         
-        $i = 1;
+        $i = ($length * $start) + 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->perusahaan_name, $a->perusahaan_logo, $a->bussiness_type_id, $a->perusahaan_id];
+                $tmp = [$i, $a->perusahaan_name, $a->perusahaan_logo, $a->perusahaan_id];
                 $data["data"][] = $tmp;
                 $i++;
             }
@@ -94,19 +146,36 @@ class PerusahaanController extends Controller{
     }
 
     public function created(){
+        return view("master.perusahaan.form"); 
+    }      
+
+    public function store(Request $r){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
-        $token = Auths::user("access_token");     
-
-        $curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan/user_id/'.$userID.'/access_token/'.$token.'/platform/dashboard/location/xxx', array(
-            "perusahaan_name" => "perusahaan2",
-            "perusahaan_logo" => "",
-            "bussiness_type_id" => "1"
-        ));
-
-        // dd($curl->response);
-            return view("pages.perusahaan"); 
-    }      
+        $token = Auths::user("access_token");
+        
+        // $params['user_id'] = $userID;
+        // $params['access_token'] = $token;
+        // $params['platform'] = 'dashboard';
+        // $params['location'] = 'xxx';
+        // $params['golongan_name'] = $r->name;
+        // $curl->post(Constants::api() . '/golongan', $params);
+        
+        $params['perusahaan_name'] = $r->name;
+        $curl->post(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+        
+        $res = json_decode($curl->response);
+        
+        if($res->errorcode!="0000"){
+            $error = "Failed creating new perusahaan.";
+            session(['error' => $error]);
+            return redirect()->route('admin.perusahaan.created');
+        }else{
+            $status = "Success creating new perusahaan.";
+            session(["status" => $status]);
+            return redirect()->route('admin.perusahaan.index');
+        }
+    }
 
 }
 

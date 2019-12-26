@@ -35,9 +35,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <button type="button" class="btn btn-primary btn-round text-white pull-right" data-toggle="modal" data-target="#myModal">
-                  Add Data
-              </button>
+            <a href="{{ route('admin.perusahaan.created') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <span class="fa fa-plus"></span>
+                  Create
+              </a>
             <h4 class="card-title">{{ __('Perusahaan') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
@@ -50,11 +51,10 @@
             </div>
             <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
-                <tr>
+                <tr> 
                   <th>No</th>
                   <th>Name</th>
                   <th>Logo</th>
-                  <th>Business type</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>

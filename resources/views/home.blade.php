@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Dashboard',
+    'namePage' => Breadcrumbs::render('dashboard'),
     'class' => 'login-page sidebar-mini ',
-    'activePage' => 'home',
+    'activePage' => 'dashboard', 
     'backgroundImage' => asset('public/'.'now') . "/img/bg14.jpg",
 ])
 

@@ -11,11 +11,6 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a href="{{ route('login') }}" class="nav-link">
-            <i class="now-ui-icons design_app"></i> {{ __("Dashboard") }}
-          </a>
-        </li>
         <li class="nav-item @if ($activePage == 'register') active @endif">
           <a href="{{ route('register') }}" class="nav-link">
             <i class="now-ui-icons tech_mobile"></i> {{ __("Register") }}

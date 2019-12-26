@@ -1,10 +1,10 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : dataTableAPI(),
+		"ajax" : digitasLink + "/admin/category/data",
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
-		"pageLength" : 5
+		"pageLength" : 10
 	}); // call datatable
 	
 	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
@@ -12,17 +12,26 @@ $(document).ready(function() {
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
-				var td = $(tr[i]).find("td:nth-child(2)"); // get data action column / id record
-				var name = $(td).html();
+				var td = $(tr[i]).find("td:nth-child(1)");
+				var code = $(td).html();
 				
-				var td = $(tr[i]).find("td:last");
-				var id = $(td).html();
-				
-				var act = action(name, id);
-				$(td).html(act);
+				if(code>0){
+					var td = $(tr[i]).find("td:nth-child(2)"); // get data action column / id record
+					var name = $(td).html();
+					
+					var td = $(tr[i]).find("td:last");
+					var id = $(td).html();
+					
+					var act = action(name, id);
+					$(td).html(act);
+				}else{
+					var td = document.createElement("td");
+						$(td).attr("colspan","3");
+						$(td).html("Server is unreachable.");
+					$(tr).html(td);
+				}
 			}
 		}
-		// $(".paginate_button").addClass("btn btn-sm btn-info clr-white");
 	} );
 	
 	function action(name, id){ // create form action

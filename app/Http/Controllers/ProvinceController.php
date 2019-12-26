@@ -47,7 +47,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'name;region;name_province;ID_t_md_country;ID_t_md_province';
+        $params['field'] = 't_md_province.name';
         $params['search'] = $search;
         $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', $params);
         
@@ -82,7 +82,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'name;region;name_province;ID_t_md_country;ID_t_md_province';
+        $params['field'] = 't_md_province.name';
         $params['search'] = $search;
         $params['page'] = $r['start'];
         $params['n_item'] = $r['length'];

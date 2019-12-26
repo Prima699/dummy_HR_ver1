@@ -14,12 +14,14 @@
 Auth::routes();
 Route::get('/test', 'test'); // invoked
 Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
+Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
 
 /* start auth */
@@ -37,9 +39,6 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 	Route::get('/', function(){
 		echo "employee";
 	});
-	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){
-		Route::get('/', 'PresenceController@index')->name('index');
-	});
 });
 /* end employee */
 
@@ -49,19 +48,20 @@ Route::name('admin.')->prefix('admin')->group(function () {
 		echo "admin";
 	});
 	
-	/* start golongan */
-	Route::prefix('golongan')->name('golongan.')->group(function(){		
+	/* start category */
+	Route::prefix('category')->name('category.')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
-		Route::get('/created', 'GolonganController@created')->name('created');
 		Route::get('/data', 'GolonganController@data')->name('data');
+		Route::get('/create', 'GolonganController@create')->name('create');
+		Route::post('/store', 'GolonganController@store')->name('store');
 	});
-	/* end golongan */
+	/* end category */
 
 	// start jabatan
 	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
 		Route::get('/',  'JabatanController@index')->name('index');
 		Route::get('/data', 'JabatanController@data')->name('data');
-		Route::get('/created', 'JabatanController@created')->name('created');
+		Route::post('/created', 'JabatanController@created')->name('created');
 	});
 	// end jabatan
 
@@ -70,6 +70,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 		Route::get('/',  'PerusahaanController@index')->name('index');
 		Route::get('/data', 'PerusahaanController@data')->name('data');
 		Route::get('/created', 'PerusahaanController@created')->name('created');
+		Route::post('/store', 'GolonganController@store')->name('store');
 	});
 	// end perusahaan
 
@@ -101,6 +102,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
+		Route::get('/image', 'PegawaiController@getImage')->name('image');
+		Route::post('/detect', 'PegawaiController@faceDetect')->name('detect');
 	});
 	/* end Pegawai */
 });
