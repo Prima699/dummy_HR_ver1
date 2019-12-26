@@ -69,7 +69,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	// end jabatan
 
 	// start perusahaan
-	Route::prefix('Perusahaan')->name('perusahaan.')->group(function(){		
+	Route::prefix('perusahaan')->name('perusahaan.')->namespace('Master')->group(function(){		
 		Route::get('/',  'PerusahaanController@index')->name('index');
 		Route::get('/data', 'PerusahaanController@data')->name('data');
 		Route::get('/created', 'PerusahaanController@created')->name('created');

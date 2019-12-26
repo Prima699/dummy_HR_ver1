@@ -1,14 +1,13 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render('perusahaan'),
-    'namePage' => 'data display',
     'activePage' => 'perusahaan',
     'activeNav' => '',
 ])
  
 @section('content')
 {{-- <table class="table table-striped">
-<tr>
+<tr> 
 
 <th> Id</th>
 <th> Name</th>
@@ -72,30 +71,7 @@
     <!-- end row -->
   </div>
 
-  <!-- The Modal -->
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
 
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Add Data Golongan</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-                <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.perusahaan.created') }}">{{ ('Add Data') }}</a>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
   
 @endsection
 
