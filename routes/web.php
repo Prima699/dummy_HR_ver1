@@ -20,6 +20,13 @@ Route::get('/rootApp', 'rootApp'); // invoked
 Route::get('refresh-csrf', function(){
     return csrf_token();
 });
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+});
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
