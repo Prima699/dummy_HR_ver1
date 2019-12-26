@@ -13,3 +13,7 @@ Breadcrumbs::for('category.create', function ($t) {
 	$t->parent('category');
     $t->push('Create', route('admin.category.create'));
 });
+Breadcrumbs::for('category.edit', function ($t) {
+	$t->parent('category');
+    $t->push('Edit', route('admin.category.index'));
+});

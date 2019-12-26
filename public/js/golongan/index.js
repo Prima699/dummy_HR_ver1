@@ -24,14 +24,38 @@ $(document).ready(function() {
 					
 					var act = action(name, id);
 					$(td).html(act);
-				}else{
-					var td = document.createElement("td");
-						$(td).attr("colspan","3");
-						$(td).html("Server is unreachable.");
-					$(tr).html(td);
 				}
 			}
 		}
+		$.ajax({
+			url: digitasLink + "/getSessionError",
+			type: "GET",
+			success: function(r){
+				if(r!=false){
+					var div = document.createElement("div");
+						$(div).attr("class","alert alert-danger alert-dismissible fade show");
+						$(div).attr("role","alert");
+						
+						var txt = document.createTextNode(r);
+						$(div).append(txt);
+						
+						var btn = document.createElement("button");
+							$(btn).attr("type","button");
+							$(btn).attr("class","close");
+							$(btn).attr("data-dismiss","alert");
+							$(btn).attr("aria-label","Close");
+							
+							var span = document.createElement("span");
+								$(span).attr("aria-hidden","true");
+								$(span).html("&times;");
+								$(btn).append(span);
+								
+						$(div).append(btn);
+						
+					$("div.container-category-alert").append(div);
+				}
+			}
+		});
 	} );
 	
 	function action(name, id){ // create form action
@@ -42,7 +66,8 @@ $(document).ready(function() {
 			$(form).attr("method","post");
 			$(form).attr("action",""+id);
 			$(form).attr("style","display:inline;");
-		$(form).append(info);
+			
+		// $(form).append(info);
 		$(form).append(edit);
 		
 		return form;
@@ -54,21 +79,25 @@ $(document).ready(function() {
 			$(a).attr("href","" + id);
 			$(a).attr("title","Detail " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
+			
 			var span = document.createElement("span");
 				$(span).attr("class","fas fa-file");
-			$(a).append(span);
+				$(a).append(span);
+			
 		return a;
 	}
 
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href","" + id);
+			$(a).attr("href", digitasLink + "/admin/category/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
+			
 			var span = document.createElement("span");
 				$(span).attr("class","fas fa-edit");
-			$(a).append(span);
+				$(a).append(span);
+				
 		return a;
 	}
 

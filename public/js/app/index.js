@@ -4,6 +4,11 @@ $(document).ready(function(){
 	$("li.breadcrumb-item.active").html("<a>" + $("li.breadcrumb-item.active").html() + "</a>"); // adjusting breadcrumb
 	
 	setInterval(refreshToken, 60000); // 5 minute 
+					
+	var closeButton = setInterval(function(){
+		$("button.close").click();
+		clearInterval(closeButton);
+	},10000);
 });
 
 function isSessionEnd(){ // check if session is ended or not
