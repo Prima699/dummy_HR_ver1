@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
-
+ 
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +11,7 @@ use Auths;
 use Response;
 use Illuminate\Http\Request;
 use Constants;
+use App\Http\Controllers\Controller;
 
 class PerusahaanController extends Controller{
 	/**
@@ -146,7 +147,8 @@ class PerusahaanController extends Controller{
     }
 
     public function created(){
-        return view("master.perusahaan.form"); 
+        $master = $this->master("Create Perusahaan","admin.perusahaan.store","perusahaan.created","POST");
+        return view("master.perusahaan.form", compact('master')); 
     }      
 
     public function store(Request $r){
@@ -164,17 +166,41 @@ class PerusahaanController extends Controller{
         $params['perusahaan_name'] = $r->name;
         $curl->post(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
+        if($curl->error==TRUE){
+
+
+            
+            session(["error" => "Server Unreachable."]);
+            return redirect()->route('admin.perusahaan.created');
+        }
+
         $res = json_decode($curl->response);
         
-        if($res->errorcode!="0000"){
-            $error = "Failed creating new perusahaan.";
-            session(['error' => $error]);
-            return redirect()->route('admin.perusahaan.created');
-        }else{
+        if($res->errorcode=="0000"){
             $status = "Success creating new perusahaan.";
             session(["status" => $status]);
             return redirect()->route('admin.perusahaan.index');
+        }else{
+            session(['error' => $res->errormsg]);
+            return redirect()->route('admin.perusahaan.create');
         }
+    }
+
+    private function master($t,$a,$b,$m,$p=NULL){
+        $data = new \stdClass;
+        
+        if($p!=NULL){
+            $a = route($a,["id"=>$p]);
+        }else{
+            $a = route($a);
+        }
+        
+        $data->title = $t;
+        $data->action = $a;
+        $data->breadcrumb = $b;
+        $data->method = $m;
+        
+        return $data;
     }
 
 }

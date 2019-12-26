@@ -1,12 +1,12 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render('category'),
-    'activePage' => 'category',
+    'activePage' => 'category', 
     'activeNav' => '',
 ])
  
 @section('content')
-<div class="panel-header">
+<div class="panel-header"> 
   </div>
   <div class="content">
     <div class="row">
