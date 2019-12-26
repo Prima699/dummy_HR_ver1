@@ -167,6 +167,9 @@ class PerusahaanController extends Controller{
         $curl->post(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
         if($curl->error==TRUE){
+
+
+            
             session(["error" => "Server Unreachable."]);
             return redirect()->route('admin.perusahaan.created');
         }
