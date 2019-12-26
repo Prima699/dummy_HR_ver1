@@ -1,5 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
+    'namePage' => Breadcrumbs::render('perusahaan'),
     'namePage' => 'data display',
     'activePage' => 'perusahaan',
     'activeNav' => '',

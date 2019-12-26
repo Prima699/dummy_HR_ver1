@@ -40,7 +40,7 @@ class LoginController extends Controller
 	public function showLoginForm(){
 		$message = NULL;
 		
-		if(session("error")!=NULL AND session("error")['response']!=NULL){
+		if(session("error")!=NULL AND isset(session("error")['response']) AND session("error")['response']!=NULL){
 			$res = session("error")['response'];
 			$message = "Error Code : ".$res->errorcode ."<br>".$res->errormsg;
 		}
