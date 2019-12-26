@@ -26,3 +26,33 @@ Breadcrumbs::for('perusahaan.created', function ($t) {
 	$t->parent('perusahaan');
     $t->push('Create', route('admin.perusahaan.created'));
 });
+Breadcrumbs::for('perusahaan.edit', function ($t) {
+	$t->parent('perusahaan');
+    $t->push('Edit', route('admin.perusahaan.index'));
+});
+
+// jabatan
+Breadcrumbs::for('jabatan', function ($t) {
+    $t->push('jabatan', route('admin.jabatan.index'));
+});
+Breadcrumbs::for('jabatan.create', function ($t) {
+	$t->parent('jabatan');
+    $t->push('Create', route('admin.jabatan.create'));
+});
+Breadcrumbs::for('jabatan.edit', function ($t) {
+	$t->parent('jabatan');
+    $t->push('Edit', route('admin.jabatan.index'));
+});
+
+// province
+Breadcrumbs::for('province', function ($t) {
+    $t->push('province', route('admin.province.index'));
+});
+Breadcrumbs::for('province.create', function ($t) {
+	$t->parent('province');
+    $t->push('Create', route('admin.province.create'));
+});
+Breadcrumbs::for('province.edit', function ($t) {
+	$t->parent('province');
+    $t->push('Edit', route('admin.province.index'));
+});

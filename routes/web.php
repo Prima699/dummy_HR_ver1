@@ -61,10 +61,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	/* end category */
 
 	// start jabatan
-	Route::prefix('jabatan')->name('jabatan.')->group(function(){		
+	Route::prefix('jabatan')->name('jabatan.')->namespace('Master')->group(function(){		
 		Route::get('/',  'JabatanController@index')->name('index');
 		Route::get('/data', 'JabatanController@data')->name('data');
-		Route::post('/created', 'JabatanController@created')->name('created');
+		Route::get('/create', 'JabatanController@create')->name('create');
+		Route::post('/store', 'JabatanController@store')->name('store');
+		Route::get('/edit/{id}', 'JabatanController@edit')->name('edit');
+		Route::put('/update/{id}', 'JabatanController@update')->name('update');
 	});
 	// end jabatan
 
@@ -73,7 +76,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
 		Route::get('/',  'PerusahaanController@index')->name('index');
 		Route::get('/data', 'PerusahaanController@data')->name('data');
 		Route::get('/created', 'PerusahaanController@created')->name('created');
-		Route::post('/store', 'GolonganController@store')->name('store');
+		Route::post('/store', 'PerusahaanController@store')->name('store');
+		Route::get('/edit/{id}', 'PerusahaanController@edit')->name('edit');
+		Route::put('/update/{id}', 'PerusahaanController@update')->name('update');
 	});
 	// end perusahaan
 
@@ -94,10 +99,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	// end country
 
 	// start province
-	Route::prefix('Province')->name('province.')->group(function(){		
+	Route::prefix('province')->name('province.')->namespace('Master')->group(function(){			
 		Route::get('/',  'ProvinceController@index')->name('index');
 		Route::get('/data', 'ProvinceController@data')->name('data');
-		Route::get('/created', 'ProvinceController@created')->name('created');
+		Route::get('/create', 'ProvinceController@create')->name('create');
+		Route::post('/store', 'ProvinceController@store')->name('store');
+		Route::get('/edit/{id}', 'ProvinceController@edit')->name('edit');
+		Route::put('/update/{id}', 'ProvinceController@update')->name('update');
 	});
 	// end province
 
