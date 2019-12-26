@@ -221,9 +221,10 @@ class GolonganController extends Controller{
 		
 		$params['golongan_id'] = $id;
 		$params['golongan_name'] = $r->name;
+		$url = Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/golongan_id/$id";
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/golongan_id/$id");
+		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));

@@ -16,17 +16,20 @@ $(document).ready(function() {
 				$(td).html(generateImage(img));
 				
 				// face detect
-				img = "http://attendance.teaq.co.id/assets/images/dewan/farhan.jpeg";
+				var ii = i+1;
 				var td = $(tr[i]).find("td:nth-child(3)");
-				$(td).html(generateProcess(img,$(td).html(),'fd',id,i+1));
+				var fd = $(td).html();
+				$(td).html(generateProcess(img,fd,'fd',id,ii));
 				
 				// tag save
 				var td = $(tr[i]).find("td:nth-child(4)");
-				$(td).html(generateProcess(img,$(td).html(),'ts',id,i+1));
+				var ts = $(td).html();
+				$(td).html(generateProcess(img,ts,'ts',id,ii,fd));
 				
 				// face train
 				var td = $(tr[i]).find("td:nth-child(5)");
-				$(td).html(generateProcess(img,$(td).html(),'ft',id,i+1));
+				var ft = $(td).html();
+				$(td).html(generateProcess(img,ft,'ft',id,ii));
 			}
 		}
 		
@@ -71,7 +74,8 @@ $(document).ready(function() {
 			$(a).attr("href",url);
 		
 			var img = document.createElement("img");
-				$(img).attr("src",digitasLink + "/public/" + url);
+				// $(img).attr("src",digitasLink + "/public/" + url);
+				$(img).attr("src",url);
 				$(img).attr("height","100px");
 				$(img).attr("title","Invalid image. Please delete it and re-upload.");
 				$(a).html(img);
@@ -79,17 +83,30 @@ $(document).ready(function() {
 		return a;
 	}
 	
-	function generateProcess(tr,v,m,id,i){
+	function generateProcess(tr,v,m,id,i,p=null){
 		if(v=="" || v==null || v==undefined){
 			var onclick = "";
+			var classes = m + "-" + i;
+			var tid = "";
+			
 			if(m=="fd"){
 				onclick = "faceDetect('" + tr + "'," + id + "," + i + ")";
+			}else if(m=="ts"){
+				onclick = "tagSave(" + id + "," + i + ")";
+			}else if(m=="ft"){
+				onclick = "faceTrain(" + id + "," + i + ")";
+			}
+			
+			if(p!=null && p!="" && p!=null && p!=undefined){
+				p = JSON.parse(p);
+				tid = p.photos[0].tags[0].tid;
 			}
 			
 			var a = document.createElement("a");
-				$(a).attr("class","btn btn-sm btn-warning text-white");
+				$(a).attr("class","btn btn-sm btn-warning text-white " + classes);
 				$(a).attr("onclick",onclick);
 				$(a).attr("style","margin-left: 5px; margin-right: 5px;");
+				$(a).attr("tid",tid);
 				var txt = document.createTextNode("Process");
 				$(a).html(txt);
 			return a;
@@ -118,8 +135,9 @@ $(document).ready(function() {
 
 var g = {};
 	g["idPegawai"] = 0;
+	g["i"] = 0;
 
-function faceTrain(name,id){
+function openModalFaceTrain(name,id){
 	g["idPegawai"] = id;
 	faceTrainDT(id);
 	
@@ -129,21 +147,24 @@ function faceTrain(name,id){
 
 function faceTrainDT(id){
 	$('#faceTrainDT').DataTable().destroy();
-	$('#faceTrainDT').DataTable({
-		"ajax" : digitasLink + "/admin/pegawai/image/" + id,
-		"lengthChange" : false,
-		"searching" : false,
-        "processing" : true,
-        "serverSide" : true,
-		"pageLength" : 5,
-		"columnDefs": [
-			{ "width": "5%", "targets": 0 },
-			{ "width": "5%", "targets": 2 },
-			{ "width": "5%", "targets": 3 },
-			{ "width": "5%", "targets": 4 },
-			{ "width": "5%", "targets": 5 }
-		]
-	}); // call datatable
+	var dt = setInterval(function(){
+		$('#faceTrainDT').DataTable({
+			"ajax" : digitasLink + "/admin/pegawai/image/" + id,
+			"lengthChange" : false,
+			"searching" : false,
+			"processing" : true,
+			"serverSide" : true,
+			"pageLength" : 5,
+			"columnDefs": [
+				{ "width": "5%", "targets": 0 },
+				{ "width": "5%", "targets": 2 },
+				{ "width": "5%", "targets": 3 },
+				{ "width": "5%", "targets": 4 },
+				{ "width": "5%", "targets": 5 }
+			]
+		}); // call datatable
+		clearInterval(dt);
+	},3000);
 }
 
 function callback(data, img, id, field) {
@@ -152,7 +173,7 @@ function callback(data, img, id, field) {
 	}else if (field == 'tag'){
 		field = "tag";
 	}else if (field == 'train'){
-		field = "save";
+		field = "train";
 	}
 	
 	$.ajax({
@@ -173,7 +194,31 @@ function callback(data, img, id, field) {
 function faceDetect(image,id,i){
 	var client = new FCClientJS('d0p5debv2gij5e0nlt7b5tq98c', '75lm13qfkds2ti0gfjj9kaelsb');
 	var options = new Object();
-	options.detect_all_feature_points = true;
+		options.detect_all_feature_points = true;
 
 	var facedetect = client.facesDetect(image, null, options, callback, i, id, 'face_detect');
+}
+
+function tagSave(id,i) {
+	var tid = $('.ts-' + i).attr('tid');
+	var userId = $("#faceTrain .modal-title").html().replace(/ +/g, "") + id;
+
+	var client = new FCClientJS('d0p5debv2gij5e0nlt7b5tq98c', '75lm13qfkds2ti0gfjj9kaelsb');
+	var optionsTS = new Object();
+		optionsTS.namespace = 'm-attendance';
+		optionsTS.detect_all_feature_points = true;
+
+	var tagsave = client.tagsSave(tid, userId, optionsTS, callback, i, id, 'tag')
+}
+
+function faceTrain(id,i) {
+	var userId = $("#faceTrain .modal-title").html().replace(/ +/g, "") + id;
+
+	var client = new FCClientJS('d0p5debv2gij5e0nlt7b5tq98c', '75lm13qfkds2ti0gfjj9kaelsb');
+	var optionsFT = new Object();
+		optionsFT.namespace = 'm-attendance';
+		optionsFT.detect_all_feature_points = true;
+
+	var tagsave = client.facesTrain(userId, optionsFT, callback, i, id, 'train')
+
 }

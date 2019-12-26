@@ -218,14 +218,21 @@ class PegawaiController extends Controller{
 		}
 
 		$params[$r->process] = $r->value;
-		$curl->setHeader('Content-Type','application/x-www-form-urlencoded');
-		$curl->put(Constants::api() . "/pegawaiimage/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/image_train_id/$id", $params);
+		$url = Constants::api() . "/pegawaiimage/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/image_train_id/$id";
 		
-		if($curl->error==TRUE){
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+		$res = curl_exec($ch);
+		
+		if(!$res){
 			session(["error" => "Server Unreachable."]);
 			$rst = false;
 		}else{
-			$res = json_decode($curl->response);
+			$res = json_decode($res);
 			if($res->errorcode!="0000"){
 				session(["error" => $res->errormsg]);
 				$rst = false;

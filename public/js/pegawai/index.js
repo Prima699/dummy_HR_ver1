@@ -68,7 +68,7 @@ $(document).ready(function() {
 	function generateFaceTrain(name,id){
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-success text-white");
-			$(a).attr("onclick","faceTrain('" + name + "'," + id + ")");
+			$(a).attr("onclick","openModalFaceTrain('" + name + "'," + id + ")");
 			$(a).attr("title","Face Train " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			var span = document.createElement("span");
