@@ -91,10 +91,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
 	// end perusahaan
 
 	// start country
-	Route::prefix('Country')->name('country.')->group(function(){		
+	Route::prefix('country')->name('country.')->namespace('Master')->group(function(){		
 		Route::get('/',  'CountryController@index')->name('index');
 		Route::get('/data', 'CountryController@data')->name('data');
-		Route::get('/created', 'CountryController@created')->name('created');
+		Route::get('/create', 'CountryController@create')->name('create');
+		Route::post('/store', 'CountryController@store')->name('store');
+		Route::get('/edit/{id}', 'CountryController@edit')->name('edit');
+		Route::put('/update/{id}', 'CountryController@update')->name('update');
 	});
 	// end country
 
@@ -108,6 +111,17 @@ Route::name('admin.')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'ProvinceController@update')->name('update');
 	});
 	// end province
+
+	// start Tipeijin
+	Route::prefix('TipeIjin')->name('TipeIjin.')->namespace('Master')->group(function(){			
+		Route::get('/',  'TipeIJinController@index')->name('index');
+		Route::get('/data', 'TipeIJinController@data')->name('data');
+		Route::get('/create', 'TipeIJinController@create')->name('create');
+		Route::post('/store', 'TipeIJinController@store')->name('store');
+		Route::get('/edit/{id}', 'TipeIJinController@edit')->name('edit');
+		Route::put('/update/{id}', 'TipeIJinController@update')->name('update');
+	});
+	// end Tipeijin
 
 	/* start Pegawai */
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
