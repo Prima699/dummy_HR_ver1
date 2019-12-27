@@ -8,7 +8,7 @@
 @section('content')
 <div class="panel-header"> 
   </div>
-  <div class="content">
+  <div class="content"> 
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -59,12 +59,6 @@
 @endpush 
 
 @push('js')
-<script>
-    function dataTableAPI(){
-      var r = "{{ route('admin.jabatan.data') }}";
-      return r;
-    }
-  </script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/jabatan/index.js') }}"></script>
 @endpush

@@ -61,10 +61,6 @@
 
 @push('js')
 <script>
-    function dataTableAPI(){
-      var r = "{{ route('admin.province.data') }}";
-      return r;
-    }
   </script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/province/index.js') }}"></script>

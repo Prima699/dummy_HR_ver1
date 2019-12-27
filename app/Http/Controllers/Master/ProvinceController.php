@@ -17,7 +17,7 @@ class ProvinceController extends Controller{
 	/**
      * Display a listing of the users
      *
-     * @param  \App\User  $model 
+     * @param  \App\User  $model  
      * @return \Illuminate\View\View
      */
 
@@ -49,7 +49,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'ID_t_md_province;name;name_province';
+        $params['field'] = 't_md_province.name';
         $params['search'] = $search;
         $curl->get(Constants::api() . '/province', $params);
         
@@ -103,7 +103,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'name_province';
+        $params['field'] = 't_md_province.name';
         $params['search'] = $search;
         $params['page'] = $start;
         $params['n_item'] = $length;
@@ -186,7 +186,7 @@ class ProvinceController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['province_id'] = $id;
+        $params['ID_t_md_province'] = $id;
         $curl->get(Constants::api() . '/province', $params);
         
         if($curl->error==TRUE){
@@ -228,10 +228,10 @@ class ProvinceController extends Controller{
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $params['province_id'] = $id;
+        $params['ID_t_md_province'] = $id;
         $params['name_province'] = $r->name;
         $curl->setHeader('Content-Type','application/x-www-form-urlencoded');
-        $curl->put(Constants::api() . "/province/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/province_id/$id", $params);
+        $curl->put(Constants::api() . "/province/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/ID_t_md_province/$id", $params);
         
         if($curl->error==TRUE){
             session(["error" => "Server Unreachable."]);

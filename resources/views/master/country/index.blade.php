@@ -6,7 +6,7 @@
 ])
  
 @section('content')
-<div class="panel-header"> 
+<div class="panel-header">  
   </div>
   <div class="content">
     <div class="row">
@@ -60,12 +60,6 @@
 @endpush 
 
 @push('js')
-<script>
-    function dataTableAPI(){
-      var r = "{{ route('admin.country.data') }}";
-      return r;
-    }
-  </script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/country/index.js') }}"></script>
 @endpush

@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header"> 
             <h4 class="card-title">{{ $master->title }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
@@ -43,7 +43,7 @@
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.jabatan.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.province.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>

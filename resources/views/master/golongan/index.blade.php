@@ -6,7 +6,7 @@
 ])
  
 @section('content')
-<div class="panel-header"> 
+<div class="panel-header">  
   </div>
   <div class="content">
     <div class="row">

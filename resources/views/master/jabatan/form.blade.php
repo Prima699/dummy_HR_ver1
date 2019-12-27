@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render($master->breadcrumb),
-    'activePage' => 'jabatany',
+    'activePage' => 'jabatany', 
     'activeNav' => '',
 ])
  

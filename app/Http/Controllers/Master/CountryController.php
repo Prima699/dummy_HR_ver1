@@ -7,7 +7,7 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Curl;
-use Auths;
+use Auths; 
 use Response;
 use Illuminate\Http\Request;
 use Constants;
@@ -69,6 +69,7 @@ class CountryController extends Controller{
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
+
 		
 		$search = $r['search']['value']; //filter keyword
 		$start = $r['start']; //offset
@@ -107,6 +108,7 @@ class CountryController extends Controller{
 		$params['page'] = $start;
 		$params['n_item'] = $length;
 		$curl->get(Constants::api() . '/country', $params);
+
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
@@ -155,6 +157,7 @@ class CountryController extends Controller{
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
+
 		
 		$params['name'] = $r->name;
 		$params['region'] = $r->region;
@@ -232,7 +235,7 @@ class CountryController extends Controller{
 		$params['name'] = $r->name;
 		$params['region'] = $r->region;
 		$curl->setHeader('Content-Type','application/x-www-form-urlencoded');
-		$curl->put(Constants::api() . "/country/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/country_id/$id", $params);
+		$curl->put(Constants::api() . "/country/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/ID_t_md_country/$id", $params);
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
@@ -240,7 +243,7 @@ class CountryController extends Controller{
 		}
 		
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode=="0000"){
 			$status = "Success updating country.";
 			session(["status" => $status]);
