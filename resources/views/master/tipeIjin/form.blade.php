@@ -1,14 +1,14 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render($master->breadcrumb),
-    'activePage' => 'category',
+    'activePage' => 'jabatany',
     'activeNav' => '',
 ])
  
-@section('content')
+@section('content') 
 <div class="panel-header">
   </div>
-  <div class="content"> 
+  <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -33,7 +33,13 @@
 					<label class="label" for="name">Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->golongan_name:'' }}" required />
+					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->name:'' }}" required />
+				</div>
+				<div class="col-md-1">
+					<label class="label" for="name">Region</label>
+				</div>
+				<div class="col-md-3">
+					<input type="text" class="form-control" name="region" id="name" value="{{ (isset($data))?$data->region:'' }}" required />
 				</div>
 			</div>
 			<br/>
@@ -43,7 +49,7 @@
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.category.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.country.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>

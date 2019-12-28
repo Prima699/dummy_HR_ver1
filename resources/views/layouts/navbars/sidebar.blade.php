@@ -124,6 +124,14 @@
               </a>
             </li>
             {{--  --}}
+            {{-- Tipeijin --}}
+            <li class="@if ($activePage == 'TipeIjin') active @endif">
+              <a href="{{ route('admin.TipeIjin.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Tipe ijin") }} </p>
+              </a>
+            </li>
+            {{--  --}}
             {{-- country --}}
             <li class="@if ($activePage == 'country') active @endif">
               <a href="{{ route('admin.country.index') }}">

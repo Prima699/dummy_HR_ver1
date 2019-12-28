@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('category'),
-    'activePage' => 'category', 
+    'namePage' => Breadcrumbs::render('country'),
+    'activePage' => 'country',  
     'activeNav' => '',
 ])
  
@@ -13,12 +13,12 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.country.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ __('Category') }}</h4>
-            <div class="col-12 mt-2 container-category-alert">
+            <h4 class="card-title">{{ __('country') }}</h4>
+            <div class="col-12 mt-2 container-country-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
@@ -32,6 +32,7 @@
                 <tr>
                   <th width="5%">No</th>
                   <th>Name</th>
+                  <th>Region</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -60,5 +61,5 @@
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/golongan/index.js') }}"></script>
+	<script src="{{ asset('public/js/country/index.js') }}"></script>
 @endpush

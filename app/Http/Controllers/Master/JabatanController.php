@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Master;
 
- 
+
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -13,26 +13,27 @@ use Illuminate\Http\Request;
 use Constants;
 use App\Http\Controllers\Controller;
 
-class PerusahaanController extends Controller{
+class JabatanController extends Controller{
 	/**
      * Display a listing of the users
      *
-     * @param  \App\User  $model 
-     * @return \Illuminate\View\View
+     * @param  \App\User  $model
+     * @return \Illuminate\View\View 
      */
 
 	public function index(){
-		  
-        return view("master.perusahaan.perusahaan");
 
-    } 
+		  
+        return view("master.jabatan.index");
+
+    }
 
     private function totalData($r){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-       $search = $r['search']['value'];
+        $search = $r['search']['value'];
         if($search==NULL OR $search==""){
             $search = "";
         }
@@ -49,20 +50,25 @@ class PerusahaanController extends Controller{
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'perusahaan_name;perusahaan_logo;perusahaan_id';
+        $params['field'] = 'jabatan_name;jabatan_id';
         $params['search'] = $search;
-        $curl->get(Constants::api() . '/perusahaan', $params);
+        $curl->get(Constants::api() . '/jabatan', $params);
         
         if($curl->error==TRUE){
             return -1;
         }
         
         $res = json_decode($curl->response);
+        
+        if($res->errorcode!="0000"){
+            return -1;
+        }
+        
         return count($res->data);
     }
     
     public function data(Request $r){
-       $curl = new Curl();
+        $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
@@ -71,6 +77,12 @@ class PerusahaanController extends Controller{
         $length = $r['length']; //limit
         $draw = $r['draw'];
         $search = $r['search']['value'];
+                
+        $data = []; // datatable format
+        $data["draw"] = $draw;
+        $data["recordsTotal"] = 0;
+        $data["recordsFiltered"] = 0;
+        $data["data"] = [];
         
         if(isset($r->token)){
             $token = $r->token;
@@ -84,60 +96,50 @@ class PerusahaanController extends Controller{
             $search = "";
         }
         
-        if($r['start']!=0){
-            $r['start'] = $r['start'] / $r['length'];
+        if($start!=0){
+            $start = $start / $length;
         }
         
         $params['user_id'] = $userID;
         $params['access_token'] = $token;
         $params['platform'] = 'dashboard';
         $params['location'] = 'xxx';
-        $params['field'] = 'perusahaan_name;perusahaan_logo';
+        $params['field'] = 'jabatan_name';
         $params['search'] = $search;
         $params['page'] = $start;
         $params['n_item'] = $length;
-        $curl->get(Constants::api() . '/perusahaan', $params);
+        $curl->get(Constants::api() . '/jabatan', $params);
         
         if($curl->error==TRUE){
-            $data = []; // datatable format
-            $data["draw"] = $draw;
-            $data["recordsTotal"] = 0;
-            $data["recordsFiltered"] = 0;
-            $data["data"] = [[0,0,0]];
+            session(["error" => "Server Unreachable."]);
             return Response()->json($data);
         }
         
         $res = json_decode($curl->response);
         
+        if($res->errorcode!="0000"){
+            session(["error" => $res->errormsg]);
+            return Response()->json($data);
+        }
+        
         if($res->data==NULL){ 
             $amount = 0;
-        }else{          
-            // $amount = count($res->data);
+        }else{
             $amount = $this->totalData($r);
             
             if($amount==-1){                
-                $data = []; // datatable format
-                $data["draw"] = $draw;
-                $data["recordsTotal"] = 0;
-                $data["recordsFiltered"] = 0;
-                $data["data"] = [[0,0,0]];
+                session(["error" => "Server Unreachable."]);
                 return Response()->json($data);
             }
         }
         
-        $recordsTotal = $amount; //count all data by
-        $recordsFiltered = $amount;
-        
-        $data = []; // datatable format
-        $data["draw"] = $draw;
-        $data["recordsTotal"] = $recordsTotal;
-        $data["recordsFiltered"] = $recordsFiltered;
-        $data["data"] = [];
+        $data["recordsTotal"] = $amount;
+        $data["recordsFiltered"] = $amount;
         
         $i = ($length * $start) + 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->perusahaan_name, $a->perusahaan_logo, $a->perusahaan_id];
+                $tmp = [$i, $a->jabatan_name, $a->jabatan_id];
                 $data["data"][] = $tmp;
                 $i++;
             }
@@ -146,46 +148,65 @@ class PerusahaanController extends Controller{
         return Response()->json($data);
     }
 
-    public function created(){
-        $master = $this->master("Create Perusahaan","admin.perusahaan.store","perusahaan.created","POST");
-        return view("master.perusahaan.form", compact('master')); 
-    }      
-
+    public function create(){
+        $master = $this->master("Create jabatan","admin.jabatan.store","jabatan.create","POST");
+        return view("master.jabatan.form", compact('master')); 
+    }
+    
     public function store(Request $r){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        // $params['user_id'] = $userID;
-        // $params['access_token'] = $token;
-        // $params['platform'] = 'dashboard';
-        // $params['location'] = 'xxx';
-        // $params['perusahaan_name'] = $r->name;
-        // $curl->post(Constants::api() . '/perusahaan', $params);
-        
-        $params['perusahaan_name'] = $r->name;
-        $curl->post(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+        $params['jabatan_name'] = $r->name;
+        $curl->post(Constants::api() . "/jabatan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
         if($curl->error==TRUE){
-
-
-            
             session(["error" => "Server Unreachable."]);
-            return redirect()->route('admin.perusahaan.created');
+            return redirect()->route('admin.jabatan.create');
         }
-
+        
         $res = json_decode($curl->response);
         
         if($res->errorcode=="0000"){
-            $status = "Success creating new perusahaan.";
+            $status = "Success creating new jabatan.";
             session(["status" => $status]);
-            return redirect()->route('admin.perusahaan.index');
+            return redirect()->route('admin.jabatan.index');
         }else{
             session(['error' => $res->errormsg]);
-            return redirect()->route('admin.perusahaan.create');
+            return redirect()->route('admin.jabatan.create');
         }
     }
-
+    
+    public function edit(Request $r, $id){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['jabatan_id'] = $id;
+        $curl->get(Constants::api() . '/jabatan', $params);
+        
+        if($curl->error==TRUE){
+            session(["error" => "Server Unreachable."]);
+            return redirect()->route('master.jabatan.index');
+        }
+        
+        $res = json_decode($curl->response);
+        
+        if($res->errorcode=="0000"){
+            $data = $res->data[0];
+            $master = $this->master("Edit jabatan","admin.jabatan.update","jabatan.edit","PUT",$id);
+            return view('master.jabatan.form', compact('data','master'));
+        }else{
+            session(['error' => $res->errormsg]);
+            return redirect()->route('admin.jabatan.index');
+        }
+    }
+    
     private function master($t,$a,$b,$m,$p=NULL){
         $data = new \stdClass;
         
@@ -202,61 +223,34 @@ class PerusahaanController extends Controller{
         
         return $data;
     }
-
-    public function edit(Request $r, $id){
-        $curl = new Curl();
-        $userID = Auths::user('user.user_id');
-        $token = Auths::user("access_token");
-        
-        $params['user_id'] = $userID;
-        $params['access_token'] = $token;
-        $params['platform'] = 'dashboard';
-        $params['location'] = 'xxx';
-        $params['perusahaan_id'] = $id;
-        $curl->get(Constants::api() . '/perusahaan', $params);
-        
-        if($curl->error==TRUE){
-            session(["error" => "Server Unreachable."]);
-            return redirect()->route('master.perusahaan.index');
-        }
-        
-        $res = json_decode($curl->response);
-        
-        if($res->errorcode=="0000"){
-            $data = $res->data[0];
-            $master = $this->master("Edit perusahaan","admin.perusahaan.update","perusahaan.edit","PUT",$id);
-            return view('master.perusahaan.form', compact('data','master'));
-        }else{
-            session(['error' => $res->errormsg]);
-            return redirect()->route('admin.perusahaan.index');
-        }
-    }
+    
     public function update(Request $r, $id){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $params['perusahaan_id'] = $id;
-        $params['perusahaan_name'] = $r->name;
+        $params['jabatan_id'] = $id;
+        $params['jabatan_name'] = $r->name;
         $curl->setHeader('Content-Type','application/x-www-form-urlencoded');
-        $curl->put(Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/perusahaan_id/$id", $params);
+        $curl->put(Constants::api() . "/jabatan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/jabatan_id/$id", $params);
         
         if($curl->error==TRUE){
             session(["error" => "Server Unreachable."]);
-            return redirect()->route('admin.perusahaan.edit',["id"=>$id]);
+            return redirect()->route('admin.jabatan.edit',["id"=>$id]);
         }
         
         $res = json_decode($curl->response);
         
         if($res->errorcode=="0000"){
-            $status = "Success updating perusahaan.";
+            $status = "Success updating jabatan.";
             session(["status" => $status]);
-            return redirect()->route('admin.perusahaan.index');
+            return redirect()->route('admin.jabatan.index');
         }else{
             session(['error' => $res->errormsg]);
-            return redirect()->route('admin.perusahaan.edit',["id"=>$id]);
+            return redirect()->route('admin.jabatan.edit',["id"=>$id]);
         }
     }
+   
 
 }
 

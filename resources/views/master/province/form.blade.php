@@ -1,18 +1,18 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render($master->breadcrumb),
-    'activePage' => 'category',
+    'activePage' => 'jabatans',
     'activeNav' => '',
 ])
  
-@section('content')
+@section('content') 
 <div class="panel-header">
-  </div>
-  <div class="content"> 
+  </div> 
+  <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header"> 
             <h4 class="card-title">{{ $master->title }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
@@ -33,7 +33,7 @@
 					<label class="label" for="name">Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->golongan_name:'' }}" required />
+					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->name_province:'' }}" required />
 				</div>
 			</div>
 			<br/>
@@ -43,7 +43,7 @@
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.category.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.province.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>

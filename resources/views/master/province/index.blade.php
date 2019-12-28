@@ -1,24 +1,24 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('category'),
-    'activePage' => 'category', 
+    'namePage' => Breadcrumbs::render('province'),
+    'activePage' => 'province',  
     'activeNav' => '',
 ])
  
-@section('content')
-<div class="panel-header">  
+@section('content') 
+<div class="panel-header"> 
   </div>
   <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.province.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ __('Category') }}</h4>
-            <div class="col-12 mt-2 container-category-alert">
+            <h4 class="card-title">{{ __('province') }}</h4>
+            <div class="col-12 mt-2 container-province-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
@@ -31,7 +31,8 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th>Name</th>
+                  <th>Province Name</th>
+                  <th>Country</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -59,6 +60,8 @@
 @endpush 
 
 @push('js')
+<script>
+  </script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/golongan/index.js') }}"></script>
+	<script src="{{ asset('public/js/province/index.js') }}"></script>
 @endpush

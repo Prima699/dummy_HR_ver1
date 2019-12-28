@@ -5,7 +5,7 @@
     'activeNav' => '',
 ])
  
-@section('content')
+@section('content') 
 {{-- <table class="table table-striped">
 <tr> 
 
@@ -85,12 +85,6 @@
 @endpush 
 
 @push('js')
-  <script>
-    function dataTableAPI(){
-      var r = "{{ route('admin.perusahaan.data') }}";
-      return r;
-    }
-  </script>
   <script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
   <script src="{{ asset('public/js/perusahaan/index.js') }}"></script>
 @endpush

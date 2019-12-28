@@ -1,24 +1,24 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('category'),
-    'activePage' => 'category', 
+    'namePage' => Breadcrumbs::render('jabatan'),
+    'activePage' => 'jabatan',  
     'activeNav' => '',
 ])
  
 @section('content')
-<div class="panel-header">  
+<div class="panel-header"> 
   </div>
-  <div class="content">
+  <div class="content"> 
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.jabatan.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ __('Category') }}</h4>
-            <div class="col-12 mt-2 container-category-alert">
+            <h4 class="card-title">{{ __('jabatan') }}</h4>
+            <div class="col-12 mt-2 container-jabatan-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
@@ -60,5 +60,5 @@
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/golongan/index.js') }}"></script>
+	<script src="{{ asset('public/js/jabatan/index.js') }}"></script>
 @endpush

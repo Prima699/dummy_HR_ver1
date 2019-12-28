@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : digitasLink + "/admin/jabatan/data",
+		"ajax" : digitasLink + "/admin/TipeIjin/data",
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
@@ -9,7 +9,7 @@ $(document).ready(function() {
 	
 	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
 		var empty = $(".dataTables_empty").html();
-		if(empty!="No data available in table"){ 
+		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
 				var td = $(tr[i]).find("td:nth-child(1)");
@@ -52,7 +52,7 @@ $(document).ready(function() {
 								
 						$(div).append(btn);
 						
-					$("div.container-jabatan-alert").append(div);
+					$("div.container-TipeIjin-alert").append(div);
 				}
 			}
 		});
@@ -90,7 +90,7 @@ $(document).ready(function() {
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/jabatan/edit/" + id);
+			$(a).attr("href", digitasLink + "/admin/TipeIjin/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
