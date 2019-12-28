@@ -135,6 +135,10 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
+		Route::get('/create', 'PegawaiController@create')->name('create');
+		Route::post('/store', 'PegawaiController@store')->name('store');
+		Route::get('/edit/{id}', 'PegawaiController@edit')->name('edit');
+		Route::put('/update/{id}', 'PegawaiController@update')->name('update');
 		Route::get('/image/{id}', 'PegawaiController@getImage')->name('image');
 		Route::put('/face', 'PegawaiController@face')->name('face');
 	});
