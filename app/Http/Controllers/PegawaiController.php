@@ -35,32 +35,126 @@ class PegawaiController extends Controller{
         // dd(json_encode($r));
         return view("pages.pegawai");
     }
+
+    private function master($t,$a,$b,$m,$p=NULL){
+        $data = new \stdClass;
+        
+        if($p!=NULL){
+            $a = route($a,["id"=>$p]);
+        }else{
+            $a = route($a);
+        }
+        
+        $data->title = $t;
+        $data->action = $a;
+        $data->breadcrumb = $b;
+        $data->method = $m;
+        
+        return $data;
+    }
+
+    private function totalData($r){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $search = $r['search']['value'];
+        if($search==NULL OR $search==""){
+            $search = "";
+        }
+        
+        if(isset($r->token)){
+            $token = $r->token;
+        }
+        
+        if(isset($r->userID)){
+            $userID = $r->userID;
+        }
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['field'] = 'pegawai_name;pegawai_address;pegawai_telp;pegawai_id';
+        $params['search'] = $search;
+        $curl->get(Constants::api() . '/pegawai', $params);
+        
+        if($curl->error==TRUE){
+            return -1;
+        }
+        
+        $res = json_decode($curl->response);
+        return count($res->data);
+    }
     
     public function data(Request $r){
         $curl = new Curl();
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $curl->get('http://digitasAPI.teaq.co.id/index.php/Bridge/pegawai', array(
-            'user_id' => $userID,
-            'access_token' => $token,
-            'platform' => 'dashboard',
-            'location' => 'xxx'
-        ));
+        $search = $r['search']['value']; //filter keyword
+        $start = $r['start']; //offset
+        $length = $r['length']; //limit
+        $draw = $r['draw'];
+        $search = $r['search']['value'];
+        
+        if(isset($r->token)){
+            $token = $r->token;
+        }
+        
+        if(isset($r->userID)){
+            $userID = $r->userID;
+        }
+        
+        if($search==NULL OR $search==""){
+            $search = "";
+        }
+        
+        if($r['start']!=0){
+            $r['start'] = $r['start'] / $r['length'];
+        }
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['field'] = 'pegawai_id';
+        $params['search'] = $search;
+        $params['page'] = $start;
+        $params['n_item'] = $length;
+        $curl->get(Constants::api() . '/pegawai', $params);
+        
+        if($curl->error==TRUE){
+            $data = []; // datatable format
+            $data["draw"] = $draw;
+            $data["recordsTotal"] = 0;
+            $data["recordsFiltered"] = 0;
+            $data["data"] = [[0,0,0]];
+            return Response()->json($data);
+        }
         
         $res = json_decode($curl->response);
-        // dump(count($res->data));
-        // dd($res->data);
         
-        $length = $r['length']; //limit data per page
-        $search = $r['search']['value']; //filter keyword
-        $start = $r['start']; //offset data
-        $draw = $r['draw'];
+        if($res->data==NULL){ 
+            $amount = 0;
+        }else{          
+            // $amount = count($res->data);
+            $amount = $this->totalData($r);
+            
+            if($amount==-1){                
+                $data = []; // datatable format
+                $data["draw"] = $draw;
+                $data["recordsTotal"] = 0;
+                $data["recordsFiltered"] = 0;
+                $data["data"] = [[0,0,0]];
+                return Response()->json($data);
+            }
+        }
         
-        $recordsTotal = count($res->data); //count all data by
-        $recordsFiltered = $recordsTotal;
+        $recordsTotal = $amount; //count all data by
+        $recordsFiltered = $amount;
         
-        $data = [];
+        $data = []; // datatable format
         $data["draw"] = $draw;
         $data["recordsTotal"] = $recordsTotal;
         $data["recordsFiltered"] = $recordsFiltered;
@@ -74,6 +168,80 @@ class PegawaiController extends Controller{
         }
 
         return Response()->json($data);
+    }
+
+    public function create(){
+        $city = new Curl();
+        $province = new Curl();
+        $country = new Curl();
+        $departement = new Curl();
+        $jabatan = new Curl();
+        $golongan= new Curl();
+
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+
+        $city->get('http://digitasAPI.teaq.co.id/index.php/Bridge/city', $params);
+        $citys = json_decode($city->response);
+
+        $province->get('http://digitasAPI.teaq.co.id/index.php/Bridge/province', $params);
+        $provinces = json_decode($province->response);
+
+        $country->get('http://digitasAPI.teaq.co.id/index.php/Bridge/country', $params);
+        $countrys = json_decode($country->response);
+
+        $departement->get('http://digitasAPI.teaq.co.id/index.php/Bridge/departemen', $params);
+        $departements = json_decode($departement->response);
+
+        $jabatan->get('http://digitasAPI.teaq.co.id/index.php/Bridge/jabatan', $params);
+        $jabatans = json_decode($jabatan->response);
+
+        $golongan->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', $params);
+        $golongans = json_decode($golongan->response);
+
+        
+        $kota = $citys->data;
+        $propinsi = $provinces->data;
+        $negara = $countrys->data;
+        $departemen = $departements->data;
+        $jabatan_= $jabatans->data;
+        $golongan_= $golongans->data;
+        $master = $this->master("Create Pegawai","admin.pegawai.store","pegawai.create","POST");
+
+        return view("pegawai.form", compact('master','kota','propinsi','negara','departemen','jabatan_','golongan_'));
+    }
+    
+    public function store(Request $r){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        // $params['user_id'] = $userID;
+        // $params['access_token'] = $token;
+        // $params['platform'] = 'dashboard';
+        // $params['location'] = 'xxx';
+        // $params['golongan_name'] = $r->name;
+        // $curl->post(Constants::api() . '/golongan', $params);
+        
+        $params['golongan_name'] = $r->name;
+        $curl->post(Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+        
+        $res = json_decode($curl->response);
+        
+        if($res->errorcode!="0000"){
+            $error = "Failed creating new category.";
+            session(['error' => $error]);
+            return redirect()->route('admin.category.create');
+        }else{
+            $status = "Success creating new category.";
+            session(["status" => $status]);
+            return redirect()->route('admin.category.index');
+        }
     }
 	
 	public function getImage(Request $r){
