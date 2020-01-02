@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 use Constants;
 use App\Http\Controllers\Controller;
 
-class GolonganController extends Controller{
+class PresenceTypeController extends Controller{
 
 	public function index(){
-        return view("master.golongan.index");
+        return view("master.presence.type.index");
     }
 	
 	private function totalData($r){
@@ -41,9 +41,9 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'golongan_name';
+		$params['field'] = 'presensi_type_name';
 		$params['search'] = $search;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$curl->get(Constants::api() . '/presensiType', $params);
 		
 		if($curl->error==TRUE){
 			return -1;
@@ -95,11 +95,11 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'golongan_name';
+		$params['field'] = 'presensi_type_name';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$curl->get(Constants::api() . '/presensiType', $params);
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
@@ -130,7 +130,7 @@ class GolonganController extends Controller{
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->golongan_name, $a->golongan_id];
+				$tmp = [$i, $a->presensi_type_name, $a->presensi_type_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
@@ -140,8 +140,8 @@ class GolonganController extends Controller{
 	}
 
     public function create(){
-		$master = $this->master("Create Category","admin.category.store","category.create","POST");
-        return view("master.golongan.form", compact('master')); 
+		$master = $this->master("Create Presence Type","admin.presence.type.store","presence.type.create","POST");
+        return view("master.presence.type.form", compact('master')); 
     }
 	
 	public function store(Request $r){
@@ -149,23 +149,27 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params['golongan_name'] = $r->name;
-		$curl->post(Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+		$params['presensi_type_name'] = $r->name;
+		$params['work_day'] = $r->work;
+		$params['off_day'] = $r->off;
+		$params['work_hour_day'] = $r->day;
+		$params['work_hour_week'] = $r->week;
+		$curl->post(Constants::api() . "/presensiType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.category.create');
+			return redirect()->route('admin.presence.type.create');
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success creating new category.";
+			$status = "Success creating new presence type.";
 			session(["status" => $status]);
-			return redirect()->route('admin.category.index');
+			return redirect()->route('admin.presence.type.index');
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.create');
+			return redirect()->route('admin.presence.type.create');
 		}
 	}
 	
@@ -178,23 +182,23 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['golongan_id'] = $id;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$params['presensi_type_id'] = $id;
+		$curl->get(Constants::api() . '/presensiType', $params);
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.category.index');
+			return redirect()->route('admin.presence.type.index');
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
-			$master = $this->master("Edit Category","admin.category.update","category.edit","PUT",$id);
-			return view('master.golongan.form', compact('data','master'));
+			$master = $this->master("Edit Presence Type","admin.presence.type.update","presence.type.edit","PUT",$id);
+			return view('master.presence.type.form', compact('data','master'));
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.index');
+			return redirect()->route('admin.presence.index.index');
 		}
 	}
 	
@@ -219,9 +223,12 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params['golongan_id'] = $id;
-		$params['golongan_name'] = $r->name;
-		$url = Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/golongan_id/$id";
+		$params['presensi_type_name'] = $r->name;
+		$params['work_day'] = $r->work;
+		$params['off_day'] = $r->off;
+		$params['work_hour_day'] = $r->day;
+		$params['work_hour_week'] = $r->week;
+		$url = Constants::api() . "/presensiType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_id/$id";
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$url);
@@ -233,18 +240,47 @@ class GolonganController extends Controller{
 		
 		if(!$res){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.category.edit',["id"=>$id]);
+			return redirect()->route('admin.presence.type.edit',["id"=>$id]);
 		}
 		
 		$res = json_decode($res);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success updating category.";
+			$status = "Success updating presence type.";
 			session(["status" => $status]);
-			return redirect()->route('admin.category.index');
+			return redirect()->route('admin.presence.type.index');
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.edit',["id"=>$id]);
+			return redirect()->route('admin.presence.type.edit',["id"=>$id]);
+		}
+	}
+	
+	public function detail(Request $r, $id){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['presensi_type_id'] = $id;
+		$curl->get(Constants::api() . '/presensiType', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.presence.type.index');
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$data = $res->data[0];
+			$master = $this->master("Detail Presence Type","admin.presence.type.update","presence.type.detail","PUT",$id);
+			return view('master.presence.type.detail', compact('data','master'));
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.presence.type.index');
 		}
 	}
 

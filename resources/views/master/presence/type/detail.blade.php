@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render($master->breadcrumb),
-    'activePage' => 'category',
+    'activePage' => 'presenceType',
     'activeNav' => '',
 ])
  
@@ -29,21 +29,53 @@
 				@method('PUT')
 			@endif
 			<div class="row">
-				<div class="col-md-1">
+				<div class="col-md-2">
 					<label class="label" for="name">Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->golongan_name:'' }}" required maxlength="45" />
+					: <p class="indent-10">{{ $data->presensi_type_name }}</p>
 				</div>
 			</div>
 			<br/>
 			<div class="row">
-				<div class="col-md-3 offset-md-1">
-					<button type="submit" class="btn btn-info btn-sm">
-						<span class="fa fa-save"></span>
-						Save
-					</button>
-					<a href="{{ route('admin.category.index') }}" class="btn btn-link btn-sm">
+				<div class="col-md-2">
+					<label class="label" for="work">Work Day</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">{{ $data->work_day }}</p> day
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="off">Off Day</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">{{ $data->off_day }}</p> day
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="day">Work Hour Day</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">{{ $data->work_hour_day }}</p> hour per day
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="week">Work Hour Week</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">{{ $data->work_hour_week }}</p> hour per week
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-3 offset-md-2">
+					<a href="{{ route('admin.presence.type.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>
@@ -63,6 +95,10 @@
 
 @push('css')
 	<style>
+		.indent-10 {
+			text-indent : 20px;
+			display : inline-block;
+		}
 	</style>
 @endpush 
 

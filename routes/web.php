@@ -139,6 +139,33 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/face', 'PegawaiController@face')->name('face');
 	});
 	/* end Pegawai */
+
+	/* start presence */
+	Route::prefix('presence')->name('presence.')->namespace('Master')->group(function(){	
+		/* start type */
+		Route::prefix('type')->name('type.')->group(function(){		
+			Route::get('/', 'PresenceTypeController@index')->name('index');
+			Route::get('/data', 'PresenceTypeController@data')->name('data');
+			Route::get('/create', 'PresenceTypeController@create')->name('create');
+			Route::post('/store', 'PresenceTypeController@store')->name('store');
+			Route::get('/edit/{id}', 'PresenceTypeController@edit')->name('edit');
+			Route::put('/update/{id}', 'PresenceTypeController@update')->name('update');
+			Route::get('/{id}', 'PresenceTypeController@detail')->name('detail');
+		});
+		/* end type */
+		/* start variant */
+		Route::prefix('variant')->name('variant.')->group(function(){		
+			Route::get('/', 'PresenceVariantController@index')->name('index');
+			Route::get('/data', 'PresenceVariantController@data')->name('data');
+			Route::get('/create', 'PresenceVariantController@create')->name('create');
+			Route::post('/store', 'PresenceVariantController@store')->name('store');
+			Route::get('/edit/{id}', 'PresenceVariantController@edit')->name('edit');
+			Route::put('/update/{id}', 'PresenceVariantController@update')->name('update');
+			Route::get('/{id}', 'PresenceVariantController@detail')->name('detail');
+		});
+		/* end variant */
+	});
+	/* end presence */
 });
 /* end admin */
 

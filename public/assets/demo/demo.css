@@ -76,3 +76,7 @@
 .breadcrumb .breadcrumb-item {
 	color : white !important;
 }
+
+.card label.label {
+    color: rgb(44, 44, 44) !important;
+}
