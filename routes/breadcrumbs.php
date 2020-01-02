@@ -95,3 +95,37 @@ Breadcrumbs::for('TipeIjin.edit', function ($t) {
 	$t->parent('TipeIjin');
     $t->push('Edit', route('admin.TipeIjin.index'));
 });
+
+// Presence - Type
+Breadcrumbs::for('presence.type', function ($t) {
+    $t->push('Presence Type', route('admin.presence.type.index'));
+});
+Breadcrumbs::for('presence.type.create', function ($t) {
+	$t->parent('presence.type');
+    $t->push('Create', route('admin.presence.type.create'));
+});
+Breadcrumbs::for('presence.type.edit', function ($t) {
+	$t->parent('presence.type');
+    $t->push('Edit', route('admin.presence.type.index'));
+});
+Breadcrumbs::for('presence.type.detail', function ($t) {
+	$t->parent('presence.type');
+    $t->push('Detail', route('admin.presence.type.index'));
+});
+
+// Presence - Variat
+Breadcrumbs::for('presence.variant', function ($t) {
+    $t->push('Presence Variant', route('admin.presence.variant.index'));
+});
+Breadcrumbs::for('presence.variant.create', function ($t) {
+	$t->parent('presence.variant');
+    $t->push('Create', route('admin.presence.variant.create'));
+});
+Breadcrumbs::for('presence.variant.edit', function ($t) {
+	$t->parent('presence.variant');
+    $t->push('Edit', route('admin.presence.variant.index'));
+});
+Breadcrumbs::for('presence.variant.detail', function ($t) {
+	$t->parent('presence.variant');
+    $t->push('Detail', route('admin.presence.variant.index'));
+});

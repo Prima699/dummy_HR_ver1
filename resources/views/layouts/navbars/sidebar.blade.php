@@ -84,6 +84,31 @@
         </a>
         <div class="collapse" id="datadisplay">
           <ul class="nav">
+			<li>
+				<a data-toggle="collapse" href="#dataPresence">
+				<i class="now-ui-icons users_circle-08"></i>
+				  <p>
+					{{ ("Presence") }}
+					<b class="caret"></b>
+				  </p>
+				</a>
+				<div class="collapse" id="dataPresence">
+				  <ul class="nav">
+					<li class="@if ($activePage == 'presenceType') active @endif">
+					  <a href="{{ route('admin.presence.type.index') }}">
+						<i class="now-ui-icons shopping_credit-card"></i>
+						<p> {{ ("Type") }} </p>
+					  </a>
+					</li>
+					<li class="@if ($activePage == 'presenceVariant') active @endif">
+					  <a href="{{ route('admin.presence.variant.index') }}">
+						<i class="now-ui-icons shopping_credit-card"></i>
+						<p> {{ ("Variant") }} </p>
+					  </a>
+					</li>
+				  </ul>
+				</div>
+            </li>
             {{-- departemen --}}
             <li class="@if ($activePage == 'departemen') active @endif">
               <a href="{{ route('data.departemen') }}">
@@ -148,6 +173,7 @@
               </a>
             </li>
             {{--  --}}
+            {{-- province --}}
           </ul>
         </div>
       </li>
