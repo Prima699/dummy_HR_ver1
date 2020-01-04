@@ -171,12 +171,14 @@ class PegawaiController extends Controller{
     }
 
     public function create(){
-        $city = new Curl();
-        $province = new Curl();
-        $country = new Curl();
-        $departement = new Curl();
-        $jabatan = new Curl();
-        $golongan= new Curl();
+        $city           = new Curl();
+        $province       = new Curl();
+        $country        = new Curl();
+        $departement    = new Curl();
+        $jabatan        = new Curl();
+        $golongan       = new Curl();
+        $presensi       = new Curl();
+        $perusahaan     = new Curl();
 
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
@@ -204,6 +206,12 @@ class PegawaiController extends Controller{
         $golongan->get('http://digitasAPI.teaq.co.id/index.php/Bridge/golongan', $params);
         $golongans = json_decode($golongan->response);
 
+        $presensi->get('http://digitasAPI.teaq.co.id/index.php/Bridge/presensiType', $params);
+        $presensis = json_decode($presensi->response);
+
+        $perusahaan->get('http://digitasAPI.teaq.co.id/index.php/Bridge/perusahaan', $params);
+        $perusahaans = json_decode($perusahaan->response);
+
         
         $kota = $citys->data;
         $propinsi = $provinces->data;
@@ -211,9 +219,11 @@ class PegawaiController extends Controller{
         $departemen = $departements->data;
         $jabatan_= $jabatans->data;
         $golongan_= $golongans->data;
+        $presensi_= $presensis->data;
+        $perusahaan_= $perusahaans->data;
         $master = $this->master("Create Pegawai","admin.pegawai.store","pegawai.create","POST");
 
-        return view("pegawai.form", compact('master','kota','propinsi','negara','departemen','jabatan_','golongan_'));
+        return view("pegawai.form", compact('master','kota','propinsi','negara','departemen','jabatan_','golongan_','presensi_','perusahaan_'));
     }
     
     public function store(Request $r){
@@ -228,19 +238,33 @@ class PegawaiController extends Controller{
         // $params['golongan_name'] = $r->name;
         // $curl->post(Constants::api() . '/golongan', $params);
         
-        $params['golongan_name'] = $r->name;
-        $curl->post(Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+        $params['pegaawai_name'] = $r->pegawai_name;
+        $params['pegawai_address'] = $r->pegawai_address;
+        $params['pegawai_NIK'] = $r->pegawai_nik;
+        $params['pegawai_telp'] = $r->pegawai_telp;
+        $params['pegawai_email'] = $r->pegawai_email;
+        $params['ID_t_md_country'] = $r->country;
+        $params['ID_t_md_province'] = $r->propinsi;
+        $params['ID_t_md_city'] = $r->city;
+        $params['departemen_id'] = $r->departemen;
+        $params['jabatan_id'] = $r->jabatan;
+        $params['golongan_id'] = $r->golongan;
+        $params['presensi_type_id'] = $r->presensi;
+        $params['perusahaan_cabang_id'] = $r->perusahaan;
+        $params['image'] = $r->image;
+
+        $curl->post(Constants::api() . "/pegawai/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
         $res = json_decode($curl->response);
         
         if($res->errorcode!="0000"){
-            $error = "Failed creating new category.";
+            $error = "Failed creating new pegawai.";
             session(['error' => $error]);
-            return redirect()->route('admin.category.create');
+            return redirect()->route('admin.pegawai.create');
         }else{
-            $status = "Success creating new category.";
+            $status = "Success creating new pegawai.";
             session(["status" => $status]);
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.pegawai.index');
         }
     }
 	
