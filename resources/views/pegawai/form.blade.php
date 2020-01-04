@@ -86,7 +86,7 @@
 				<div class="col-md-3">
 					<select class="form-control" name="country" id="country">
 						@foreach ($negara as $negaras)
-							<option>{{ $negaras->name }}</option>
+							<option value="{{ $negaras->ID_t_md_country }}">{{ $negaras->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -96,7 +96,7 @@
 				<div class="col-md-3">
 					<select class="form-control" name="propinsi" id="propinsi">
 						@foreach ($propinsi as $propinsis)
-							<option>{{ $propinsis->name_province }}</option>
+							<option value="{{ $propinsis->ID_t_md_province }}">{{ $propinsis->name_province }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -109,7 +109,7 @@
 				<div class="col-md-3">
 					<select class="form-control" name="city" id="city">
 						@foreach ($kota as $kotas)
-							<option>{{ $kotas->name_city }}</option>
+							<option value="{{ $kotas->ID_t_md_city }}" >{{ $kotas->name_city }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -124,7 +124,7 @@
 				<div class="col-md-3">
 					<select class="form-control" name="departemen" id="departemen">
 						@foreach ($departemen as $departemens)
-							<option>{{ $departemens->departemen_name }}</option>
+							<option value="{{ $departemens->departemen_id }}">{{ $departemens->departemen_name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -134,7 +134,7 @@
 				<div class="col-md-3">
 					<select class="form-control" name="jabatan" id="jabatan">
 						@foreach ($jabatan_ as $jabatan_s)
-							<option>{{ $jabatan_s->jabatan_name }}</option>
+							<option value="{{ $jabatan_s->jabatan_id }}">{{ $jabatan_s->jabatan_name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -147,20 +147,54 @@
 				<div class="col-md-3">
 					<select class="form-control" name="golongan" id="golongan">
 						@foreach ($golongan_ as $golongan_s)
-							<option>{{ $golongan_s->golongan_name }}</option>
+							<option value="{{ $golongan_s->golongan_id }}">{{ $golongan_s->golongan_name }}</option>
+						@endforeach
+					</select>
+				</div>
+				<div class="col-md-2">
+					<label class="label" for="presensi">Persensi</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="presensi" id="presensi">
+						@foreach ($presensi_ as $presensi_s)
+							<option value="{{ $presensi_s->presensi_type_id }}" >{{ $presensi_s->presensi_type_name }}</option>
 						@endforeach
 					</select>
 				</div>
 			</div>
-
 			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="perusahaan">Perusahaan</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="perusahaan" id="perusahaan">
+						@foreach ($perusahaan_ as $perusahaan_s)
+							<option value="{{ $perusahaan_s->perusahaan_id }}">{{ $perusahaan_s->perusahaan_name }}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+			<br/>
+			<hr>
+
+			<div class="row">
+				<div class="col-2">
+					<label class="label" for="image">Upload foto</label>
+				</div>
+				<div class="col-3">
+					<input type="file" class="form-control" name="image" id="image" required />
+				</div>
+			</div>
+			<br/>
+
 			<div class="row">
 				<div class="col-md-3 offset-md-1">
 					<button type="submit" class="btn btn-info btn-sm">
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.category.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.pegawai.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>
