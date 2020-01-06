@@ -144,7 +144,15 @@ class GolonganController extends Controller{
         return view("master.golongan.form", compact('master')); 
     }
 	
+	public function validation(Request $r){
+		$r->validate([
+			'name' => 'required|max:45'
+		]);
+	}
+	
 	public function store(Request $r){
+		$this->validation($r);
+		
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
@@ -216,6 +224,8 @@ class GolonganController extends Controller{
 	}
 	
 	public function update(Request $r, $id){
+		$this->validation($r);
+		
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		

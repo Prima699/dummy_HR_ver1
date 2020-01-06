@@ -48,6 +48,13 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 	Route::get('/', function(){
 		echo "employee";
 	});
+	
+	/* start presence */
+	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){		
+		Route::get('/', 'PresenceController@index')->name('index');
+		Route::get('/status', 'PresenceController@status')->name('status');
+	});
+	/* end presence */
 });
 /* end employee */
 
