@@ -12,7 +12,12 @@ class Auth {
 				$tmp = explode(".", $key);
 				$r = session("auth");
 				foreach($tmp as $t){
-					$r = $r->$t;
+					$t = strtolower($t);
+					if($t=="pegawai"){
+						$r = $r->$t[0];
+					}else{						
+						$r = $r->$t;
+					}
 				}
 			}else{				
 				$r = session("auth")->$key;
