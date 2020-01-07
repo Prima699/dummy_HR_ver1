@@ -25,6 +25,7 @@
         </a>
       </li>
       {{-- Setting management --}}
+      @if(Auths::user("user.role") == 'adm')
       <li>
         <a data-toggle="collapse" href="#settingmanagement">
             <i class="now-ui-icons loader_gear"></i>
@@ -50,6 +51,7 @@
           </ul>
         </div>
       </li>
+      @endif
       {{-- employe management --}}
       <li>
         <a data-toggle="collapse" href="#employeemanagement">
@@ -78,7 +80,7 @@
       </li>
 
 
-
+      @if(Auths::user("user.role") == 'adm')
       {{-- Master data --}}
       <li>
         <a data-toggle="collapse" href="#datadisplay">
@@ -117,7 +119,7 @@
             </li>
             {{-- departemen --}}
             <li class="@if ($activePage == 'departemen') active @endif">
-              <a href="{{ route('data.departemen') }}">
+              <a href="{{ route('admin.departemen.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Departemen") }} </p>
               </a>
@@ -190,6 +192,7 @@
           <p>{{ ('Icons') }}</p>
         </a>
       </li>
+      @endif
       <!-- <li class = "@if ($activePage == 'maps') active @endif">
         <a href="{{ route('page.index','maps') }}">
           <i class="now-ui-icons location_map-big"></i>

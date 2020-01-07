@@ -75,6 +75,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	/* end category */
 
+	/* start category */
+	Route::prefix('departemen')->name('departemen.')->namespace('Master')->group(function(){		
+		Route::get('/', 'DepartemenController@index')->name('index');
+		Route::get('/data', 'DepartemenController@data')->name('data');
+		Route::get('/create', 'DepartemenController@create')->name('create');
+		Route::post('/store', 'DepartemenController@store')->name('store');
+		Route::get('/edit/{id}', 'DepartemenController@edit')->name('edit');
+		Route::put('/update/{id}', 'DepartemenController@update')->name('update');
+	});
+	/* end category */
+
 	// start jabatan
 	Route::prefix('jabatan')->name('jabatan.')->namespace('Master')->group(function(){		
 		Route::get('/',  'JabatanController@index')->name('index');
@@ -179,8 +190,6 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end presence */
 });
 /* end admin */
-
-Route::get('Departemen', ['as' => 'data.departemen', 'uses' => 'DepartemenController@index']);
 Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
 Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
 
