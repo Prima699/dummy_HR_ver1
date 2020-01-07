@@ -96,6 +96,19 @@ Breadcrumbs::for('TipeIjin.edit', function ($t) {
     $t->push('Edit', route('admin.TipeIjin.index'));
 });
 
+// Departemen
+Breadcrumbs::for('departemen', function ($t) {
+    $t->push('departemen', route('admin.departemen.index'));
+});
+Breadcrumbs::for('departemen.create', function ($t) {
+    $t->parent('departemen');
+    $t->push('Create', route('admin.departemen.create'));
+});
+Breadcrumbs::for('departemen.edit', function ($t) {
+    $t->parent('departemen');
+    $t->push('Edit', route('admin.departemen.index'));
+});
+
 // Presence - Type
 Breadcrumbs::for('presence.type', function ($t) {
     $t->push('Presence Type', route('admin.presence.type.index'));
