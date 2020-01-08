@@ -113,7 +113,7 @@ Breadcrumbs::for('presence.type.detail', function ($t) {
     $t->push('Detail', route('admin.presence.type.index'));
 });
 
-// Presence - Variat
+// Presence - Variant
 Breadcrumbs::for('presence.variant', function ($t) {
     $t->push('Presence Variant', route('admin.presence.variant.index'));
 });
@@ -128,4 +128,9 @@ Breadcrumbs::for('presence.variant.edit', function ($t) {
 Breadcrumbs::for('presence.variant.detail', function ($t) {
 	$t->parent('presence.variant');
     $t->push('Detail', route('admin.presence.variant.index'));
+});
+
+// Agenda
+Breadcrumbs::for('agenda', function ($t) {
+    $t->push('Agenda', route('admin.agenda.index'));
 });
