@@ -64,6 +64,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		echo "admin";
 	});
 	
+	/* start agenda */
+	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){		
+		Route::get('/', 'AgendaController@index')->name('index');
+		Route::get('/data', 'AgendaController@data')->name('data');
+		Route::get('/create', 'AgendaController@create')->name('create');
+		Route::post('/store', 'AgendaController@store')->name('store');
+		Route::get('/edit/{id}', 'AgendaController@edit')->name('edit');
+		Route::put('/update/{id}', 'AgendaController@update')->name('update');
+	});
+	/* end agenda */
+	
 	/* start category */
 	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
