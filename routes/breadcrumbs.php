@@ -147,3 +147,15 @@ Breadcrumbs::for('presence.variant.detail', function ($t) {
 Breadcrumbs::for('agenda', function ($t) {
     $t->push('Agenda', route('admin.agenda.index'));
 });
+Breadcrumbs::for('agenda.create', function ($t) {
+	$t->parent('agenda');
+    $t->push('Create', route('admin.agenda.create'));
+});
+Breadcrumbs::for('agenda.edit', function ($t) {
+	$t->parent('agenda');
+    $t->push('Edit', route('admin.agenda.index'));
+});
+Breadcrumbs::for('agenda.detail', function ($t) {
+	$t->parent('agenda');
+    $t->push('Detail', route('admin.agenda.index'));
+});

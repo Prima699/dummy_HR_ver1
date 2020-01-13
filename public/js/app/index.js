@@ -59,3 +59,27 @@ function getSessionError(parent){
 		}
 	});
 }
+
+function showError(parent,text){
+	var div = document.createElement("div");
+		$(div).attr("class","alert alert-danger alert-dismissible fade show");
+		$(div).attr("role","alert");
+		
+		var txt = document.createTextNode(text);
+		$(div).append(txt);
+		
+		var btn = document.createElement("button");
+			$(btn).attr("type","button");
+			$(btn).attr("class","close closeButtonPlease");
+			$(btn).attr("data-dismiss","alert");
+			$(btn).attr("aria-label","Close");
+			
+			var span = document.createElement("span");
+				$(span).attr("aria-hidden","true");
+				$(span).html("&times;");
+				$(btn).append(span);
+				
+		$(div).append(btn);
+		
+	$(parent).append(div);
+}

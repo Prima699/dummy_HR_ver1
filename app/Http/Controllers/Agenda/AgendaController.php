@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Agenda;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Curl;
+use Auths;
+use Response;
+use Constants;
 
 class AgendaController extends Controller
 {
@@ -13,8 +17,351 @@ class AgendaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $r)
     {
-        //
+		$agenda = "waiting";
+		if(isset($r->agenda) AND $r->agenda=="onGoing"){
+			$agenda = "onGoing";
+		}else if(isset($r->agenda) AND $r->agenda=="done"){
+			$agenda = "done";
+		}
+		return view("agenda.".$agenda);
     }
+	
+	private function totalData($r){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$search = $r['search']['value'];
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
+		
+		if(isset($r->token)){
+			$token = $r->token;
+		}
+		
+		if(isset($r->userID)){
+			$userID = $r->userID;
+		}
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['search'] = $search;
+		$curl->get(Constants::api() . '/agenda', $params);
+		
+		if($curl->error==TRUE){
+			return -1;
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode!="0000"){
+			return -1;
+		}
+		
+		return count($res->data);
+	}
+	
+	public function data(Request $r){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$search = $r['search']['value']; //filter keyword
+		$start = $r['start']; //offset
+		$length = $r['length']; //limit
+		$draw = $r['draw'];
+		$search = $r['search']['value'];
+				
+		$data = []; // datatable format
+		$data["draw"] = $draw;
+		$data["recordsTotal"] = 0;
+		$data["recordsFiltered"] = 0;
+		$data["data"] = [];
+		
+		if(isset($r->token)){
+			$token = $r->token;
+		}
+		
+		if(isset($r->userID)){
+			$userID = $r->userID;
+		}
+		
+		if($search==NULL OR $search==""){
+			$search = "";
+		}
+		
+		if($start!=0){
+			$start = $start / $length;
+		}
+		date_default_timezone_set("Asia/Jakarta");
+		if($r->agenda=="waiting"){
+			$params['agenda_status'] = 1;
+			$params['before_date'] = date("Y-m-d");
+		}else if($r->agenda=="onGoing"){
+			$params['agenda_status'] = 1;
+			$params['due_date'] = date("Y-m-d");
+		}else if($r->agenda=="done"){
+			$params['agenda_status'] = 2;
+		}
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['sort_by'] = "agenda_date;asc";
+		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['search'] = $search;
+		$params['page'] = $start;
+		$params['n_item'] = $length;
+		$curl->get(Constants::api() . '/agenda', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return Response()->json($data);
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode!="0000"){
+			session(["error" => $res->errormsg]);
+			return Response()->json($data);
+		}
+		
+		if($res->data==NULL){ 
+			$amount = 0;
+		}else{
+			$amount = $this->totalData($r);
+			
+			if($amount==-1){				
+				session(["error" => "Server Unreachable."]);
+				return Response()->json($data);
+			}
+		}
+		
+		$data["recordsTotal"] = $amount;
+		$data["recordsFiltered"] = $amount;
+		
+		// dd($res->data[0]);
+		
+		$i = ($length * $start) + 1;
+		if($res->data!=NULL){
+			foreach($res->data as $a){
+				$tmp = [$i, $a->category_agenda_name, $a->agenda_title, $a->agenda_date, $a->agenda_date_end, $a->nama_city, $a->agenda_id];
+				$data["data"][] = $tmp;
+				$i++;
+			}
+		}
+		
+		return Response()->json($data);
+	}
+	
+	public function create(Request $r){
+		$master = $this->master("Create Agenda","admin.agenda.store","agenda.create","POST");
+        return view("agenda.form", compact('master')); 
+	}
+	
+	private function master($t,$a,$b,$m,$p=NULL){
+		$data = new \stdClass;
+		
+		if($p!=NULL){
+			$a = route($a,["id"=>$p]);
+		}else{
+			$a = route($a);
+		}
+		
+		$data->title = $t;
+		$data->action = $a;
+		$data->breadcrumb = $b;
+		$data->method = $m;
+		
+		return $data;
+	}
+	
+	public function validation(Request $r){
+		// $r->validate([
+			// 'name' => 'required|max:45'
+		// ]);
+	}
+	
+	public function store(Request $r){
+		$this->validation($r);
+		
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params = [
+			"category_agenda_id" => $r->category,
+			"agenda_title" => $r->title,
+			"agenda_desc" => $r->description,
+			"ID_t_md_province" => $r->province,
+			"ID_t_md_city" => $r->city,
+			"hari" => [],
+			"anggota" => []
+		];
+		for($i=0; $i<count($r->date); $i++){
+			$tmp = new \stdClass;
+			$tmp->agenda_detail_date = $r->date[$i];
+			$tmp->agenda_detail_address = $r->address[$i];
+			$tmp->agenda_detail_time_start = $r->start[$i];
+			$tmp->agenda_detail_time_end = $r->end[$i];
+			$tmp->agenda_detail_long = 107.6570477;
+			$tmp->agenda_detail_lat = -6.895538;
+			$params["hari"][] = $tmp;
+		}
+		for($i=0; $i<count($r->employee); $i++){
+			$tmp = new \stdClass;
+			$tmp->pegawai_id = $r->employee[$i];
+			$params["anggota"][] = $tmp;
+		}
+		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.agenda.create');
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$status = "Success creating new agenda.";
+			session(["status" => $status]);
+			return redirect()->route('admin.agenda.index');
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.agenda.create');
+		}
+	}
+	
+	public function detail(Request $r, $id){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['agenda_id'] = $id;
+		$curl->get(Constants::api() . '/agenda', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.agenda.index');
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$data = $res->data[0];
+			$master = $this->master("Detail Agenda","admin.agenda.index","agenda.detail","GET",$id);
+			return view('agenda.detail', compact('data','master'));
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.agenda.index');
+		}
+	}
+	
+	public function edit(Request $r, $id){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['agenda_id'] = $id;
+		$curl->get(Constants::api() . '/agenda', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.agenda.index');
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$data = $res->data[0];
+			$master = $this->master("Edit Agenda","admin.agenda.update","agenda.edit","PUT",$id);
+			return view('agenda.form', compact('data','master'));
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.agenda.index');
+		}
+	}
+	
+	public function update(Request $r, $id){
+		$this->validation($r);
+		
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params = [
+			"category_agenda_id" => $r->category,
+			"agenda_title" => $r->title,
+			"agenda_desc" => $r->description,
+			"ID_t_md_province" => $r->province,
+			"ID_t_md_city" => $r->city,
+			"hari" => [],
+			"anggota" => []
+		];
+		for($i=0; $i<count($r->date); $i++){
+			$tmp = new \stdClass;
+			$tmp->agenda_detail_date = $r->date[$i];
+			$tmp->agenda_detail_address = $r->address[$i];
+			$tmp->agenda_detail_time_start = $r->start[$i];
+			$tmp->agenda_detail_time_end = $r->end[$i];
+			$tmp->agenda_detail_long = 107.6570477;
+			$tmp->agenda_detail_lat = -6.895538;
+			
+			if($r->agenda_detail_id[$i]!=-1){
+				$tmp->agenda_detail_id = $r->agenda_detail_id[$i];
+			}
+			
+			$params["hari"][] = $tmp;
+		}
+		for($i=0; $i<count($r->employee); $i++){
+			$tmp = new \stdClass;
+			$tmp->pegawai_id = $r->employee[$i];
+			
+			if($r->id_attendance[$i]!=-1){
+				$tmp->id_attendance = $r->id_attendance[$i];
+			}
+			
+			$params["anggota"][] = $tmp;
+		}
+		$url = Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/agenda_id/$id";
+		// dd([$params,$id]);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+		$res = curl_exec($ch);
+		
+		if(!$res){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+		}
+		
+		$res = json_decode($res);
+		
+		if($res->errorcode=="0000"){
+			$status = "Success updating agenda.";
+			session(["status" => $status]);
+			return redirect()->route('admin.agenda.index');
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+		}
+	}
 }

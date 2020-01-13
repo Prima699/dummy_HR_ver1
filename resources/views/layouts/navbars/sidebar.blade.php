@@ -26,6 +26,12 @@
       </li>
       {{-- Setting management --}}
       @if(Auths::user("user.role") == 'adm')
+      <li class="@if ($activePage == 'agenda') active @endif">
+        <a href="{{ route('admin.agenda.index') }}">
+          <i class="now-ui-icons design_app"></i>
+          <p>{{ ('Agenda') }}</p>
+        </a>
+      </li>
       <li>
         <a data-toggle="collapse" href="#settingmanagement">
             <i class="now-ui-icons loader_gear"></i>
