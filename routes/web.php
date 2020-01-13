@@ -71,7 +71,12 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/create', 'AgendaController@create')->name('create');
 		Route::post('/store', 'AgendaController@store')->name('store');
 		Route::get('/edit/{id}', 'AgendaController@edit')->name('edit');
-		Route::put('/update/{id}', 'AgendaController@update')->name('update');
+		Route::put('/update/{id}', 'AgendaController@update')->name('update');	
+		Route::get('/category', 'DependeciesAgendaController@category')->name('category');
+		Route::get('/province', 'DependeciesAgendaController@province')->name('province');
+		Route::get('/city', 'DependeciesAgendaController@city')->name('city');
+		Route::get('/employee', 'DependeciesAgendaController@employee')->name('employee');
+		Route::get('/{id}', 'AgendaController@detail')->name('detail');
 	});
 	/* end agenda */
 	
