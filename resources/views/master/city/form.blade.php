@@ -1,18 +1,18 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
     'namePage' => Breadcrumbs::render($master->breadcrumb),
-    'activePage' => 'departemen',
+    'activePage' => 'jabatans',
     'activeNav' => '',
 ])
  
 @section('content') 
 <div class="panel-header">
-  </div>
+  </div> 
   <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header"> 
             <h4 class="card-title">{{ $master->title }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')
@@ -30,10 +30,20 @@
 			@endif
 			<div class="row">
 				<div class="col-md-2">
-					<label class="label" for="name">Name Departemen</label>
+					<label class="label" for="name_city">City Name</label>
 				</div>
-				<div class="col-md-4">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->departemen_name:'' }}" required />
+				<div class="col-md-3">
+					<input type="text" class="form-control" name="name_city" id="name_city" value="{{ (isset($data))?$data->name_city:'' }}" required />
+				</div>
+				<div class="col-md-2">
+					<label class="label" for="province">Provinsi</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="propinsi" id="propinsi">
+						@foreach ($propinsi as $propinsis)
+							<option value="{{ $propinsis->ID_t_md_province }}">{{ $propinsis->name_province }}</option>
+						@endforeach
+					</select>
 				</div>
 			</div>
 			<br/>
@@ -43,7 +53,7 @@
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.departemen.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.province.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>

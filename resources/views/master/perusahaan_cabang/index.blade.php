@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('departemen'),
-    'activePage' => 'departemen',  
+    'namePage' => Breadcrumbs::render('perusahaan_cabang'),
+    'activePage' => 'perusahaan_cabang', 
     'activeNav' => '',
 ])
  
@@ -13,12 +13,12 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.departemen.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.perusahaan_cabang.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ ('departemen') }}</h4>
-            <div class="col-12 mt-2 container-departemen-alert">
+            <h4 class="card-title">{{ __('Perusahaan Cabang') }}</h4>
+            <div class="col-12 mt-2 container-perusahaan_cabang-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
@@ -31,7 +31,15 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th>Name</th>
+                  <th>Perusahaan ID</th>
+                  <th>Alamat Perusahaan Cabang</th>
+                  <th>Kota</th>
+                  <th>Propinsi</th>
+                  <th>Negara</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Status</th>
+                  <th>Radius</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -60,5 +68,5 @@
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/departemen/index.js') }}"></script>
+	<script src="{{ asset('public/js/perusahaan_cabang/index.js') }}"></script>
 @endpush

@@ -29,17 +29,24 @@
 				@method('PUT')
 			@endif
 			<div class="row">
-				<div class="col-md-1">
-					<label class="label" for="name">Name</label>
+				<div class="col-md-2">
+					<label class="label" for="name_country">Country Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->name:'' }}" required />
+					<input type="text" class="form-control" name="name_country" id="name_country" value="{{ (isset($data))?$data->name:'' }}" required />
 				</div>
-				<div class="col-md-1">
-					<label class="label" for="name">Region</label>
+				<div class="col-md-2">
+					<label class="label" for="region">Continent</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="region" id="name" value="{{ (isset($data))?$data->region:'' }}" required />
+					<select class="form-control" name="region" id="region">
+							<option value="Asia">Asia</option>
+							<option value="Afrika">Afrika</option>
+							<option value="Amerika Utara">Amerika Utara</option>
+							<option value="Amerika Selatan">Amerika Selatan</option>
+							<option value="Antartika">Antartika</option>
+							<option value="Australia">Australia</option>
+					</select>
 				</div>
 			</div>
 			<br/>

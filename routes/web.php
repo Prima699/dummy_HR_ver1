@@ -31,7 +31,6 @@ Route::get('/clear-cache', function() {
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-Route::get('data', ['as' => 'user.departemen', 'uses' => 'DepartemenController@index']);
 
 /* start auth */
 Route::group([
@@ -125,10 +124,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end perusahaan
 
 	// start perusahaan_cabang
-	Route::prefix('PerusahaanCabang')->name('perusahaan_cabang.')->group(function(){		
+	Route::prefix('perusahaan_cabang')->name('perusahaan_cabang.')->namespace('Master')->group(function(){		
 		Route::get('/',  'PerusahaanCabangController@index')->name('index');
 		Route::get('/data', 'PerusahaanCabangController@data')->name('data');
-		Route::get('/created', 'PerusahaanCabangController@created')->name('created');
+		Route::get('/create', 'PerusahaanCabangController@create')->name('create');
+		Route::post('/store', 'PerusahaanCabangController@store')->name('store');
+		Route::get('/edit/{id}', 'PerusahaanCabangController@edit')->name('edit');
+		Route::put('/update/{id}', 'PerusahaanCabangController@update')->name('update');
 	});
 	// end perusahaan
 
@@ -151,6 +153,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::post('/store', 'ProvinceController@store')->name('store');
 		Route::get('/edit/{id}', 'ProvinceController@edit')->name('edit');
 		Route::put('/update/{id}', 'ProvinceController@update')->name('update');
+	});
+	// end province
+
+	// start province
+	Route::prefix('city')->name('city.')->namespace('Master')->group(function(){			
+		Route::get('/',  'CityController@index')->name('index');
+		Route::get('/data', 'CityController@data')->name('data');
+		Route::get('/create', 'CityController@create')->name('create');
+		Route::post('/store', 'CityController@store')->name('store');
+		Route::get('/edit/{id}', 'CityController@edit')->name('edit');
+		Route::put('/update/{id}', 'CityController@update')->name('update');
 	});
 	// end province
 
@@ -206,8 +219,6 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end presence */
 });
 /* end admin */
-Route::get('Perusahaan', ['as' => 'data.perusahaan', 'uses' => 'PerusahaanController@index']);
-Route::get('PerusahaanCabang', ['as' => 'data.perusahaan_cabang', 'uses' => 'PerusahaanCabangController@index']);
 
 
 Route::group(['middleware' => 'auth'], function () {

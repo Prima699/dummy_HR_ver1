@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : digitasLink + "/admin/perusahaan_cabang/data",
+		"ajax" : digitasLink + "/admin/departemen/data",
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
@@ -27,7 +27,7 @@ $(document).ready(function() {
 				}
 			}
 		}
-		getSessionError("div.container-perusahaan_cabang-alert");
+		getSessionError("div.container-departemen-alert");
 	} );
 	
 	function action(name, id){ // create form action
@@ -62,7 +62,7 @@ $(document).ready(function() {
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/perusahaan_cabang/edit/" + id);
+			$(a).attr("href", digitasLink + "/admin/departemen/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
