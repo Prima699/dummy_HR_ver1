@@ -177,6 +177,70 @@ class PerusahaanController extends Controller{
         }
     }
 
+    public function edit(Request $r, $id){
+        $curl = new Curl();
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $params['user_id'] = $userID;
+        $params['access_token'] = $token;
+        $params['platform'] = 'dashboard';
+        $params['location'] = 'xxx';
+        $params['golongan_id'] = $id;
+        $curl->get(Constants::api() . '/perusahaan', $params);
+        
+        if($curl->error==TRUE){
+            session(["error" => "Server Unreachable."]);
+            return redirect()->route('admin.perusahaan.index');
+        }
+        
+        $res = json_decode($curl->response);
+        
+        if($res->errorcode=="0000"){
+            $data = $res->data[0];
+            $master = $this->master("Edit Category","admin.perusahaan.update","perusahaan.edit","PUT",$id);
+            return view('master.perusahaan.form', compact('data','master'));
+        }else{
+            session(['error' => $res->errormsg]);
+            return redirect()->route('admin.category.index');
+        }
+    }
+
+    public function update(Request $r, $id){
+        $this->validation($r);
+        
+        $userID = Auths::user('user.user_id');
+        $token = Auths::user("access_token");
+        
+        $params['perusahaan_id'] = $id;
+        $params['perusahaan_name'] = $r->name;
+        $url = Constants::api() . "/perusahaan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/perusahaan_id/$id";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+        $res = curl_exec($ch);
+        
+        if(!$res){
+            session(["error" => "Server Unreachable."]);
+            return redirect()->route('admin.perusahaan.edit',["id"=>$id]);
+        }
+        
+        $res = json_decode($res);
+        
+        if($res->errorcode=="0000"){
+            $status = "Success updating perusahaan.";
+            session(["status" => $status]);
+            return redirect()->route('admin.perusahaan.index');
+        }else{
+            session(['error' => $res->errormsg]);
+            return redirect()->route('admin.perusahaan.edit',["id"=>$id]);
+        }
+    }
+
 }
 
 

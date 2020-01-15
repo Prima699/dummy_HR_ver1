@@ -135,7 +135,7 @@
             {{--  --}}
             {{-- perusahaan cabang --}}
             <li class="@if ($activePage == 'perusahaan_cabang') active @endif">
-              <a href="{{ route('data.perusahaan_cabang') }}">
+              <a href="{{ route('admin.perusahaan_cabang.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Perusahaan Cabang") }} </p>
               </a>
@@ -182,6 +182,15 @@
             </li>
             {{--  --}}
             {{-- province --}}
+             {{-- city --}}
+            <li class="@if ($activePage == 'city') active @endif">
+              <a href="{{ route('admin.city.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data City") }} </p>
+              </a>
+            </li>
+            {{--  --}}
+            {{-- city --}}
           </ul>
         </div>
       </li>

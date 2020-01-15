@@ -1,10 +1,10 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : digitasLink + "/admin/perusahaan_cabang/data",
+		"ajax" : digitasLink + "/admin/city/data",
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
-		"pageLength" : 10
+		"pageLength" : 10 		
 	}); // call datatable
 	
 	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
@@ -27,7 +27,35 @@ $(document).ready(function() {
 				}
 			}
 		}
-		getSessionError("div.container-perusahaan_cabang-alert");
+		$.ajax({
+			url: digitasLink + "/getSessionError",
+			type: "GET",
+			success: function(r){
+				if(r!=false){
+					var div = document.createElement("div");
+						$(div).attr("class","alert alert-danger alert-dismissible fade show");
+						$(div).attr("role","alert");
+						
+						var txt = document.createTextNode(r);
+						$(div).append(txt);
+						
+						var btn = document.createElement("button");
+							$(btn).attr("type","button");
+							$(btn).attr("class","close");
+							$(btn).attr("data-dismiss","alert");
+							$(btn).attr("aria-label","Close");
+							
+							var span = document.createElement("span");
+								$(span).attr("aria-hidden","true");
+								$(span).html("&times;");
+								$(btn).append(span);
+								
+						$(div).append(btn);
+						
+					$("div.container-city-alert").append(div);
+				}
+			}
+		});
 	} );
 	
 	function action(name, id){ // create form action
@@ -62,7 +90,7 @@ $(document).ready(function() {
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/perusahaan_cabang/edit/" + id);
+			$(a).attr("href", digitasLink + "/admin/city/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			

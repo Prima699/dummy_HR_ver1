@@ -29,11 +29,21 @@
 				@method('PUT')
 			@endif
 			<div class="row">
-				<div class="col-md-1">
-					<label class="label" for="name">Name</label>
+				<div class="col-md-2">
+					<label class="label" for="name_province">Province Name</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" name="name" id="name" value="{{ (isset($data))?$data->name_province:'' }}" required />
+					<input type="text" class="form-control" name="name_province" id="name_province" value="{{ (isset($data))?$data->name_province:'' }}" required />
+				</div>
+				<div class="col-md-2">
+					<label class="label" for="negara">Country</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="negara" id="negara">
+						@foreach ($negara as $negaras)
+							<option value="{{ $negaras->ID_t_md_country }}">{{ $negaras->name }}</option>
+						@endforeach
+					</select>
 				</div>
 			</div>
 			<br/>

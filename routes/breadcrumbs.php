@@ -44,6 +44,19 @@ Breadcrumbs::for('perusahaan.edit', function ($t) {
     $t->push('Edit', route('admin.perusahaan.index'));
 });
 
+// Perusahaan Cabang
+Breadcrumbs::for('perusahaan_cabang', function ($t) {
+    $t->push('perusahaan_cabang', route('admin.perusahaan_cabang.index'));
+});
+Breadcrumbs::for('perusahaan_cabang.create', function ($t) {
+    $t->parent('perusahaan_cabang');
+    $t->push('Create', route('admin.perusahaan_cabang.create'));
+});
+Breadcrumbs::for('perusahaan_cabang.edit', function ($t) {
+    $t->parent('perusahaan_cabang');
+    $t->push('Edit', route('admin.perusahaan_cabang.index'));
+});
+
 // jabatan
 Breadcrumbs::for('jabatan', function ($t) {
     $t->push('jabatan', route('admin.jabatan.index'));
@@ -55,6 +68,19 @@ Breadcrumbs::for('jabatan.create', function ($t) {
 Breadcrumbs::for('jabatan.edit', function ($t) {
 	$t->parent('jabatan');
     $t->push('Edit', route('admin.jabatan.index'));
+});
+
+// city
+Breadcrumbs::for('city', function ($t) {
+    $t->push('city', route('admin.city.index'));
+});
+Breadcrumbs::for('city.create', function ($t) {
+    $t->parent('city');
+    $t->push('Create', route('admin.city.create'));
+});
+Breadcrumbs::for('city.edit', function ($t) {
+    $t->parent('city');
+    $t->push('Edit', route('admin.city.index'));
 });
 
 // province
