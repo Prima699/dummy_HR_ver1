@@ -112,7 +112,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="padding:0px;">
 					<div class="alert alert-warning" role="alert" style="margin:0px;">
-						<div class="container">
+						<div class="container text-center">
 							<div class="alert-icon">
 								<i class="now-ui-icons travel_info"> </i>
 								<strong> Oh snap!</strong> your session is ended. Please <a href="{{ url('login') }}" style="text-decoration:underline;">log in</a> again to continue.

@@ -31,12 +31,12 @@
 			<div class="row">
 				<div class="col-md-6">
 					<label class="label" for="category">Category</label>
-					<select class="form-control" name="category" id="category" data-value="{{ (isset($data))? $data->category_agenda_id :-1 }}" required>
+					<select class="form-control" name="category" id="category" data-value="{{ (isset($data))? $data->category_agenda_id :-1 }}" required disabled>
 					</select>
 				</div>
 				<div class="col-md-6">
 					<label class="label" for="province">Province</label>
-					<select class="form-control" name="province" id="province" data-value="{{ (isset($data))? $data->ID_t_md_province :-1 }}" required>
+					<select class="form-control" name="province" id="province" data-value="{{ (isset($data))? $data->ID_t_md_province :-1 }}" required disabled>
 					</select>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="col-md-6">
 					<label class="label" for="city">City</label>
-					<select class="form-control" name="city" id="city" data-value="{{ (isset($data))? $data->ID_t_md_city :-1 }}" required>
+					<select class="form-control" name="city" id="city" data-value="{{ (isset($data))? $data->ID_t_md_city :-1 }}" required disabled>
 					</select>
 				</div>
 			</div>
@@ -146,7 +146,7 @@
 							@foreach($data->anggota_dewan as $d)
 							<tr>
 								<td>
-									<select class="form-control employee" name="employee[]" id="employee" data-value="{{ $d->pegawai_id }}" required>
+									<select class="form-control employee" name="employee[]" id="employee" data-value="{{ $d->pegawai_id }}" required disabled>
 									</select>
 									<input type="hidden" name="id_attendance[]" value="{{ $d->id_attendance }}" required />
 								</td>

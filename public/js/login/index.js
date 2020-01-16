@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	demo.checkFullPageBackgroundImage();
+	
+	getSessionError("div.container-login-alert");
 });
 
 var csrfToken = $('[name="csrf_token"]').attr('content');

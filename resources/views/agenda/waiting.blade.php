@@ -47,7 +47,7 @@
 							<tr>
 								<th width="5%">No</th>
 								<th>Category</th>
-								<th>Name</th>
+								<th>Title</th>
 								<th>Start</th>
 								<th>End</th>
 								<th>Address</th>

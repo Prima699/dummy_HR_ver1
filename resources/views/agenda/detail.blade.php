@@ -127,7 +127,7 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-2">
-					<a href="{{ route('admin.agenda.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ $back }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>

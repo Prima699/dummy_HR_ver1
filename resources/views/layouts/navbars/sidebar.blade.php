@@ -24,14 +24,14 @@
           <p>{{ ('Presence') }}</p>
         </a>
       </li>
-      {{-- Setting management --}}
-      @if(Auths::user("user.role") == 'adm')
       <li class="@if ($activePage == 'agenda') active @endif">
-        <a href="{{ route('admin.agenda.index') }}">
+        <a href="{{ (Auths::user('user.role')=='adm')? route('admin.agenda.index') :route('employee.agenda.index') }}">
           <i class="now-ui-icons design_app"></i>
           <p>{{ ('Agenda') }}</p>
         </a>
       </li>
+      {{-- Setting management --}}
+      @if(Auths::user("user.role") == 'adm')
       <li>
         <a data-toggle="collapse" href="#settingmanagement">
             <i class="now-ui-icons loader_gear"></i>
