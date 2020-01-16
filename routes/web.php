@@ -55,6 +55,13 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 		Route::get('/status', 'PresenceController@status')->name('status');
 	});
 	/* end presence */
+	
+	/* start agenda */
+	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){		
+		Route::get('/', 'AgendaController@employee')->name('index');
+		Route::get('/{id}', 'AgendaController@detail')->name('detail');
+	});
+	/* end agenda */
 });
 /* end employee */
 

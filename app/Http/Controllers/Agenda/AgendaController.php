@@ -19,6 +19,14 @@ class AgendaController extends Controller
      */
     public function index(Request $r)
     {
+		if(Auths::user("user.role")=="adm"){
+			return $this->admin($r);
+		}else{
+			return $this->employee($r);
+		}
+    }
+	
+	public function admin($r){
 		$agenda = "waiting";
 		if(isset($r->agenda) AND $r->agenda=="onGoing"){
 			$agenda = "onGoing";
@@ -26,7 +34,36 @@ class AgendaController extends Controller
 			$agenda = "done";
 		}
 		return view("agenda.".$agenda);
-    }
+	}
+	public function employee(Request $r){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		$pegawaiID = Auths::user("pegawai.pegawai_id");
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$params['pegawai_id'] = $pegawaiID;
+		$curl->get(Constants::api() . '/pegawai_agenda', $params);
+		
+		if($curl->error==TRUE){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('employee.agenda.index');
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$data = $res->data;
+			$master = $this->master("Agenda","admin.agenda.index","agenda","GET");
+			return view('agenda.employee', compact('data','master'));
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('employee.agenda.index');
+		}
+	}
 	
 	private function totalData($r){
 		$curl = new Curl();
@@ -261,7 +298,11 @@ class AgendaController extends Controller
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
 			$master = $this->master("Detail Agenda","admin.agenda.index","agenda.detail","GET",$id);
-			return view('agenda.detail', compact('data','master'));
+			$back = route('admin.agenda.index');
+			if(Auths::user("user.role")=="agt"){
+				$back = route('employee.agenda.index');
+			}
+			return view('agenda.detail', compact('data','master','back'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.agenda.index');

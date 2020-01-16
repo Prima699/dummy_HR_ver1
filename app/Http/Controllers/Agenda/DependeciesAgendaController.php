@@ -86,6 +86,7 @@ class DependeciesAgendaController extends Controller
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
+		$params['ID_t_md_province'] = $r->province;
 		$curl->get(Constants::api() . '/city', $params);
 		
 		if($curl->error==TRUE){

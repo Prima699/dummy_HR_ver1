@@ -38,18 +38,19 @@ class LoginController extends Controller
     }
 	
 	public function showLoginForm(){
-		$message = NULL;
-		
-		if(session("error")!=NULL AND isset(session("error")['response']) AND session("error")['response']!=NULL){
-			$res = session("error")['response'];
-			$message = "Error Code : ".$res->errorcode ."<br>".$res->errormsg;
+		if(session("error") AND session("error")!=NULL){
+			if(session("error")['response']==NULL){
+				$res = "Unknown Error";
+			}else{				
+				$res = session("error")['response']->errormsg;
+			}
+			session(["error"=>$res]);
 		}
 		
 		if(session("auth")!=NULL){
 			return redirect("/");
 		}
 		
-		session(["error"=>NULL]);
-		return view("auth.login", compact("message"));
+		return view("auth.login");
 	}
 }

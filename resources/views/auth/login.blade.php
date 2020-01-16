@@ -33,9 +33,7 @@
                 <div class="logo-container">
                     <img src="{{ asset('public/'.'assets/img/now-logo.png') }}" alt="">
                 </div>
-				@if($message!=NULL)
-					<center><p class="text-danger">{!! $message !!}</p></center>
-				@endif
+				<div class="container-login-alert"></div>
                 </div>
                 <div class="card-body ">
                 <div class="input-group no-border form-control-lg {{ $errors->has('email') ? ' has-danger' : '' }}">

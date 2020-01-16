@@ -1,5 +1,6 @@
 var openSubmitBtni = 0;
 var openSubmitBtnLimit = 4;
+var cityF = false;
 
 function openSubmitBtn(i){
 	openSubmitBtni += i;
@@ -14,6 +15,7 @@ function getCategory(){
 		url: digitasLink + "/admin/agenda/category",
 		type: "GET",
 		success: function(r){
+			$("#category").empty();
 			if(r==false){
 				getSessionError("div.container-agenda-alert");
 			}else{
@@ -42,6 +44,7 @@ function getProvince(){
 		url: digitasLink + "/admin/agenda/province",
 		type: "GET",
 		success: function(r){
+			$("#province").empty();
 			if(r==false){
 				getSessionError("div.container-agenda-alert");
 			}else{
@@ -56,6 +59,7 @@ function getProvince(){
 				}
 				$("#province").prop("disabled",false);
 				openSubmitBtn(1);
+				getCity($("#province").val());
 			}
 		}, error: function(xhr,status,error){
 			showError("div.container-agenda-alert",status+": "+error);
@@ -64,15 +68,16 @@ function getProvince(){
 	});
 }
 
-function getCity(){
+function getCity(province){
 	$("#city").prop("disabled",true);
 	$.ajax({
-		url: digitasLink + "/admin/agenda/city",
+		url: digitasLink + "/admin/agenda/city?province=" + province,
 		type: "GET",
 		success: function(r){
+			$("#city").empty();
 			if(r==false){
 				getSessionError("div.container-agenda-alert");
-			}else{
+			}else if(cityF==false){
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
 						$(opt).attr("value",r[i].ID_t_md_city);
@@ -84,6 +89,7 @@ function getCity(){
 				}
 				$("#city").prop("disabled",false);
 				openSubmitBtn(1);
+				citiF = true;
 			}
 		}, error: function(xhr,status,error){
 			showError("div.container-agenda-alert",status+": "+error);
@@ -99,6 +105,7 @@ function getEmployee(){
 		url: digitasLink + "/admin/agenda/employee",
 		type: "GET",
 		success: function(r){
+			$(".employee").empty();
 			if(r==false){
 				getSessionError("div.container-agenda-alert");
 				getSessionError("div.container-agenda-employee-alert");
@@ -147,7 +154,6 @@ function deletes(dt,type,a){
 $(document).ready(function() {
 	getCategory();
 	getProvince();
-	getCity();
 	getEmployee();
 	
 	$('#dt1').DataTable({
@@ -163,5 +169,9 @@ $(document).ready(function() {
         "paging":   false,
         "ordering": false,
         "info":     false
+	});
+	
+	$("#province").on("change",function(){
+		getCity($("#province").val());
 	});
 } );
