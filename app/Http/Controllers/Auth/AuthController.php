@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Curl\curl;
+use App\Http\Requests\Curl;
 use Response;
 
 class AuthController extends Controller
