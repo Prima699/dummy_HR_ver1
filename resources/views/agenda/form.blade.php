@@ -56,7 +56,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<label class="label" for="description">Description</label>
-					<textarea class="form-control" name="description" id="description">{{ (isset($data))? $data->agenda_desc :'' }}</textarea>
+					<textarea class="form-control" name="description" id="description" required>{{ (isset($data))? $data->agenda_desc :'' }}</textarea>
 				</div>
 			</div>
 			<br/>

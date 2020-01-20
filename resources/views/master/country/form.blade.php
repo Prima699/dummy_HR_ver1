@@ -40,12 +40,12 @@
 				</div>
 				<div class="col-md-3">
 					<select class="form-control" name="region" id="region">
-							<option value="Asia">Asia</option>
-							<option value="Afrika">Afrika</option>
-							<option value="Amerika Utara">Amerika Utara</option>
-							<option value="Amerika Selatan">Amerika Selatan</option>
-							<option value="Antartika">Antartika</option>
-							<option value="Australia">Australia</option>
+						<option value="Asia" <?= (isset($data) && strtolower($data->region)=="asia")?"selected" :""; ?>>Asia</option>
+						<option value="Afrika" <?= (isset($data) && strtolower($data->region)=="afrika")?"selected" :""; ?>>Afrika</option>
+						<option value="Amerika Utara" <?= (isset($data) && strtolower($data->region)=="amerika utara")?"selected" :""; ?>>Amerika Utara</option>
+						<option value="Amerika Selatan" <?= (isset($data) && strtolower($data->region)=="amerika selatan")?"selected" :""; ?>>Amerika Selatan</option>
+						<option value="Antartika" <?= (isset($data) && strtolower($data->region)=="antartika")?"selected" :""; ?>>Antartika</option>
+						<option value="Australia" <?= (isset($data) && strtolower($data->region)=="australia")?"selected" :""; ?>>Australia</option>
 					</select>
 				</div>
 			</div>

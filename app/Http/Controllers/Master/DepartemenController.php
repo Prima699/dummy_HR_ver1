@@ -157,7 +157,7 @@ class DepartemenController extends Controller{
         $userID = Auths::user('user.user_id');
         $token = Auths::user("access_token");
         
-        $params['name'] = $r->name;
+        $params['departemen_name'] = $r->name;
         $curl->post(Constants::api() . "/departemen/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
         
         if($curl->error==TRUE){

@@ -31,15 +31,9 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th>Perusahaan ID</th>
-                  <th>Alamat Perusahaan Cabang</th>
                   <th>Kota</th>
                   <th>Propinsi</th>
-                  <th>Negara</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
                   <th>Status</th>
-                  <th>Radius</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>

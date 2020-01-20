@@ -86,6 +86,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	/* end agenda */
 	
+	/* start schedule */
+	Route::prefix('schedule')->name('schedule.')->namespace('Schedule')->group(function(){
+		Route::get('/', 'ScheduleController@index')->name('index');
+		Route::get('/create', 'ScheduleController@create')->name('create');
+		Route::post('/store', 'ScheduleController@store')->name('store');
+		Route::get('/employee', 'DependenciesScheduleController@employee')->name('employee');
+		Route::get('/type', 'DependenciesScheduleController@type')->name('type');
+		Route::get('/variant', 'DependenciesScheduleController@variant')->name('variant');
+	});
+	/* end schedule */
+	
 	/* start category */
 	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){		
 		Route::get('/', 'GolonganController@index')->name('index');
@@ -186,7 +197,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end Tipeijin
 
 	/* start Pegawai */
-	Route::prefix('pegawai')->name('pegawai.')->group(function(){		
+	Route::prefix('pegawai')->name('pegawai.')->namespace('Master')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
 		Route::get('/create', 'PegawaiController@create')->name('create');

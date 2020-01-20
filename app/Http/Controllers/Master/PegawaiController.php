@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
 
 use App\User;
@@ -11,6 +11,7 @@ use Auths;
 use Response;
 use Illuminate\Http\Request;
 use Constants;
+use App\Http\Controllers\Controller;
 
 class PegawaiController extends Controller{
 
