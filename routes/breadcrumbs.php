@@ -185,3 +185,20 @@ Breadcrumbs::for('agenda.detail', function ($t) {
 	$t->parent('agenda');
     $t->push('Detail', route('admin.agenda.index'));
 });
+
+// Schedule
+Breadcrumbs::for('schedule', function ($t) {
+    $t->push('Schedule', route('admin.schedule.index'));
+});
+Breadcrumbs::for('schedule.create', function ($t) {
+	$t->parent('schedule');
+    $t->push('Create', route('admin.schedule.create'));
+});
+Breadcrumbs::for('schedule.edit', function ($t) {
+	$t->parent('schedule');
+    $t->push('Edit', route('admin.schedule.index'));
+});
+Breadcrumbs::for('schedule.detail', function ($t) {
+	$t->parent('schedule');
+    $t->push('Detail', route('admin.schedule.index'));
+});

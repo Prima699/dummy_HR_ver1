@@ -30,6 +30,12 @@
           <p>{{ ('Agenda') }}</p>
         </a>
       </li>
+      <li class="@if ($activePage == 'schedule') active @endif">
+        <a href="{{ route('admin.schedule.index') }}">
+          <i class="now-ui-icons design_app"></i>
+          <p>{{ ('Schedule') }}</p>
+        </a>
+      </li>
       {{-- Setting management --}}
       @if(Auths::user("user.role") == 'adm')
       <li>

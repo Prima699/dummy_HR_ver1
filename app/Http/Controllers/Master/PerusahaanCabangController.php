@@ -137,7 +137,12 @@ class PerusahaanCabangController extends Controller{
         $i = ($length * $start) + 1;
         if($res->data!=NULL){
             foreach($res->data as $a){
-                $tmp = [$i, $a->perusahaan_id, $a->pc_address, $a->ID_t_md_city, $a->ID_t_md_province, $a->ID_t_md_country, $a->pc_lat, $a->pc_long, $a->pc_status, $a->radius, $a->perusahaan_cabang_id];
+				if($a->pc_status==1){
+					$status = "Pusat";
+				}else{
+					$status = "Cabang";
+				}
+                $tmp = [$i, $a->city_name, $a->province_name, $status, $a->perusahaan_cabang_id];
                 $data["data"][] = $tmp;
                 $i++;
             }

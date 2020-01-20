@@ -225,30 +225,36 @@ class JabatanController extends Controller{
     }
     
     public function update(Request $r, $id){
-        $curl = new Curl();
-        $userID = Auths::user('user.user_id');
-        $token = Auths::user("access_token");
-        
-        $params['jabatan_id'] = $id;
-        $params['jabatan_name'] = $r->name;
-        $curl->setHeader('Content-Type','application/x-www-form-urlencoded');
-        $curl->put(Constants::api() . "/jabatan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/jabatan_id/$id", $params);
-        
-        if($curl->error==TRUE){
-            session(["error" => "Server Unreachable."]);
-            return redirect()->route('admin.jabatan.edit',["id"=>$id]);
-        }
-        
-        $res = json_decode($curl->response);
-        
-        if($res->errorcode=="0000"){
-            $status = "Success updating jabatan.";
-            session(["status" => $status]);
-            return redirect()->route('admin.jabatan.index');
-        }else{
-            session(['error' => $res->errormsg]);
-            return redirect()->route('admin.jabatan.edit',["id"=>$id]);
-        }
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params['jabatan_id'] = $id;
+		$params['jabatan_name'] = $r->name;
+		$url = Constants::api() . "/jabatan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/jabatan_id/$id";
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+		$res = curl_exec($ch);
+		
+		if(!$res){
+			session(["error" => "Server Unreachable."]);
+			return redirect()->route('admin.jabatan.edit',["id"=>$id]);
+		}
+		
+		$res = json_decode($res);
+		
+		if($res->errorcode=="0000"){
+			$status = "Success updating jabatan.";
+			session(["status" => $status]);
+			return redirect()->route('admin.jabatan.index');
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect()->route('admin.jabatan.edit',["id"=>$id]);
+		}
     }
    
 

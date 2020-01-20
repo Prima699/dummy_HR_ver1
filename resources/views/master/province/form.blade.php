@@ -41,7 +41,11 @@
 				<div class="col-md-3">
 					<select class="form-control" name="negara" id="negara">
 						@foreach ($negara as $negaras)
-							<option value="{{ $negaras->ID_t_md_country }}">{{ $negaras->name }}</option>
+							@if(isset($data) AND $data->ID_t_md_country==$negaras->ID_t_md_country)
+								<option value="{{ $negaras->ID_t_md_country }}" selected>{{ $negaras->name }}</option>
+							@else
+								<option value="{{ $negaras->ID_t_md_country }}">{{ $negaras->name }}</option>
+							@endif
 						@endforeach
 					</select>
 				</div>
