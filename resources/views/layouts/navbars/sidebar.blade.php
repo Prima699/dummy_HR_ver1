@@ -76,7 +76,7 @@
         <div class="collapse" id="employeemanagement">
           <ul class="nav">
             <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('admin.pegawai.index') }}">
+              <a href="{{ route('admin.employee.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Employee") }} </p>
               </a>

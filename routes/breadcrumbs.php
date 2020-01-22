@@ -6,16 +6,16 @@ Breadcrumbs::for('dashboard', function ($t) { // $t => $trail
 });
 
 // Category
-Breadcrumbs::for('pegawai', function ($t) {
-    $t->push('Pegawai', route('admin.pegawai.index'));
+Breadcrumbs::for('employee', function ($t) {
+    $t->push('Pegawai', route('admin.employee.index'));
 });
-Breadcrumbs::for('pegawai.create', function ($t) {
-	$t->parent('pegawai');
-    $t->push('Create', route('admin.pegawai.create'));
+Breadcrumbs::for('employee.create', function ($t) {
+	$t->parent('employee');
+    $t->push('Create', route('admin.employee.create'));
 });
-Breadcrumbs::for('pegawai.edit', function ($t) {
-	$t->parent('pegawai');
-    $t->push('Edit', route('admin.pegawai.index'));
+Breadcrumbs::for('employee.edit', function ($t) {
+	$t->parent('employee');
+    $t->push('Edit', route('admin.employee.index'));
 });
 
 // Category

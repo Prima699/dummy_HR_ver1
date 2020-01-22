@@ -149,7 +149,7 @@ function faceTrainDT(id){
 	$('#faceTrainDT').DataTable().destroy();
 	var dt = setInterval(function(){
 		$('#faceTrainDT').DataTable({
-			"ajax" : digitasLink + "/admin/pegawai/image/" + id,
+			"ajax" : digitasLink + "/admin/employee/image/" + id,
 			"lengthChange" : false,
 			"searching" : false,
 			"processing" : true,

@@ -51,10 +51,10 @@ function getSessionError(parent){
 					$(div).append(btn);
 					
 				$(parent).append(div);
-				var interval = setInterval(function(){
-					$("button.closeButtonPlease").click();
-					clearInterval(interval);
-				},10000);
+				// var interval = setInterval(function(){
+					// $("button.closeButtonPlease").click();
+					// clearInterval(interval);
+				// },10000);
 			}
 		}
 	});
