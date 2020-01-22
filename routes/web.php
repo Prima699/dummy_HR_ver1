@@ -17,7 +17,7 @@ Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
 Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
 Route::get('/getSessionError', 'getSessionError'); // invoked
 Route::get('/rootApp', 'rootApp'); // invoked
-Route::get('refresh-csrf', function(){
+Route::get('/refresh-csrf', function(){
     return csrf_token();
 });
 Route::get('/clear-cache', function() {
@@ -196,8 +196,8 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	});
 	// end Tipeijin
 
-	/* start Pegawai */
-	Route::prefix('pegawai')->name('pegawai.')->namespace('Master')->group(function(){		
+	/* start Employee */
+	Route::prefix('employee')->name('employee.')->namespace('Master\Employee')->group(function(){		
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
 		Route::get('/create', 'PegawaiController@create')->name('create');
@@ -206,8 +206,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'PegawaiController@update')->name('update');
 		Route::get('/image/{id}', 'PegawaiController@getImage')->name('image');
 		Route::put('/face', 'PegawaiController@face')->name('face');
+		Route::get('/country', 'DependenciesPegawaiController@country')->name('country');
+		Route::get('/province', 'DependenciesPegawaiController@province')->name('province');
+		Route::get('/city', 'DependenciesPegawaiController@city')->name('city');
+		Route::get('/departement', 'DependenciesPegawaiController@departement')->name('departement');
+		Route::get('/jabatan', 'DependenciesPegawaiController@jabatan')->name('jabatan');
+		Route::get('/golongan', 'DependenciesPegawaiController@golongan')->name('golongan');
+		Route::get('/presence', 'DependenciesPegawaiController@presence')->name('presence');
+		Route::get('/office', 'DependenciesPegawaiController@office')->name('office');
+		Route::get('/type', 'DependenciesPegawaiController@type')->name('type');
 	});
-	/* end Pegawai */
+	/* end Employee */
 
 	/* start presence */
 	Route::prefix('presence')->name('presence.')->namespace('Master')->group(function(){	

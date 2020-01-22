@@ -1,19 +1,20 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : API('data'),
+		"ajax" : digitasLink + "/admin/employee/data",
 		"lengthChange" : false,
-		// "columns" : [
-			// {
-			// }
-		// ]
-	});
+        "processing" : true,
+        "serverSide" : true,
+		"pageLength" : 10
+	}); // call datatable
 	
 	$('#datatable').on( 'draw.dt', function () {
 		var empty = $(".dataTables_empty").html();
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
-				var td = $(tr[i]).find("td:nth-child(2)");
+				var td = $(tr[i]).find("td:nth-child(3)");
+				$(td).css("text-align","left");
+				
 				var name = $(td).html();
 				
 				var td = $(tr[i]).find("td:last");
@@ -56,8 +57,8 @@ $(document).ready(function() {
 	function generateEdit(name,id){
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href","" + id);
-			$(a).attr("title","Edi " + name);
+			$(a).attr("href",digitasLink + "/admin/employee/edit/" + id);
+			$(a).attr("title","Edit " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			var span = document.createElement("span");
 				$(span).attr("class","fas fa-edit");
