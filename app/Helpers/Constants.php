@@ -7,4 +7,8 @@ class Constants {
 		return config('constants.url.api');
     }
 	
+	public static function assetApi() {
+		return config('constants.url.assetApi');
+    }
+	
 }

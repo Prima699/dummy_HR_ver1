@@ -26,7 +26,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/country', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -60,7 +65,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/province', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -94,7 +104,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/city', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -127,7 +142,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/departemen', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -160,7 +180,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/jabatan', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -206,7 +231,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/golongan', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -239,7 +269,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/presensiType', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -272,7 +307,12 @@ class DependenciesPegawaiController extends Controller{
 		$curl->get(Constants::api() . '/perusahaan_cabang', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		

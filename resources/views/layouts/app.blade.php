@@ -131,6 +131,7 @@
   <!--   Core JS Files   -->
   <script>
 	var digitasLink = "{{ route('index') }}";
+	var digitasAssetApi = "{{ Constants::assetApi() }}";
   </script>
   <script src="{{ asset('public/'.'assets') }}/js/core/jquery.min.js"></script>
   <script src="{{ asset('public/'.'assets') }}/js/core/popper.min.js"></script>
