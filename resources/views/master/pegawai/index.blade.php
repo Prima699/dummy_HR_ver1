@@ -28,7 +28,7 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th>NIK</th>
+                  <th title="National Identity Number">NIN</th>
                   <th>Full Name</th>
                   <th>Phone</th>
                   <th class="disabled-sorting" width="20%">Action</th>
@@ -67,7 +67,6 @@
 							<th width="5%">Face Detect</th>
 							<th width="5%">Tag Save</th>
 							<th width="5%">Face Train</th>
-							<th class="disabled-sorting" width="5%">Action</th>
 						</tr>
 					</thead>
 					<tbody>

@@ -12,6 +12,9 @@ $(document).ready(function() {
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
+				var td = $(tr[i]).find("td:nth-child(2)");
+				$(td).attr("title","National Identity Number");
+				
 				var td = $(tr[i]).find("td:nth-child(3)");
 				$(td).css("text-align","left");
 				
@@ -45,7 +48,7 @@ $(document).ready(function() {
 	function generateInfo(name,id){
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-info");
-			$(a).attr("href","" + id);
+			$(a).attr("href",digitasLink + "/admin/employee/" + id);
 			$(a).attr("title","Detail " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			var span = document.createElement("span");

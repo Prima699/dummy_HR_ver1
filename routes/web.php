@@ -215,6 +215,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/presence', 'DependenciesPegawaiController@presence')->name('presence');
 		Route::get('/office', 'DependenciesPegawaiController@office')->name('office');
 		Route::get('/type', 'DependenciesPegawaiController@type')->name('type');
+		Route::get('/{id}', 'PegawaiController@detail')->name('detail');
 	});
 	/* end Employee */
 

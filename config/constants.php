@@ -2,6 +2,7 @@
 
 return [
 	"url" => [
-		"api"  => "http://digitasAPI.teaq.co.id/index.php/Bridge"
+		"api"  => "http://digitasAPI.teaq.co.id/index.php/Bridge",
+		"assetApi"  => "http://digitasAPI.teaq.co.id/"
 	]
 ];

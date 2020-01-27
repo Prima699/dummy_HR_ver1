@@ -39,10 +39,14 @@ class LoginController extends Controller
 	
 	public function showLoginForm(){
 		if(session("error") AND session("error")!=NULL){
-			if(session("error")['response']==NULL){
-				$res = "Unknown Error";
-			}else{				
-				$res = session("error")['response']->errormsg;
+			if(isset(session("error")['response'])){
+				if(session("error")['response']==NULL){
+					$res = "Unknown Error";
+				}else{				
+					$res = session("error")['response']->errormsg;
+				}
+			}else{
+				$res = session("error");
 			}
 			session(["error"=>$res]);
 		}

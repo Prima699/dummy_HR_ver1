@@ -33,13 +33,13 @@
 					<label class="label" for="pegawai_NIK">National Identity Number (NIN)</label>
 				</div>
 				<div class="col-3">
-					<input type="text" class="form-control" name="pegawai_NIK" id="pegawai_NIK" value="{{ (isset($data))?$data->pegawai_NIK:'' }}" required />
+					<p>: {{ (isset($data))?$data->pegawai_NIK:'' }}</p>
 				</div>
 				<div class="col-2">
 					<label class="label" for="pegawai_name">Full Name</label>
 				</div>
 				<div class="col-3">
-					<input type="text" class="form-control" name="pegawai_name" id="pegawai_name" value="{{ (isset($data))?$data->pegawai_name:'' }}" required />
+					<p>: {{ (isset($data))?$data->pegawai_name:'' }}</p>
 				</div>
 			</div>
 			<br/>
@@ -49,13 +49,13 @@
 					<label class="label" for="pegawai_email">Email</label>
 				</div>
 				<div class="col-3">
-					<input type="email" class="form-control" name="pegawai_email" id="pegawai_email" value="{{ (isset($data))?$data->pegawai_email:'' }}" required />
+					<p>: {{ (isset($data))?$data->pegawai_email:'' }}</p>
 				</div>
 				<div class="col-2">
 					<label class="label" for="pegawai_telp">Phone</label>
 				</div>
 				<div class="col-3">
-					<input type="text" class="form-control" name="pegawai_telp" id="pegawai_telp" value="{{ (isset($data))?$data->pegawai_telp:'' }}" required />
+					<p>: {{ (isset($data))?$data->pegawai_telp:'' }}</p>
 				</div>
 			</div>
 			<br/>
@@ -65,26 +65,24 @@
 					<label class="label" for="pegawai_address">Address</label>
 				</div>
 				<div class="col-8">
-					<textarea class="form-control" name="pegawai_address" id="pegawai_address" required>{!! (isset($data))?$data->pegawai_address:'' !!}</textarea>
+					<p>: {!! (isset($data))?$data->pegawai_address:'' !!}</p>
 				</div>
 			</div>
 			<br/>
 			<hr>
-			<div class="container-employee-second-alert"></div>
+
 			<div class="row">
 				<div class="col-md-2">
 					<label class="label" for="country">Country</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="ID_t_md_country" id="country" data-value="{{ (isset($data))?$data->ID_t_md_country:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->nama_country:'-1' }}</p>
 				</div>
 				<div class="col-md-2">
 					<label class="label" for="city">City</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="ID_t_md_city" id="city" data-value="{{ (isset($data))?$data->ID_t_md_city:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->nama_city:'-1' }}</p>
 				</div>
 			</div>
 			<br/>
@@ -93,27 +91,24 @@
 					<label class="label" for="province">Province</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="ID_t_md_province" id="province" data-value="{{ (isset($data))?$data->ID_t_md_province:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->nama_province:'-1' }}</p>
 				</div>
 			</div>
 			<br/>
 			<hr>
-			<div class="container-employee-third-alert"></div>
+
 			<div class="row">
 				<div class="col-md-2">
 					<label class="label" for="departement">Departement</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="departemen_id" id="departement" data-value="{{ (isset($data))?$data->departemen_id:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->departemen_name:'-1' }}</p>
 				</div>
 				<div class="col-md-2">
 					<label class="label" for="jabatan">Jabatan</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="jabatan_id" id="jabatan" data-value="{{ (isset($data))?$data->jabatan_id:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->jabatan_name:'-1' }}</p>
 				</div>
 			</div>
 			<br/>
@@ -122,15 +117,13 @@
 					<label class="label" for="golongan">Golongan</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="golongan_id" id="golongan" data-value="{{ (isset($data))?$data->golongan_id:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->golongan_name:'-1' }}</p>
 				</div>
 				<div class="col-md-2">
 					<label class="label" for="presence">Presence</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="presensi_type_id" id="presence" data-value="{{ (isset($data))?$data->presensi_type_id:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->presensi_type_name:'-1' }}</p>
 				</div>
 			</div>
 			<br/>
@@ -139,45 +132,25 @@
 					<label class="label" for="office">Office</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="perusahaan_cabang_id" id="office" data-value="{{ (isset($data))?$data->perusahaan_cabang_id:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->perusahaan_cabang_id:'-1' }}</p>
 				</div>
 				<div class="col-md-2">
 					<label class="label" for="type">Contract</label>
 				</div>
 				<div class="col-md-3">
-					<select class="form-control" name="pegawai_type" id="type" data-value="{{ (isset($data))?$data->pegawai_type:'-1' }}">
-					</select>
+					<p>: {{ (isset($data))?$data->pegawai_type:'-1' }}</p>
 				</div>
 			</div>
 			<br/>
 			<hr>
-			<div class="container-employee-fourth-alert"></div>
+			
 			<div class="row">
 				<div class="col-12">
-					<caption>
-						<button type="button" class="btn btn-sm btn-info" title="Add more photo" onclick="addPhoto()" style="margin-top:5px;">
-							<span class="fas fa-plus"></span>
-							<span>Add more photo</span>
-						</button>
-					</caption>
 					<table class="table table-bordered text-center">
 						<thead>
 							<tr>
 								<th width="5%">No</th>
 								<th>Photo</th>
-								<th width="5%">Action</th>
-							</tr>
-							<tr class="copy" hidden>
-								<th></th>
-								<th>
-									<input type="file" class="form-control" name="image[]" disabled />
-								</th>
-								<th>
-									<button type="button" class="btn btn-sm btn-danger" title="delete" onclick="deletePhoto(this)" style="margin-top:5px;">
-										<span class="fas fa-minus"></span>
-									</button>
-								</th>
 							</tr>
 						</thead>
 						<tbody class="div-photo-container text-center">
@@ -192,25 +165,8 @@
 									</a>
 									<input type="hidden" name="eks_image[]" value="{{ $d->image_train_id }}" />
 								</th>
-								<th>
-									<button type="button" class="btn btn-sm btn-danger" title="delete" onclick="deletePhoto(this)" style="margin-top:5px;">
-										<span class="fas fa-minus"></span>
-									</button>
-								</th>
 							</tr>
 							@endforeach
-							@else
-								<tr>
-									<th></th>
-									<th>
-										<input type="file" class="form-control" name="image[]" />
-									</th>
-									<th>
-										<button type="button" class="btn btn-sm btn-danger" title="delete" onclick="deletePhoto(this)" style="margin-top:5px;">
-											<span class="fas fa-minus"></span>
-										</button>
-									</th>
-								</tr>
 							@endif
 						</tbody>
 					</table>
@@ -221,10 +177,6 @@
 
 			<div class="row">
 				<div class="col-md-3 offset-md-1">
-					<button type="submit" class="btn btn-info btn-sm" id="btn-submit" disabled>
-						<span class="fa fa-save"></span>
-						Save
-					</button>
 					<a href="{{ route('admin.employee.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
@@ -249,5 +201,4 @@
 @endpush 
 
 @push('js')
-	<script src="{{ asset('public/js/pegawai/form.js') }}"></script>
 @endpush

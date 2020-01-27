@@ -17,6 +17,10 @@ Breadcrumbs::for('employee.edit', function ($t) {
 	$t->parent('employee');
     $t->push('Edit', route('admin.employee.index'));
 });
+Breadcrumbs::for('employee.detail', function ($t) {
+	$t->parent('employee');
+    $t->push('Detail', route('admin.employee.index'));
+});
 
 // Category
 Breadcrumbs::for('category', function ($t) {

@@ -1,11 +1,14 @@
-var openSubmitBtni = 0;
-var openSubmitBtnLimit = 9;
+var first = true;
 
-function openSubmitBtn(i){
-	openSubmitBtni += i;
-	if(openSubmitBtnLimit<=openSubmitBtni){
-		$("#btn-submit").prop("disabled",false);
-	}
+function openSubmitBtn(){
+	var si = setInterval(function(){
+		var l = $("select:disabled").length;
+		if(l<1){
+			$("#btn-submit").prop("disabled",false);
+		}else{
+			$("#btn-submit").prop("disabled",true);
+		}
+	},5000);
 }
 
 function getCountry(){
@@ -17,7 +20,7 @@ function getCountry(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-second-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -29,14 +32,13 @@ function getCountry(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
 				getProvince($(s).val());
 				$(s).on("change",function(){
 					getProvince($(s).val());
 				});
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-second-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -51,7 +53,7 @@ function getProvince(country){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-second-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -63,14 +65,13 @@ function getProvince(country){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
 				getCity($(s).val());
 				$(s).on("change",function(){
 					getCity($(s).val());
 				});
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-second-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -85,7 +86,7 @@ function getCity(province){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-second-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -97,10 +98,12 @@ function getCity(province){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getDepartment();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-second-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -115,7 +118,7 @@ function getDepartment(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -127,10 +130,12 @@ function getDepartment(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getJabatan();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -145,7 +150,7 @@ function getJabatan(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				var space = function(a){
 					var r = "";
@@ -172,10 +177,12 @@ function getJabatan(){
 				}
 				loop(r,0);
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getGolongan();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -190,7 +197,7 @@ function getGolongan(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -202,10 +209,12 @@ function getGolongan(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getPresence();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -220,7 +229,7 @@ function getPresence(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -232,10 +241,12 @@ function getPresence(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getOffice();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -250,7 +261,7 @@ function getOffice(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var t = "Cabang";
@@ -264,10 +275,12 @@ function getOffice(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				if(first==true){
+					getType();
+				}
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
@@ -282,7 +295,7 @@ function getType(){
 		success: function(r){
 			$(s).empty();
 			if(r==false){
-				getSessionError("div.container-employee-alert");
+				getSessionError("div.container-employee-third-alert");
 			}else{
 				for(var i=0; i<r.length; i++){
 					var opt = document.createElement("option");
@@ -294,33 +307,41 @@ function getType(){
 					$(s).append(opt);
 				}
 				$(s).prop("disabled",false);
-				openSubmitBtn(1);
+				first = false;
 			}
 		}, error: function(xhr,status,error){
-			showError("div.container-employee-alert",status+": "+error);
+			showError("div.container-employee-third-alert",status+": "+error);
 			$(s).prop("disabled",true);
 		}
 	});
 }
 
 function addPhoto(){
-	var row = $(".div-photo-container .row:first").clone();
+	var row = $(".copy").clone();
 	$(".div-photo-container").append(row);
 	
-	$(".div-photo-container .row:last").prop("hidden",false);
-	$(".div-photo-container .row:last input").prop("disabled",false);
+	$(".div-photo-container tr:last").prop("hidden",false);
+	$(".div-photo-container tr:last").attr("class","");
+	$(".div-photo-container tr:last input").prop("disabled",false);
+	
+	generateNumber();
+}
+
+function generateNumber(){
+	var l = $(".div-photo-container tr").length;
+	for(var i=1; i<=l; i++){
+		$(".div-photo-container tr:nth-child(" + i + ") th:first").html(i);
+	}
 }
 
 function deletePhoto(t){
-	$(t).parents(".row:first").remove();
+	$(t).parents("tr").remove();
+	generateNumber();
 }
 
 $(document).ready(function() {
+	$("select").prop("disabled",true);
 	getCountry();
-	getDepartment();
-	getGolongan();
-	getPresence();
-	getJabatan();
-	getOffice();
-	getType();
+	generateNumber();
+	openSubmitBtn();
 } );

@@ -71,11 +71,10 @@ $(document).ready(function() {
 	function generateImage(url){
 		var a = document.createElement("a");
 			$(a).attr("target","_blank");
-			$(a).attr("href",url);
+			$(a).attr("href",digitasAssetApi + url);
 		
 			var img = document.createElement("img");
-				// $(img).attr("src",digitasLink + "/public/" + url);
-				$(img).attr("src",url);
+				$(img).attr("src",digitasAssetApi + url);
 				$(img).attr("height","100px");
 				$(img).attr("title","Invalid image. Please delete it and re-upload.");
 				$(a).html(img);
@@ -154,13 +153,12 @@ function faceTrainDT(id){
 			"searching" : false,
 			"processing" : true,
 			"serverSide" : true,
-			"pageLength" : 5,
+			"pageLength" : 3,
 			"columnDefs": [
 				{ "width": "5%", "targets": 0 },
 				{ "width": "5%", "targets": 2 },
 				{ "width": "5%", "targets": 3 },
-				{ "width": "5%", "targets": 4 },
-				{ "width": "5%", "targets": 5 }
+				{ "width": "5%", "targets": 4 }
 			]
 		}); // call datatable
 		clearInterval(dt);
