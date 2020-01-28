@@ -89,11 +89,9 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* start schedule */
 	Route::prefix('schedule')->name('schedule.')->namespace('Schedule')->group(function(){
 		Route::get('/', 'ScheduleController@index')->name('index');
+		Route::get('/data', 'ScheduleController@data')->name('data');
 		Route::get('/create', 'ScheduleController@create')->name('create');
 		Route::post('/store', 'ScheduleController@store')->name('store');
-		Route::get('/employee', 'DependenciesScheduleController@employee')->name('employee');
-		Route::get('/type', 'DependenciesScheduleController@type')->name('type');
-		Route::get('/variant', 'DependenciesScheduleController@variant')->name('variant');
 	});
 	/* end schedule */
 	

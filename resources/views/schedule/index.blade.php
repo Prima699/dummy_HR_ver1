@@ -18,12 +18,27 @@
                   Create
               </a>
             <h4 class="card-title">{{ __('Schedule') }}</h4>
-            <div class="col-12 mt-2 container-agenda-alert">
+            <div class="col-12 mt-2 container-schedule-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
           </div>
           <div class="card-body">
+            <div class="toolbar">
+              <!--        Here you can write extra buttons/actions for the toolbar              -->
+            </div>
+            <table id="datatable" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th width="5%">No</th>
+                  <th>Employee</th>
+                  <th>Shift</th>
+                  <th class="disabled-sorting" width="15%">Action</th>
+                </tr>
+              </thead>
+			  <tbody>
+			  </tbody>
+            </table>
 		  </div>
           <!-- end content-->
         </div>
@@ -46,4 +61,5 @@
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
+	<script src="{{ asset('public/js/schedule/index.js') }}"></script>
 @endpush

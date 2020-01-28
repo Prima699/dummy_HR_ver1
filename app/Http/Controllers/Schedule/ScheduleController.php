@@ -20,12 +20,6 @@ class ScheduleController extends Controller
     public function index(Request $r)
     {
 		return view("schedule.index");
-		
-		if(Auths::user("user.role")=="adm"){
-			return $this->admin($r);
-		}else{
-			return $this->employee($r);
-		}
     }
 	
 	public function admin($r){
@@ -89,9 +83,9 @@ class ScheduleController extends Controller
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['field'] = 'pegawai_id';
 		$params['search'] = $search;
-		$curl->get(Constants::api() . '/agenda', $params);
+		$curl->get(Constants::api() . '/pegawaiJadwal', $params);
 		
 		if($curl->error==TRUE){
 			return -1;
@@ -138,27 +132,17 @@ class ScheduleController extends Controller
 		if($start!=0){
 			$start = $start / $length;
 		}
-		date_default_timezone_set("Asia/Jakarta");
-		if($r->agenda=="waiting"){
-			$params['agenda_status'] = 1;
-			$params['before_date'] = date("Y-m-d");
-		}else if($r->agenda=="onGoing"){
-			$params['agenda_status'] = 1;
-			$params['due_date'] = date("Y-m-d");
-		}else if($r->agenda=="done"){
-			$params['agenda_status'] = 2;
-		}
 		
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['sort_by'] = "agenda_date;asc";
-		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['sort_by'] = "pegawai_id;asc";
+		$params['field'] = 'pegawai_id';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
-		$curl->get(Constants::api() . '/agenda', $params);
+		$curl->get(Constants::api() . '/pegawaiJadwal', $params);
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
@@ -191,7 +175,7 @@ class ScheduleController extends Controller
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->category_agenda_name, $a->agenda_title, $a->agenda_date, $a->agenda_date_end, $a->nama_city, $a->agenda_id];
+				$tmp = [$i, $a->pegawai_id, $a->presensi_type_shift_id, $a->presensi_config_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
