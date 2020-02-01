@@ -28,21 +28,32 @@
 			@if($master->method=="PUT")
 				@method('PUT')
 			@endif
+			<input type="hidden" id="dependencies" data-variant="{{ ($employee!=NULL)? json_encode($employee->variant) :'' }}" />
 			<div class="row">
 				<div class="col-md-6">
 					<label class="label" for="employee">Employee</label>
-					<select class="form-control" name="employee" id="employee" required disabled>
+					<select class="form-control" disabled>
+						<option>{{ ($employee!=NULL)? $employee->pegawai_name : '' }}</option>
 					</select>
+					<input type="hidden" name="employee" value="{{ ($employee!=NULL)? $employee->pegawai_id : '' }}" />
 				</div>
 				<div class="col-md-6">
 					<label class="label" for="type">Presence Type</label>
-					<select class="form-control" name="type" id="type" required disabled>
+					<select class="form-control" disabled>
+						<option>{{ ($employee!=NULL)? $employee->presensi_type_name : '' }}</option>
 					</select>
+					<input type="hidden" name="presence" value="{{ ($employee!=NULL)? $employee->presensi_type_id : '' }}" />
 				</div>
 			</div>
 			<br/>
 			<div class="row">
 				<div class="col-md-12">
+					<caption>
+						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left" onclick="adds()">
+							<span class="fa fa-plus"></span>
+							Add
+						</button>
+					</caption>
 					<table id="dt1" class="table table-bordered text-center">
 						<thead>
 							<tr>
@@ -51,10 +62,33 @@
 								<th>End Date</th>
 								<th>Work Day</th>
 								<th>Off Day</th>
-								<th width="10%">Action</th>
+								<th width="5%">Action</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="paste">
+							<tr id="copy" hidden>
+								<td>
+									<select class="form-control" name="variant[]" required disabled>
+									</select>
+								</td>
+								<td>
+									<input type="text" class="form-control dp" name="start[]" required disabled />
+								</td>
+								<td>
+									<input type="text" class="form-control dp" name="end[]" required disabled />
+								</td>
+								<td>
+									<input type="text" class="form-control dp" name="work[]" required disabled />
+								</td>
+								<td>
+									<input type="text" class="form-control dp" name="off[]" required disabled />
+								</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-danger" onclick="deletes(this)">
+										<span class="fas fa-trash"></span>
+									</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -87,11 +121,16 @@
 
 @push('css')
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('public/assets/DatePicker/css/bootstrap-datepicker3.min.css') }}"/>
 	<style>
+		.datepicker-dropdown {
+			padding: 10px !important;
+		}
 	</style>
 @endpush 
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
+	<script src="{{ asset('public/assets/DatePicker/js/bootstrap-datepicker.min.js') }}"></script>
 	<script src="{{ asset('public/js/schedule/form.js') }}"></script>
 @endpush

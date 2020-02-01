@@ -62,7 +62,7 @@ $(document).ready(function() {
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/category/edit/" + id);
+			$(a).attr("href", digitasLink + "/admin/schedule/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
