@@ -31,9 +31,8 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
+                  <th>Shift</th>
                   <th>Presence Type</th>
-                  <th>Start Day</th>
-                  <th>End Day</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>

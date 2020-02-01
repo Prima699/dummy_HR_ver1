@@ -74,6 +74,42 @@
 			</div>
 			<br/>
 			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="type">Type</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="type" id="type" required>
+						<?php
+							$f0 = "";
+							$f1 = "";
+							if(isset($data) && $data->type==0){$f0 = "selected";}
+							else if(isset($data) && $data->type==1){$f1 = "selected";}
+						?>
+						<option value="0" {{$f0}}>Flexible</option>
+						<option value="1" {{$f1}}>Fixed</option>
+					</select>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="location">Presence Location</label>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control" name="location" id="location" required>
+						<?php
+							$f0 = "";
+							$f1 = "";
+							if(isset($data) && $data->locaType==0){$f0 = "selected";}
+							else if(isset($data) && $data->locaType==1){$f1 = "selected";}
+						?>
+						<option value="0" {{$f0}}>Flexible</option>
+						<option value="1" {{$f1}}>Fixed</option>
+					</select>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
 				<div class="col-md-3 offset-md-2">
 					<button type="submit" class="btn btn-info btn-sm">
 						<span class="fa fa-save"></span>

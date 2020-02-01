@@ -92,6 +92,8 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/data', 'ScheduleController@data')->name('data');
 		Route::get('/create', 'ScheduleController@create')->name('create');
 		Route::post('/store', 'ScheduleController@store')->name('store');
+		Route::get('/edit/{id}', 'ScheduleController@edit')->name('edit');
+		Route::put('/update/{id}', 'ScheduleController@update')->name('update');
 	});
 	/* end schedule */
 	

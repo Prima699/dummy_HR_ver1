@@ -47,6 +47,15 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-2">
+					<label class="label" for="name">Variant Name</label>
+				</div>
+				<div class="col-md-3">
+					<input type="text" class="form-control" name="name" value="{{ (isset($data))? $data->shift_name :'' }}" />
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
 					<label class="label" for="startDay">Start Day</label>
 				</div>
 				<div class="col-md-3">

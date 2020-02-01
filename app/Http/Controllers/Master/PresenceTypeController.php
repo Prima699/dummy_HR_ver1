@@ -154,6 +154,8 @@ class PresenceTypeController extends Controller{
 		$params['off_day'] = $r->off;
 		$params['work_hour_day'] = $r->day;
 		$params['work_hour_week'] = $r->week;
+		$params['type'] = $r->type;
+		$params['locaType'] = $r->location;
 		$curl->post(Constants::api() . "/presensiType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
@@ -228,6 +230,8 @@ class PresenceTypeController extends Controller{
 		$params['off_day'] = $r->off;
 		$params['work_hour_day'] = $r->day;
 		$params['work_hour_week'] = $r->week;
+		$params['type'] = $r->type;
+		$params['locaType'] = $r->location;
 		$url = Constants::api() . "/presensiType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_id/$id";
 
 		$ch = curl_init();
