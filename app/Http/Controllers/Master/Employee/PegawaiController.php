@@ -167,7 +167,7 @@ class PegawaiController extends Controller{
     }
     
     public function store(Request $r){
-        $curl = curl_init();
+        $ch = curl_init();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		$url = Constants::api() . "/pegawai/user_id/$userID/access_token/$token/platform/dashboard/location/xxx";
@@ -188,44 +188,46 @@ class PegawaiController extends Controller{
 			"perusahaan_cabang_id" => $r->perusahaan_cabang_id,
 			"pegawai_type" => $r->pegawai_type
 		);
+    
+		$postfields = array();
+		$upload_file = (isset($_FILES['image'])) ? $_FILES['image'] : array();
 		
-		if(isset($_FILES["image"])){
-			$i = 0;
-			foreach($r->file("image") as $d){
-				$mime = $d->getMimeType();
-				$fn = $d->getClientOriginalName();
-				$tmpFn = "tmp" . $i . "." . $d->getClientOriginalExtension();
-				$path = public_path("tmp\\$tmpFn");
-				
-				$d->move(public_path("tmp"), $tmpFn);
-				
-				$cfile = new \CURLFile(
-					$path,
-					$mime,
-					$fn
-				);
-				
-				$params["image[$i]"] = $cfile;
-				$i++;
+		if (isset($upload_file['name'])) {
+			foreach ($upload_file["error"] as $key => $error) {
+				if ($error == UPLOAD_ERR_OK) {
+					if (function_exists('curl_file_create')) { // For PHP 5.5+
+						$params["image[$key]"] = curl_file_create(
+							$upload_file['tmp_name'][$key],
+							$upload_file['type'][$key],
+							$upload_file['name'][$key]
+						);
+					} else {
+						$params["image[$key]"] = '@' . realpath(
+							$upload_file['tmp_name'][$key],
+							$upload_file['type'][$key],
+							$upload_file['name'][$key]
+						);
+					}
+				}
 			}
 		}
-
-		curl_setopt_array($curl, array(
+		
+		curl_setopt_array($ch, array(
+			CURLOPT_POST => 1,
 			CURLOPT_URL => $url,
-			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLINFO_HEADER_OUT => 1,
+			CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"),
+			CURLOPT_POSTFIELDS => $params,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 0,
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => $params,
-			CURLOPT_HTTPHEADER => array(
-				"Content-Type: multipart/form-data",
-			),
 		));
 
-		$res = curl_exec($curl);
+		$res = curl_exec($ch);
 
 		if(!$res){
 			session(["error" => "Server Unreachable."]);
@@ -480,43 +482,45 @@ class PegawaiController extends Controller{
 			$params["eks_image[]"] = 0;
 		}
 		
-		if(isset($_FILES["image"])){
-			$i = 0;
-			foreach($r->file("image") as $d){
-				$mime = $d->getMimeType();
-				$fn = $d->getClientOriginalName();
-				$tmpFn = "tmp" . $i . "." . $d->getClientOriginalExtension();
-				$path = public_path("tmp\\$tmpFn");
-				
-				$d->move(public_path("tmp"), $tmpFn);
-				
-				$cfile = new \CURLFile(
-					$path,
-					$mime,
-					$fn
-				);
-				
-				$params["image[$i]"] = $cfile;
-				$i++;
+		$postfields = array();
+		$upload_file = (isset($_FILES['image'])) ? $_FILES['image'] : array();
+		
+		if (isset($upload_file['name'])) {
+			foreach ($upload_file["error"] as $key => $error) {
+				if ($error == UPLOAD_ERR_OK) {
+					if (function_exists('curl_file_create')) { // For PHP 5.5+
+						$params["image[$key]"] = curl_file_create(
+							$upload_file['tmp_name'][$key],
+							$upload_file['type'][$key],
+							$upload_file['name'][$key]
+						);
+					} else {
+						$params["image[$key]"] = '@' . realpath(
+							$upload_file['tmp_name'][$key],
+							$upload_file['type'][$key],
+							$upload_file['name'][$key]
+						);
+					}
+				}
 			}
 		}
-
-		curl_setopt_array($curl, array(
+		
+		curl_setopt_array($ch, array(
+			CURLOPT_POST => 1,
 			CURLOPT_URL => $url,
-			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLINFO_HEADER_OUT => 1,
+			CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"),
+			CURLOPT_POSTFIELDS => $params,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 0,
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => $params,
-			CURLOPT_HTTPHEADER => array(
-				"Content-Type: multipart/form-data",
-			),
 		));
 
-		$res = curl_exec($curl);
+		$res = curl_exec($ch);
 
 		if(!$res){
 			session(["error" => "Server Unreachable."]);

@@ -29,7 +29,7 @@
             </div>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
-					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=waiting' }}">Waiting</a>
+					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=upComing' }}">Up Coming</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" href="{{ route('admin.agenda.index').'?agenda=onGoing' }}">On Going</a>

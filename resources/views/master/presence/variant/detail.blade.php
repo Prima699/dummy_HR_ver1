@@ -39,6 +39,15 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-2">
+					<label class="label" for="name">Shift Name</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">{{ $data->shift_name }}</p>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
 					<label class="label" for="startDay">Start Day</label>
 				</div>
 				<div class="col-md-3">

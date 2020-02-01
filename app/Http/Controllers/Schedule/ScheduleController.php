@@ -20,12 +20,6 @@ class ScheduleController extends Controller
     public function index(Request $r)
     {
 		return view("schedule.index");
-		
-		if(Auths::user("user.role")=="adm"){
-			return $this->admin($r);
-		}else{
-			return $this->employee($r);
-		}
     }
 	
 	public function admin($r){
@@ -89,9 +83,9 @@ class ScheduleController extends Controller
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['field'] = 'pegawai_id';
 		$params['search'] = $search;
-		$curl->get(Constants::api() . '/agenda', $params);
+		$curl->get(Constants::api() . '/pegawaiJadwal', $params);
 		
 		if($curl->error==TRUE){
 			return -1;
@@ -138,30 +132,25 @@ class ScheduleController extends Controller
 		if($start!=0){
 			$start = $start / $length;
 		}
-		date_default_timezone_set("Asia/Jakarta");
-		if($r->agenda=="waiting"){
-			$params['agenda_status'] = 1;
-			$params['before_date'] = date("Y-m-d");
-		}else if($r->agenda=="onGoing"){
-			$params['agenda_status'] = 1;
-			$params['due_date'] = date("Y-m-d");
-		}else if($r->agenda=="done"){
-			$params['agenda_status'] = 2;
-		}
 		
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['sort_by'] = "agenda_date;asc";
-		$params['field'] = 'agenda_title;category_agenda_name';
+		$params['sort_by'] = "pegawai_id;asc";
+		$params['field'] = 'pegawai_name';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
-		$curl->get(Constants::api() . '/agenda', $params);
+		$curl->get(Constants::api() . '/pegawai', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json($data);
 		}
 		
@@ -186,12 +175,10 @@ class ScheduleController extends Controller
 		$data["recordsTotal"] = $amount;
 		$data["recordsFiltered"] = $amount;
 		
-		// dd($res->data[0]);
-		
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->category_agenda_name, $a->agenda_title, $a->agenda_date, $a->agenda_date_end, $a->nama_city, $a->agenda_id];
+				$tmp = [$i, $a->pegawai_name, $a->presensi_type_name, $a->pegawai_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
@@ -262,8 +249,13 @@ class ScheduleController extends Controller
 		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.agenda.create');
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
+			return Response()->json($data);
 		}
 		
 		$res = json_decode($curl->response);
@@ -320,23 +312,33 @@ class ScheduleController extends Controller
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['agenda_id'] = $id;
-		$curl->get(Constants::api() . '/agenda', $params);
+		$params['pegawai_id'] = $id;
+		$curl->get(Constants::api() . '/pegawaiJadwal', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.agenda.index');
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
+			return redirect()->route('admin.schedule.index');
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
-			$master = $this->master("Edit Agenda","admin.agenda.update","agenda.edit","PUT",$id);
-			return view('agenda.form', compact('data','master'));
+			$master = $this->master("Edit Schedule","admin.schedule.update","schedule.edit","PUT",$id);
+			return view('schedule.form', compact('data','master'));
+		} else if($res->errorcode=="00001"){			
+			$dep = new DependenciesScheduleController();
+			$employee = $dep->employee($r,$id);
+			$master = $this->master("Create Schedule","admin.schedule.store","schedule.create","POST",$id);
+			return view('schedule.form', compact('master','employee'));
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.agenda.index');
+			return redirect()->route('admin.schedule.index');
 		}
 	}
 	

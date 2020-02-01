@@ -27,7 +27,7 @@ class AgendaController extends Controller
     }
 	
 	public function admin($r){
-		$agenda = "waiting";
+		$agenda = "upComing";
 		if(isset($r->agenda) AND $r->agenda=="onGoing"){
 			$agenda = "onGoing";
 		}else if(isset($r->agenda) AND $r->agenda=="done"){
@@ -137,7 +137,7 @@ class AgendaController extends Controller
 			$start = $start / $length;
 		}
 		date_default_timezone_set("Asia/Jakarta");
-		if($r->agenda=="waiting"){
+		if($r->agenda=="upComing"){
 			$params['agenda_status'] = 1;
 			$params['before_date'] = date("Y-m-d");
 		}else if($r->agenda=="onGoing"){

@@ -74,6 +74,30 @@
 			</div>
 			<br/>
 			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="type">Type</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">
+					@if($data->type==0) {{"Flexible"}}
+					@elseif($data->type==1) {{"Fixed"}}
+					@endif</p>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="label" for="location">Presence Location</label>
+				</div>
+				<div class="col-md-3">
+					: <p class="indent-10">
+					@if($data->locaType==0) {{"Flexible"}}
+					@elseif($data->locaType==1) {{"Fixed"}}
+					@endif</p>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
 				<div class="col-md-3 offset-md-2">
 					<a href="{{ route('admin.presence.type.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>

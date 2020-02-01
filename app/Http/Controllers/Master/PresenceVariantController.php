@@ -130,7 +130,7 @@ class PresenceVariantController extends Controller{
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->presensi_type_name, $a->start_day, $a->end_day, $a->presensi_type_shift_id];
+				$tmp = [$i, $a->shift_name, $a->presensi_type_name, $a->presensi_type_shift_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
@@ -194,8 +194,9 @@ class PresenceVariantController extends Controller{
 		$params['end_day'] = $r->endDay;
 		$params['start_work'] = $r->startWork;
 		$params['end_work'] = $r->endWork;
-		$params['start_break'] = $r->starBreak;
+		$params['start_break'] = $r->startBreak;
 		$params['end_break'] = $r->endBreak;
+		$params['shift_name'] = $r->name;
 		$curl->post(Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
@@ -295,9 +296,10 @@ class PresenceVariantController extends Controller{
 		$params['end_day'] = $r->endDay;
 		$params['start_work'] = $r->startWork;
 		$params['end_work'] = $r->endWork;
-		$params['start_break'] = $r->starBreak;
+		$params['start_break'] = $r->startBreak;
 		$params['end_break'] = $r->endBreak;
-		$url = Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_id/$id";
+		$params['shift_name'] = $r->name;
+		$url = Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_shift_id/$id";
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$url);
@@ -333,7 +335,7 @@ class PresenceVariantController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['presensi_type_varian_id'] = $id;
+		$params['presensi_type_shift_id'] = $id;
 		$curl->get(Constants::api() . '/presensiVarianType', $params);
 		
 		if($curl->error==TRUE){
