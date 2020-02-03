@@ -49,7 +49,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<caption>
-						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left" onclick="adds()">
+						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds" onclick="adds()">
 							<span class="fa fa-plus"></span>
 							Add
 						</button>
@@ -70,6 +70,7 @@
 								<td>
 									<select class="form-control" name="variant[]" required disabled>
 									</select>
+									<input type="hidden" class="form-control variant" name="variant[]" disabled />
 								</td>
 								<td>
 									<input type="text" class="form-control dp" name="start[]" required disabled />
