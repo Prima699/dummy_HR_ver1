@@ -35,7 +35,7 @@ class AuthController extends Controller
 				]
 			]);
 			
-			return redirect("/login");
+			return redirect("/");
 		}else{ // curl succeed
 			$res = json_decode($curl->response);
 			session(["auth" => $res->data]); // restore auth to auth session
