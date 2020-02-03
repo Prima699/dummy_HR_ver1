@@ -139,6 +139,11 @@ Breadcrumbs::for('departemen.edit', function ($t) {
     $t->push('Edit', route('admin.departemen.index'));
 });
 
+// PengajuanIjin
+Breadcrumbs::for('PengajuanIjin', function ($t) {
+    $t->push('PengajuanIjin', route('pengajuanijin.index'));
+});
+
 // Presence - Type
 Breadcrumbs::for('presence.type', function ($t) {
     $t->push('Presence Type', route('admin.presence.type.index'));
