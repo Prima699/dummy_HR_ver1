@@ -245,9 +245,21 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		/* end variant */
 	});
 	/* end presence */
+	
+
 });
 /* end admin */
 
+	// start pengajuanijin
+	Route::prefix('pengajuanijin')->name('pengajuanijin.')->namespace('PengajuanIjin')->group(function(){		
+		Route::get('/',  'PengajuanIjinController@index')->name('index');
+		Route::get('/data', 'PengajuanIjinController@data')->name('data');
+		Route::get('/create', 'PengajuanIjinController@create')->name('create');
+		Route::post('/store', 'PengajuanIjinController@store')->name('store');
+		Route::get('/edit/{id}', 'PengajuanIjinController@edit')->name('edit');
+		Route::put('/update/{id}', 'PengajuanIjinController@update')->name('update');
+	});
+	// end pengajuanijin
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
