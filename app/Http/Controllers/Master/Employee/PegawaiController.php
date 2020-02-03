@@ -450,7 +450,7 @@ class PegawaiController extends Controller{
 	}
 	
 	public function update(Request $r,$id){
-		$curl = curl_init();
+		$ch = curl_init();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		$url = Constants::api() . "/pegawaiEdit/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/pegawai_id/$id";
