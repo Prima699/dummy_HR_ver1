@@ -1,5 +1,5 @@
 function FCClientJS(apiKey, apiSecret) {
-	var _server = "http://api.skybiometry.com/fc/";
+	var _server = "https://api.skybiometry.com/fc/";
 	var _format = "json";
 
 	var _apiKey = null;

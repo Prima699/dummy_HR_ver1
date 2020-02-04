@@ -67,6 +67,7 @@
 							<th width="5%">Face Detect</th>
 							<th width="5%">Tag Save</th>
 							<th width="5%">Face Train</th>
+							<th id="idtrain"></th>
 						</tr>
 					</thead>
 					<tbody>

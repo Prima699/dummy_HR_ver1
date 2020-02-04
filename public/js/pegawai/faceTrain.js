@@ -3,11 +3,13 @@ $(document).ready(function() {
 		var empty = $(".dataTables_empty").html();
 		if(empty!="No data available in table"){
 			var tr = $("#faceTrainDT tbody tr");
+			$("#idtrain").css("display","none");
 			for(var i=0; i<tr.length; i++){
 				// action
 				var td = $(tr[i]).find("td:nth-child(6)");
+				$(td).css("display","none");
 				var id = $(td).html();
-				$(td).html(generateActionFT(id));
+				// $(td).html(generateActionFT(id));
 				
 				// image
 				var td = $(tr[i]).find("td:nth-child(2)");
@@ -87,6 +89,7 @@ $(document).ready(function() {
 			var onclick = "";
 			var classes = m + "-" + i;
 			var tid = "";
+			tr = digitasAssetApi + tr;
 			
 			if(m=="fd"){
 				onclick = "faceDetect('" + tr + "'," + id + "," + i + ")";
