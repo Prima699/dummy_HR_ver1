@@ -328,7 +328,7 @@ class PegawaiController extends Controller{
 				$ft = $a->train;
 				$id = $a->image_train_id;
 
-				$tmp = [$i, $image, $fd, $ts, $ft];
+				$tmp = [$i, $image, $fd, $ts, $ft, $id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
