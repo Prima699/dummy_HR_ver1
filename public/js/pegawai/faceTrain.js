@@ -178,7 +178,7 @@ function callback(data, img, id, field) {
 	}
 	
 	$.ajax({
-		url: digitasLink + "/admin/pegawai/face",
+		url: digitasLink + "/admin/employee/face",
 		type: "PUT",
 		data: {
 			train : id,
