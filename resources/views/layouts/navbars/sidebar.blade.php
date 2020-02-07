@@ -65,12 +65,6 @@
                 <p> {{ ("Tipe Presensi") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'presenceVariant') active @endif">
-              <a href="{{ route('admin.presence.variant.index') }}">
-                <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Variant Presensi") }} </p>
-              </a>
-            </li>
             <li class="@if ($activePage == 'presence') active @endif">
               <a href="{{ route('employee.presence.index') }}">
                 <i class="now-ui-icons design_app"></i>

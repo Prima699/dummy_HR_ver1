@@ -23,7 +23,12 @@ class DependeciesAgendaController extends Controller
 		$curl->get(Constants::api() . '/category_agenda', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -56,7 +61,12 @@ class DependeciesAgendaController extends Controller
 		$curl->get(Constants::api() . '/province', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -90,7 +100,12 @@ class DependeciesAgendaController extends Controller
 		$curl->get(Constants::api() . '/city', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		
@@ -123,7 +138,12 @@ class DependeciesAgendaController extends Controller
 		$curl->get(Constants::api() . '/pegawai', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json(FALSE);
 		}
 		

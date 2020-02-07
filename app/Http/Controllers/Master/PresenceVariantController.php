@@ -41,11 +41,17 @@ class PresenceVariantController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'presensi_type.presensi_type_name;start_day;end_day';
+		$params['field'] = 'shift_name';
 		$params['search'] = $search;
 		$curl->get(Constants::api() . '/presensiVarianType', $params);
 		
 		if($curl->error==TRUE){
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return -1;
 		}
 		
@@ -95,14 +101,19 @@ class PresenceVariantController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'presensi_type.presensi_type_name;start_day;end_day';
+		$params['field'] = 'shift_name';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
 		$curl->get(Constants::api() . '/presensiVarianType', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json($data);
 		}
 		
@@ -118,8 +129,7 @@ class PresenceVariantController extends Controller{
 		}else{
 			$amount = $this->totalData($r);
 			
-			if($amount==-1){				
-				session(["error" => "Server Unreachable."]);
+			if($amount==-1){
 				return Response()->json($data);
 			}
 		}
@@ -130,9 +140,11 @@ class PresenceVariantController extends Controller{
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->shift_name, $a->presensi_type_name, $a->presensi_type_shift_id];
-				$data["data"][] = $tmp;
-				$i++;
+				if($a->presensi_type_id==$r->type){					
+					$tmp = [$i, $a->shift_name, json_encode($a)];
+					$data["data"][] = $tmp;
+					$i++;
+				}
 			}
 		}
 		
@@ -201,18 +213,18 @@ class PresenceVariantController extends Controller{
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.presence.variant.create');
+			return redirect()->route('admin.presence.type.detail',["id"=>$r->type]);
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success creating new presence type.";
+			$status = "Success creating new presence variant.";
 			session(["status" => $status]);
-			return redirect()->route('admin.presence.variant.index');
+			return redirect()->route('admin.presence.type.detail',["id"=>$r->type]);
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.presence.variant.create');
+			return redirect()->route('admin.presence.type.detail',["id"=>$r->type]);
 		}
 	}
 	
@@ -291,7 +303,6 @@ class PresenceVariantController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params['presensi_type_id'] = $r->type;
 		$params['start_day'] = $r->startDay;
 		$params['end_day'] = $r->endDay;
 		$params['start_work'] = $r->startWork;
@@ -299,7 +310,7 @@ class PresenceVariantController extends Controller{
 		$params['start_break'] = $r->startBreak;
 		$params['end_break'] = $r->endBreak;
 		$params['shift_name'] = $r->name;
-		$url = Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_shift_id/$id";
+		$url = Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/presensi_type_shift_id/$r->presensi_type_shift_id";
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$url);
@@ -311,18 +322,18 @@ class PresenceVariantController extends Controller{
 		
 		if(!$res){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.presence.variant.edit',["id"=>$id]);
+			return redirect()->route('admin.presence.type.detail',["id"=>$id]);
 		}
 		
 		$res = json_decode($res);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success updating presence type.";
+			$status = "Success updating presence variant.";
 			session(["status" => $status]);
-			return redirect()->route('admin.presence.variant.index');
+			return redirect()->route('admin.presence.type.detail',["id"=>$id]);
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.presence.variant.edit',["id"=>$id]);
+			return redirect()->route('admin.presence.type.detail',["id"=>$id]);
 		}
 	}
 	

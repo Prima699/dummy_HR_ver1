@@ -1413,7 +1413,7 @@ if ( typeof $.fn.dataTable == "function" &&
 	} );
 }
 else {
-	alert( "Warning: ColReorder requires DataTables 1.10.8 or greater - www.datatables.net/download");
+	/*---*/console.log( "Warning: ColReorder requires DataTables 1.10.8 or greater - www.datatables.net/download");
 }
 
 
