@@ -59812,7 +59812,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *      var data = oTable._('tr:first');
 		 *
 		 *      // Do something useful with the data
-		 *      alert( "First cell is: "+data[0] );
+		 *      /*---*/console.log( "First cell is: "+data[0] );
 		 *    } );
 		 *
 		 *  @example
@@ -59824,7 +59824,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *      var data = oTable._('tr', {"search": "applied"});
 		 *
 		 *      // Do something with the data
-		 *      alert( data.length+" rows matched the search" );
+		 *      /*---*/console.log( data.length+" rows matched the search" );
 		 *    } );
 		 */
 		this._ = function ( sSelector, oOpts )
@@ -60146,7 +60146,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *
 		 *      oTable.$('td').click( function () {
 		 *        var sData = oTable.fnGetData( this );
-		 *        alert( 'The cell clicked on had the value of '+sData );
+		 *        /*---*/console.log( 'The cell clicked on had the value of '+sData );
 		 *      } );
 		 *    } );
 		 */
@@ -60377,7 +60377,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *      var oSettings = oTable.fnSettings();
 		 *
 		 *      // Show an example parameter from the settings
-		 *      alert( oSettings._iDisplayStart );
+		 *      /*---*/console.log( oSettings._iDisplayStart );
 		 *    } );
 		 */
 		this.fnSettings = function()
@@ -60487,7 +60487,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *  @example
 		 *    $(document).ready(function() {
 		 *      var oTable = $('#example').dataTable();
-		 *      alert( oTable.fnVersionCheck( '1.9.0' ) );
+		 *      /*---*/console.log( oTable.fnVersionCheck( '1.9.0' ) );
 		 *    } );
 		 */
 		this.fnVersionCheck = _ext.fnVersionCheck;
@@ -66117,7 +66117,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 			}
 	
 			if ( type == 'alert' ) {
-				alert( msg );
+				/*---*/console.log( msg );
 			}
 			else if ( type == 'throw' ) {
 				throw new Error(msg);
@@ -68804,7 +68804,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	 *  @dtopt API-Static
 	 *
 	 *  @example
-	 *    alert( $.fn.dataTable.versionCheck( '1.9.0' ) );
+	 *    /*---*/console.log( $.fn.dataTable.versionCheck( '1.9.0' ) );
 	 */
 	DataTable.versionCheck = DataTable.fnVersionCheck = function( version )
 	{
@@ -70349,7 +70349,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "drawCallback": function( settings ) {
-		 *          alert( 'DataTables has redrawn the table' );
+		 *          /*---*/console.log( 'DataTables has redrawn the table' );
 		 *        }
 		 *      } );
 		 *    } );
@@ -70496,7 +70496,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "initComplete": function(settings, json) {
-		 *          alert( 'DataTables has finished its initialisation.' );
+		 *          /*---*/console.log( 'DataTables has finished its initialisation.' );
 		 *        }
 		 *      } );
 		 *    } )
@@ -70707,7 +70707,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		 *      $('#example').dataTable( {
 		 *        "stateSave": true,
 		 *        "stateLoaded": function (settings, data) {
-		 *          alert( 'Saved filter was: '+data.oSearch.sSearch );
+		 *          /*---*/console.log( 'Saved filter was: '+data.oSearch.sSearch );
 		 *        }
 		 *      } );
 		 *    } );
@@ -82963,7 +82963,7 @@ if ( typeof $.fn.dataTable == "function" &&
 	} );
 }
 else {
-	alert( "Warning: ColReorder requires DataTables 1.10.8 or greater - www.datatables.net/download");
+	/*---*/console.log( "Warning: ColReorder requires DataTables 1.10.8 or greater - www.datatables.net/download");
 }
 
 
@@ -83128,7 +83128,7 @@ var FixedColumns = function ( dt, init ) {
 
 	/* Sanity check - you just know it will happen */
 	if ( ! ( this instanceof FixedColumns ) ) {
-		alert( "FixedColumns warning: FixedColumns must be initialised with the 'new' keyword." );
+		/*---*/console.log( "FixedColumns warning: FixedColumns must be initialised with the 'new' keyword." );
 		return;
 	}
 
@@ -83532,7 +83532,7 @@ $.extend( FixedColumns.prototype , {
 		if ( typeof this.s.dt.oInstance.fnVersionCheck != 'function' ||
 		     this.s.dt.oInstance.fnVersionCheck( '1.8.0' ) !== true )
 		{
-			alert( "FixedColumns "+FixedColumns.VERSION+" required DataTables 1.8.0 or later. "+
+			/*---*/console.log( "FixedColumns "+FixedColumns.VERSION+" required DataTables 1.8.0 or later. "+
 				"Please upgrade your DataTables installation" );
 			return;
 		}
@@ -84547,7 +84547,7 @@ FixedColumns.defaults = /** @lends FixedColumns.defaults */{
 	 *      } );
 	 *      new $.fn.dataTable.fixedColumns( table, {
 	 *          "drawCallback": function () {
-	 *	            alert( "FixedColumns redraw" );
+	 *	            /*---*/console.log( "FixedColumns redraw" );
 	 *	        }
 	 *      } );
 	 */
@@ -89469,7 +89469,7 @@ var DataTable = $.fn.dataTable;
 var Scroller = function ( dt, opts ) {
 	/* Sanity check - you just know it will happen */
 	if ( ! (this instanceof Scroller) ) {
-		alert( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
+		/*---*/console.log( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
 		return;
 	}
 

@@ -128,7 +128,7 @@ class DependenciesScheduleController extends Controller
 			}
 			$data = $tmp;
 		}else{
-			session(["error" => "Empty result of employee."]);
+			session(["error" => "Empty result of presence variant."]);
 			$data = FALSE;
 		}
 		

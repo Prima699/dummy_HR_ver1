@@ -11,4 +11,8 @@ class Constants {
 		return config('constants.url.assetApi');
     }
 	
+	public static function days3() {
+		return config('constants.datetime.days3');
+    }
+	
 }

@@ -168,7 +168,7 @@
 		 *      var data = oTable._('tr:first');
 		 *
 		 *      // Do something useful with the data
-		 *      alert( "First cell is: "+data[0] );
+		 *      /*---*/console.log( "First cell is: "+data[0] );
 		 *    } );
 		 *
 		 *  @example
@@ -180,7 +180,7 @@
 		 *      var data = oTable._('tr', {"search": "applied"});
 		 *
 		 *      // Do something with the data
-		 *      alert( data.length+" rows matched the search" );
+		 *      /*---*/console.log( data.length+" rows matched the search" );
 		 *    } );
 		 */
 		this._ = function ( sSelector, oOpts )
@@ -502,7 +502,7 @@
 		 *
 		 *      oTable.$('td').click( function () {
 		 *        var sData = oTable.fnGetData( this );
-		 *        alert( 'The cell clicked on had the value of '+sData );
+		 *        /*---*/console.log( 'The cell clicked on had the value of '+sData );
 		 *      } );
 		 *    } );
 		 */
@@ -733,7 +733,7 @@
 		 *      var oSettings = oTable.fnSettings();
 		 *
 		 *      // Show an example parameter from the settings
-		 *      alert( oSettings._iDisplayStart );
+		 *      /*---*/console.log( oSettings._iDisplayStart );
 		 *    } );
 		 */
 		this.fnSettings = function()
@@ -843,7 +843,7 @@
 		 *  @example
 		 *    $(document).ready(function() {
 		 *      var oTable = $('#example').dataTable();
-		 *      alert( oTable.fnVersionCheck( '1.9.0' ) );
+		 *      /*---*/console.log( oTable.fnVersionCheck( '1.9.0' ) );
 		 *    } );
 		 */
 		this.fnVersionCheck = _ext.fnVersionCheck;
@@ -6473,7 +6473,7 @@
 			}
 	
 			if ( type == 'alert' ) {
-				alert( msg );
+				/*---*/console.log( msg );
 			}
 			else if ( type == 'throw' ) {
 				throw new Error(msg);
@@ -9160,7 +9160,7 @@
 	 *  @dtopt API-Static
 	 *
 	 *  @example
-	 *    alert( $.fn.dataTable.versionCheck( '1.9.0' ) );
+	 *    /*---*/console.log( $.fn.dataTable.versionCheck( '1.9.0' ) );
 	 */
 	DataTable.versionCheck = DataTable.fnVersionCheck = function( version )
 	{
@@ -10705,7 +10705,7 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "drawCallback": function( settings ) {
-		 *          alert( 'DataTables has redrawn the table' );
+		 *          /*---*/console.log( 'DataTables has redrawn the table' );
 		 *        }
 		 *      } );
 		 *    } );
@@ -10852,7 +10852,7 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "initComplete": function(settings, json) {
-		 *          alert( 'DataTables has finished its initialisation.' );
+		 *          /*---*/console.log( 'DataTables has finished its initialisation.' );
 		 *        }
 		 *      } );
 		 *    } )
@@ -11063,7 +11063,7 @@
 		 *      $('#example').dataTable( {
 		 *        "stateSave": true,
 		 *        "stateLoaded": function (settings, data) {
-		 *          alert( 'Saved filter was: '+data.oSearch.sSearch );
+		 *          /*---*/console.log( 'Saved filter was: '+data.oSearch.sSearch );
 		 *        }
 		 *      } );
 		 *    } );

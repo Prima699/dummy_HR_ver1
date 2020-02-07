@@ -101,7 +101,7 @@ var DataTable = $.fn.dataTable;
 var Scroller = function ( dt, opts ) {
 	/* Sanity check - you just know it will happen */
 	if ( ! (this instanceof Scroller) ) {
-		alert( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
+		/*---*/console.log( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
 		return;
 	}
 

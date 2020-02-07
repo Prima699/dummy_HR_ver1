@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Curl;
 use Response;
+use Constants;
 
 class AuthController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthController extends Controller
     public function LogIn(Request $r){
 		$curl = new curl();
 		
-		$curl->post('http://digitasAPI.teaq.co.id/index.php/Bridge/userlogin', array(
+		$curl->post(Constants::api() . '/userlogin', array(
 			'username' => $r->email,
 			'password' => $r->password,
 			'role' => $r->role,
@@ -24,23 +25,24 @@ class AuthController extends Controller
 			'location' => ''
 		));
 		
-		if($curl->error){ // if curl error
-			$err = json_decode($curl->error_code);
-			$res = json_decode($curl->response);
-			
-			session([
-				"error" => [
-					"errorCode" => $err,
-					"response" => $res
-				]
-			]);
-			
-			return redirect("/");
-		}else{ // curl succeed
-			$res = json_decode($curl->response);
+		if($curl->error==TRUE){
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
+			return redirect("/login");
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
 			session(["auth" => $res->data]); // restore auth to auth session
-			
 			return redirect("/");
+		}else{
+			session(['error' => $res->errormsg]);
+			return redirect("/login");
 		}
 	}
 	

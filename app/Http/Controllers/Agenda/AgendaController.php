@@ -49,7 +49,12 @@ class AgendaController extends Controller
 		$curl->get(Constants::api() . '/pegawai_agenda', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('employee.agenda.index');
 		}
 		
@@ -92,6 +97,12 @@ class AgendaController extends Controller
 		$curl->get(Constants::api() . '/agenda', $params);
 		
 		if($curl->error==TRUE){
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return -1;
 		}
 		
@@ -159,7 +170,12 @@ class AgendaController extends Controller
 		$curl->get(Constants::api() . '/agenda', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return Response()->json($data);
 		}
 		
@@ -175,8 +191,7 @@ class AgendaController extends Controller
 		}else{
 			$amount = $this->totalData($r);
 			
-			if($amount==-1){				
-				session(["error" => "Server Unreachable."]);
+			if($amount==-1){
 				return Response()->json($data);
 			}
 		}
@@ -260,7 +275,12 @@ class AgendaController extends Controller
 		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('admin.agenda.create');
 		}
 		
@@ -289,7 +309,12 @@ class AgendaController extends Controller
 		$curl->get(Constants::api() . '/agenda', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('admin.agenda.index');
 		}
 		
@@ -323,6 +348,14 @@ class AgendaController extends Controller
 		
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
+		}
+		if($curl->error==TRUE){
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('admin.agenda.index');
 		}
 		

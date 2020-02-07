@@ -272,7 +272,12 @@ class PresenceTypeController extends Controller{
 		$curl->get(Constants::api() . '/presensiType', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('admin.presence.type.index');
 		}
 		
@@ -280,7 +285,8 @@ class PresenceTypeController extends Controller{
 		
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
-			$master = $this->master("Detail Presence Type","admin.presence.type.update","presence.type.detail","PUT",$id);
+			$master = $this->master("Detail Presence Type","admin.presence.variant.store","presence.type.detail","POST",$id);
+			
 			return view('master.presence.type.detail', compact('data','master'));
 		}else{
 			session(['error' => $res->errormsg]);
