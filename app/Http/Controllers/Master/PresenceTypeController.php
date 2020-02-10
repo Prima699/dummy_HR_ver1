@@ -287,7 +287,10 @@ class PresenceTypeController extends Controller{
 			$data = $res->data[0];
 			$master = $this->master("Detail Presence Type","admin.presence.variant.store","presence.type.detail","POST",$id);
 			
-			return view('master.presence.type.detail', compact('data','master'));
+			$PVC = new PresenceVariantController();
+			$amount = $PVC->amount($id);
+			
+			return view('master.presence.type.detail', compact('data','master','amount'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.presence.type.index');

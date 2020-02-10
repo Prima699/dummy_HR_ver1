@@ -28,7 +28,10 @@
 			@if($master->method=="PUT")
 				@method('PUT')
 			@endif
-			<input type="hidden" id="dependencies" data-variant="{{ ($employee!=NULL)? json_encode($employee->variant) :'' }}" />
+			<input type="hidden" id="dependencies"
+				data-variant="{{ ($employee!=NULL)? json_encode($employee->variant) :'' }}"
+				data-type="{{ ($employee!=NULL)? json_encode($employee->prestype) :'' }}"
+			/>
 			<div class="row">
 				<div class="col-md-6">
 					<label class="label" for="employee">Employee</label>
@@ -65,31 +68,41 @@
 								<th width="5%">Action</th>
 							</tr>
 						</thead>
-						<tbody id="paste">
+						<tbody hidden>
 							<tr id="copy" hidden>
 								<td>
 									<select class="form-control" name="variant[]" required disabled>
 									</select>
-									<input type="hidden" class="form-control variant" name="variant[]" disabled />
+									<input type="hidden" class="form-control variant" name="variant[]" required disabled />
 								</td>
 								<td>
-									<input type="text" class="form-control dp" name="start[]" required disabled />
+									<input type="text" class="form-control dp startDate" />
 								</td>
+								<td class="endDate fxd"></td>
+								<td class="workDay fxd"></td>
+								<td class="offDay fxd"></td>
 								<td>
-									<input type="text" class="form-control dp" name="end[]" required disabled />
-								</td>
-								<td>
-									<input type="text" class="form-control dp" name="work[]" required disabled />
-								</td>
-								<td>
-									<input type="text" class="form-control dp" name="off[]" required disabled />
-								</td>
-								<td>
+									<input type="hidden" name="workStart[]" disabled required />
+									<input type="hidden" name="workEnd[]" disabled required />
+									<input type="hidden" name="offStart[]" disabled required />
+									<input type="hidden" name="offEnd[]" disabled required />
 									<button type="button" class="btn btn-sm btn-danger" onclick="deletes(this)">
 										<span class="fas fa-trash"></span>
 									</button>
 								</td>
 							</tr>
+						</tbody>
+						<tbody id="paste">
+						@foreach()
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						@endforeach
 						</tbody>
 					</table>
 				</div>
@@ -102,7 +115,7 @@
 						<span class="fa fa-save"></span>
 						Save
 					</button>
-					<a href="{{ route('admin.agenda.index') }}" class="btn btn-link btn-sm">
+					<a href="{{ route('admin.schedule.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
 					</a>
@@ -121,17 +134,16 @@
 @endsection
 
 @push('css')
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
-	<link rel="stylesheet" href="{{ asset('public/assets/DatePicker/css/bootstrap-datepicker3.min.css') }}"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css"/>
 	<style>
-		.datepicker-dropdown {
-			padding: 10px !important;
-		}
 	</style>
 @endpush 
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/assets/DatePicker/js/bootstrap-datepicker.min.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
 	<script src="{{ asset('public/js/schedule/form.js') }}"></script>
 @endpush

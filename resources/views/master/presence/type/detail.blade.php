@@ -29,6 +29,8 @@
 				data-id="{{ $data->presensi_type_id }}"
 				data-create="{{ route('admin.presence.variant.store') }}?type={{ $data->presensi_type_id }}"
 				data-edit="{{ route('admin.presence.variant.update',$data->presensi_type_id) }}"
+				data-type="{{ $data->type }}"
+				data-variant="{{ $amount }}"
 			></div>
 			<div class="row">
 				<div class="col-md-2">
@@ -103,12 +105,10 @@
 				<div class="col-md-12">
 					<div class="container-variant-alert"></div>
 					<caption>
-					@if($data->type==0)
 						<a class="btn btn-primary btn-round btn-sm text-white pull-left" onclick="createVariant()">
 							<span class="fa fa-plus"></span>
 							Add Variant
 						</a>
-					@endif
 					</caption>
 					<table class="table table-bordered" id="datatable">
 						<thead>
@@ -223,7 +223,7 @@
 @push('css')
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
-	<link rel="stylesheet" href="http://t00rk.github.io/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css"/>
 	<style>
 		.indent-10 {
 			text-indent : 20px;
@@ -235,6 +235,6 @@
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-	<script src="http://t00rk.github.io/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
 	<script src="{{ asset('public/js/presence/type/detail.js') }}"></script>
 @endpush

@@ -43,6 +43,7 @@ class DependenciesScheduleController extends Controller
 		if($res->data!=NULL){
 			$data = $res->data[0];
 			$data->variant = $this->variant($r,$data->presensi_type_id);
+			$data->prestype = $this->type($r,$data->presensi_type_id);
 		}else{
 			session(["error" => "Empty result of employee."]);
 			$data = FALSE;
@@ -81,9 +82,9 @@ class DependenciesScheduleController extends Controller
 		}
 		
 		if($res->data!=NULL){
-			$data = $res->data;
+			$data = $res->data[0];
 		}else{
-			session(["error" => "Empty result of employee."]);
+			session(["error" => "Empty result of presence type."]);
 			$data = FALSE;
 		}
 		

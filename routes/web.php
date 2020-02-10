@@ -233,14 +233,10 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		});
 		/* end type */
 		/* start variant */
-		Route::prefix('variant')->name('variant.')->group(function(){		
-			Route::get('/', 'PresenceVariantController@index')->name('index');
+		Route::prefix('variant')->name('variant.')->group(function(){
 			Route::get('/data', 'PresenceVariantController@data')->name('data');
-			// Route::get('/create', 'PresenceVariantController@create')->name('create');
 			Route::post('/store', 'PresenceVariantController@store')->name('store');
-			// Route::get('/edit/{id}', 'PresenceVariantController@edit')->name('edit');
 			Route::put('/update/{id}', 'PresenceVariantController@update')->name('update');
-			// Route::get('/{id}', 'PresenceVariantController@detail')->name('detail');
 		});
 		/* end variant */
 	});
