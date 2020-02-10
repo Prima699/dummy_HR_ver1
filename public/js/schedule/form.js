@@ -1,25 +1,18 @@
-var dependencies = {variant:[]};
+var dependencies = {variant:[],type:[]};
 
 function openSubmitBtn(){
-	var alert = $(".container-schedule-alert .alert").length;
-	
 	var tr = $("#paste tr").length;
 	
 	$("#btn-submit").prop("disabled",true);
-	if(alert<=0 && tr>1){
+	$(".btn-adds").prop("hidden",true);
+	
+	if( (tr<1 && dependencies.type.type==1) || (dependencies.type.type==0) ){
+		$(".btn-adds").prop("hidden",false);
+	}
+	
+	if(tr>0){
 		$("#btn-submit").prop("disabled",false);
 	}
-}
-
-function dp(){
-	$("input.dp").datepicker({
-		format: "dd-mm-yyyy",
-		// calendarWeeks: true,
-		keyboardNavigation: false,
-		forceParse: false,
-		autoclose: true,
-		todayHighlight: true
-	});
 }
 
 function adds(){
@@ -39,12 +32,18 @@ function adds(){
 			$(option).attr("value",v.presensi_type_shift_id);
 			$(option).data("item",v);
 		$(c).find("select").append(option);
+		$(c).find("select").attr("title",v.shift_name);
 		
 		if(v.type==1 || v.type=="1"){
-			$(".btn-adds").prop("hidden",true);
 			readonly = v.presensi_type_shift_id;
+			$(c).find("input").attr("placeholder","Fixed");
+			$(c).find(".fxd").html("Fixed");
 			break;
 		}
+	}
+	
+	if(dependencies.type.type==1){
+		$(c).find(".dp").prop("disabled",true);
 	}
 	
 	if(readonly!=false){
@@ -65,10 +64,55 @@ function deletes(a){
 	openSubmitBtn();
 }
 
+function dp(){
+	$('.dp').bootstrapMaterialDatePicker({
+		weekStart : 0,
+		time: false,
+		format : "DD-MM-YYYY"
+	}).on('change', function(e, date){
+		var type = dependencies.type;
+		var parent = $(this).parents("tr")[0];
+		
+		var d = new Date(date);
+		var workStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		
+		d = new Date(d).addDays(type.work_day,1);
+		var workEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		
+		d = new Date(d).addDays(1,0);
+		var offStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		
+		d = new Date(d).addDays(type.off_day,1);
+		var offEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		
+		$(parent).find(".startDate").val(workStart);
+		$(parent).find(".endDate").html(offEnd);
+		$(parent).find(".workDay").html(workStart + "<br/>-<br/>" + workEnd);
+		$(parent).find(".offDay").html(offStart + "<br/>-<br/>" + offEnd);
+		
+		$(parent).find("input[name='workStart[]']").val(workStart);
+		$(parent).find("input[name='workEnd[]']").val(workEnd);
+		$(parent).find("input[name='offStart[]']").val(offStart);
+		$(parent).find("input[name='offEnd[]']").val(offEnd);
+	});
+}
+
 $(document).ready(function() {
 	dependencies["variant"] = $("#dependencies").data("variant");
+	dependencies["type"] = $("#dependencies").data("type");
 	
-	adds();
+	openSubmitBtn();
+	
+	Date.prototype.addDays = function(days,min) {
+		var date = new Date(this.valueOf());
+		date.setDate(date.getDate() + parseInt(days) - parseInt(min));
+		return date;
+	}
+	
+	Date.prototype.getMonths = function(){
+		var date = new Date(this.valueOf());
+		return date.getMonth() + 1;
+	}
 	
 	$('#dt1').DataTable({
 		"lengthChange": false,

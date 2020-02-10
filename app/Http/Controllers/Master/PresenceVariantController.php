@@ -14,10 +14,6 @@ use Constants;
 use App\Http\Controllers\Controller;
 
 class PresenceVariantController extends Controller{
-
-	public function index(){
-        return view("master.presence.variant.index");
-    }
 	
 	private function totalData($r){
 		$curl = new Curl();
@@ -151,51 +147,6 @@ class PresenceVariantController extends Controller{
 		return Response()->json($data);
 	}
 	
-	private function days(){
-		return [
-			"Sun" => "Sunday",
-			"Mon" => "Monday",
-			"Tue" => "Tuesday",
-			"Wed" => "Wednesday",
-			"Thu" => "Thursday",
-			"Fri" => "Friday",
-			"Sat" => "Saturday"
-		];
-	}
-
-    public function create(){
-		$curl = new Curl();
-		$userID = Auths::user('user.user_id');
-		$token = Auths::user("access_token");
-		
-		$master = $this->master("Create Presence Type","admin.presence.variant.store","presence.variant.create","POST");
-		$days = $this->days();
-		$types = NULL;
-		
-		$params['user_id'] = $userID;
-		$params['access_token'] = $token;
-		$params['platform'] = 'dashboard';
-		$params['location'] = 'xxx';
-		$curl->get(Constants::api() . '/presensiType', $params);
-		
-		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-		}else{
-			$res = json_decode($curl->response);
-			
-			if($res->errorcode!="0000"){
-				session(["error" => $res->errormsg]);
-			}else{
-				$i = 1;
-				if($res->data!=NULL){
-					$types = $res->data;
-				}
-			}
-		}
-		
-        return view("master.presence.variant.form", compact('master','days','types')); 
-    }
-	
 	public function store(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
@@ -212,7 +163,12 @@ class PresenceVariantController extends Controller{
 		$curl->post(Constants::api() . "/presensiVarianType/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
 			return redirect()->route('admin.presence.type.detail',["id"=>$r->type]);
 		}
 		
@@ -225,60 +181,6 @@ class PresenceVariantController extends Controller{
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.presence.type.detail',["id"=>$r->type]);
-		}
-	}
-	
-	public function edit(Request $r, $id){
-		$curl = new Curl();
-		$userID = Auths::user('user.user_id');
-		$token = Auths::user("access_token");
-		
-		$params['user_id'] = $userID;
-		$params['access_token'] = $token;
-		$params['platform'] = 'dashboard';
-		$params['location'] = 'xxx';
-		$params['presensi_type_shift_id'] = $id;
-		$curl->get(Constants::api() . '/presensiVarianType', $params);
-		
-		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.presence.variant.index');
-		}
-		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode=="0000"){
-			$data = $res->data[0];
-			$master = $this->master("Edit Presence Type","admin.presence.variant.update","presence.variant.edit","PUT",$id);
-			$days = $this->days();
-			$types = NULL;
-			
-			$curl = new Curl();
-			$params = [];
-			$params['user_id'] = $userID;
-			$params['access_token'] = $token;
-			$params['platform'] = 'dashboard';
-			$params['location'] = 'xxx';
-			$curl->get(Constants::api() . '/presensiType', $params);
-			
-			if($curl->error==TRUE){
-				session(["error" => "Server Unreachable."]);
-			}else{
-				$res = json_decode($curl->response);
-				
-				if($res->errorcode!="0000"){
-					session(["error" => $res->errormsg]);
-				}else{
-					$i = 1;
-					if($res->data!=NULL){
-						$types = $res->data;
-					}
-				}
-			}
-			return view('master.presence.variant.form', compact('data','master','types','days'));
-		}else{
-			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.presence.index.index');
 		}
 	}
 	
@@ -337,7 +239,7 @@ class PresenceVariantController extends Controller{
 		}
 	}
 	
-	public function detail(Request $r, $id){
+	public function amount($id){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
@@ -346,50 +248,33 @@ class PresenceVariantController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['presensi_type_shift_id'] = $id;
 		$curl->get(Constants::api() . '/presensiVarianType', $params);
 		
 		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.presence.variant.index');
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
+			return -1;
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
-			$data = $res->data[0];
-			$master = $this->master("Detail Presence Type","admin.presence.variant.update","presence.variant.detail","PUT",$id);
-			$days = $this->days();
-			$types = NULL;
-
-			$curl = new Curl();
-			$params = [];
-			$params['user_id'] = $userID;
-			$params['access_token'] = $token;
-			$params['platform'] = 'dashboard';
-			$params['location'] = 'xxx';
-			$params['presensi_type_id'] = $data->presensi_type_id;
-			$curl->get(Constants::api() . '/presensiType', $params);
+			$data = 0;
 			
-			if($curl->error==TRUE){
-				session(["error" => "Server Unreachable."]);
-			}else{
-				$res = json_decode($curl->response);
-				
-				if($res->errorcode!="0000"){
-					session(["error" => $res->errormsg]);
-				}else{
-					$i = 1;
-					if($res->data!=NULL){
-						$types = $res->data[0];
-					}
+			foreach($res->data as $d){
+				if($id==$d->presensi_type_id){
+					$data += 1;
 				}
 			}
 			
-			return view('master.presence.variant.detail', compact('data','master','days','types'));
+			return $data;
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.presence.variant.index');
+			return -1;
 		}
 	}
 

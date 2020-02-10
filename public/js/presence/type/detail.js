@@ -66,7 +66,7 @@ $(document).ready(function() {
 			$(a).attr("onclick","editVariant(this)");
 			$(a).attr("data-info",id);
 			$(a).attr("type","button");
-			$(a).attr("title","Edi " + name);
+			$(a).attr("title","Edit " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
 			var span = document.createElement("span");
@@ -79,14 +79,22 @@ $(document).ready(function() {
 } );
 
 function createVariant(){
-	clearVariant();
-	$("#variant-modal form").append($("input[name='_token']").clone());
-	
-	$("#variant-modal .modal-title").html("Create Variant");
-	$("#variant-modal form").attr("action",$("#data").data("create"));
-	
-	tp();
-	$("#variant-modal").modal("show");
+	var variant = $("#data").data("variant");
+	var type = $("#data").data("type");
+	if(variant==-1){
+		showError("div.container-variant-alert","Server unreachable.");
+	}else if( (type==1 && variant==0) || (type==0) ){
+		clearVariant();
+		$("#variant-modal form").append($("input[name='_token']").clone());
+		
+		$("#variant-modal .modal-title").html("Create Variant");
+		$("#variant-modal form").attr("action",$("#data").data("create"));
+		
+		tp();
+		$("#variant-modal").modal("show");
+	}else{
+		showError("div.container-variant-alert","Access Limited.");
+	}
 }
 
 function infoVariant(t){

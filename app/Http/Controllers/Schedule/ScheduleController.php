@@ -222,31 +222,15 @@ class ScheduleController extends Controller
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params = [
-			"category_agenda_id" => $r->category,
-			"agenda_title" => $r->title,
-			"agenda_desc" => $r->description,
-			"ID_t_md_province" => $r->province,
-			"ID_t_md_city" => $r->city,
-			"hari" => [],
-			"anggota" => []
-		];
-		for($i=0; $i<count($r->date); $i++){
-			$tmp = new \stdClass;
-			$tmp->agenda_detail_date = $r->date[$i];
-			$tmp->agenda_detail_address = $r->address[$i];
-			$tmp->agenda_detail_time_start = $r->start[$i];
-			$tmp->agenda_detail_time_end = $r->end[$i];
-			$tmp->agenda_detail_long = 107.6570477;
-			$tmp->agenda_detail_lat = -6.895538;
-			$params["hari"][] = $tmp;
+		$params = [ "pegawai_id" => $r->employee ];
+		foreach($r->variant as $i => $v){
+			$params["presensi_type_shift_id[$i]"] = $r->variant[$i];
+			$params["work_day_start[$i]"] = $r->workStart[$i];
+			$params["work_day_end[$i]"] = $r->workEnd[$i];
+			$params["off_day_start[$i]"] = $r->offStart[$i];
+			$params["off_day_end[$i]"] = $r->offEnd[$i];
 		}
-		for($i=0; $i<count($r->employee); $i++){
-			$tmp = new \stdClass;
-			$tmp->pegawai_id = $r->employee[$i];
-			$params["anggota"][] = $tmp;
-		}
-		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+		$curl->post(Constants::api() . "/pegawaiJadwal/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		if($curl->error==TRUE){
 			if($curl->response==false){				
@@ -255,18 +239,18 @@ class ScheduleController extends Controller
 				$res = json_decode($curl->response);
 				session(["error" => $res->errormsg]);
 			}
-			return Response()->json($data);
+			return redirect()->route('admin.schedule.index');
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success creating new agenda.";
+			$status = "Success creating new schedule.";
 			session(["status" => $status]);
-			return redirect()->route('admin.agenda.index');
+			return redirect()->route('admin.schedule.edit',$r->employee);
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.agenda.create');
+			return redirect()->route('admin.schedule.edit',$r->employee);
 		}
 	}
 	
@@ -327,15 +311,12 @@ class ScheduleController extends Controller
 		
 		$res = json_decode($curl->response);
 		
-		if($res->errorcode=="0000"){
-			$data = $res->data[0];
-			$master = $this->master("Edit Schedule","admin.schedule.update","schedule.edit","PUT",$id);
-			return view('schedule.form', compact('data','master'));
-		} else if($res->errorcode=="00001"){			
+		if($res->errorcode=="0000" || $res->errorcode=="00001"){
+			$data = $res->data;
 			$dep = new DependenciesScheduleController();
 			$employee = $dep->employee($r,$id);
 			$master = $this->master("Create Schedule","admin.schedule.store","schedule.create","POST",$id);
-			return view('schedule.form', compact('master','employee'));
+			return view('schedule.form', compact('master','employee','data'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.schedule.index');
