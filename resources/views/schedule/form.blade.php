@@ -25,9 +25,7 @@
             </div>
 			<form method="post" action="{{ $master->action }}">
 			@csrf
-			@if($master->method=="PUT")
-				@method('PUT')
-			@endif
+			@method('PUT')
 			<input type="hidden" id="dependencies"
 				data-variant="{{ ($employee!=NULL)? json_encode($employee->variant) :'' }}"
 				data-type="{{ ($employee!=NULL)? json_encode($employee->prestype) :'' }}"
@@ -38,21 +36,19 @@
 					<select class="form-control" disabled>
 						<option>{{ ($employee!=NULL)? $employee->pegawai_name : '' }}</option>
 					</select>
-					<input type="hidden" name="employee" value="{{ ($employee!=NULL)? $employee->pegawai_id : '' }}" />
 				</div>
 				<div class="col-md-6">
 					<label class="label" for="type">Presence Type</label>
 					<select class="form-control" disabled>
 						<option>{{ ($employee!=NULL)? $employee->presensi_type_name : '' }}</option>
 					</select>
-					<input type="hidden" name="presence" value="{{ ($employee!=NULL)? $employee->presensi_type_id : '' }}" />
 				</div>
 			</div>
 			<br/>
 			<div class="row">
 				<div class="col-md-12">
 					<caption>
-						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds" onclick="adds()">
+						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds" onclick="create()">
 							<span class="fa fa-plus"></span>
 							Add
 						</button>
@@ -68,39 +64,36 @@
 								<th width="5%">Action</th>
 							</tr>
 						</thead>
-						<tbody hidden>
-							<tr id="copy" hidden>
-								<td>
-									<select class="form-control" name="variant[]" required disabled>
-									</select>
-									<input type="hidden" class="form-control variant" name="variant[]" required disabled />
-								</td>
-								<td>
-									<input type="text" class="form-control dp startDate" />
-								</td>
-								<td class="endDate fxd"></td>
-								<td class="workDay fxd"></td>
-								<td class="offDay fxd"></td>
-								<td>
-									<input type="hidden" name="workStart[]" disabled required />
-									<input type="hidden" name="workEnd[]" disabled required />
-									<input type="hidden" name="offStart[]" disabled required />
-									<input type="hidden" name="offEnd[]" disabled required />
-									<button type="button" class="btn btn-sm btn-danger" onclick="deletes(this)">
-										<span class="fas fa-trash"></span>
-									</button>
-								</td>
-							</tr>
-						</tbody>
 						<tbody id="paste">
-						@foreach()
+						@foreach($data as $d)
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td>
+									@foreach($employee->variant as $v)
+										@if($d->presensi_type_shift_id==$v->presensi_type_shift_id)
+											{{ $v->shift_name }}
+											@php break; @endphp
+										@endif
+									@endforeach
+								</td>
+								<td>{{ date("d-m-Y",strtotime($d->work_day_start)) }}</td>
+								<td>{{ date("d-m-Y",strtotime($d->off_day_end)) }}</td>
+								<td>
+									{{ date("d-m-Y",strtotime($d->work_day_start)) }}
+									<br/>-<br/>
+									{{ date("d-m-Y",strtotime($d->work_day_end)) }}
+								</td>
+								<td>
+									{{ date("d-m-Y",strtotime($d->off_day_start)) }}
+									<br/>-<br/>
+									{{ date("d-m-Y",strtotime($d->off_day_end)) }}
+								</td>
+								<td>
+									<form style="display:inline;">
+										<button type="button" class="btn btn-sm btn-warning" onclick="edit(this)" data-d="{{ json_encode($d) }}">
+											<span class="fas fa-edit"></span>
+										</button>
+									</form>
+								</td>
 							</tr>
 						@endforeach
 						</tbody>
@@ -111,10 +104,6 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-3">
-					<button type="submit" class="btn btn-info btn-sm" id="btn-submit" disabled>
-						<span class="fa fa-save"></span>
-						Save
-					</button>
 					<a href="{{ route('admin.schedule.index') }}" class="btn btn-link btn-sm">
 						<span class="fa fa-arrow-left"></span>
 						Back
@@ -131,6 +120,71 @@
     </div>
     <!-- end row -->
   </div>
+  
+<div id="modal" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form>
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<label for="variant">Shift</label>
+						<select class="form-control fxd" id="variant" name="variant" required>
+						@foreach($employee->variant as $v)
+							<option value="{{ $v->presensi_type_shift_id }}">{{ $v->shift_name }}</option>
+						@endforeach
+						</select>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label for="workStart">Start Date</label>
+						<input type="text" class="form-control dp" id="startDate" />
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label for="">End Date</label>
+						<p id="endDate"></p>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label for="">Work Day</label>
+						<p id="workDay"></p>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label for="">Off Day</label>
+						<p id="offDay"></p>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">				
+				<input type="hidden" class="fxd" name="presence" value="{{ ($employee!=NULL)? $employee->presensi_type_id : '' }}" />
+				<input type="hidden" class="fxd" name="employee" value="{{ ($employee!=NULL)? $employee->pegawai_id : '' }}" />
+				<input type="hidden" name="workStart" required />
+				<input type="hidden" name="workEnd" required />
+				<input type="hidden" name="offStart" required />
+				<input type="hidden" name="offEnd" required />
+				<button type="submit" class="btn btn-sm btn-primary" id="modalButtonSave">Save</button>
+				<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
 @endsection
 
 @push('css')

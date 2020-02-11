@@ -15,86 +15,92 @@ function openSubmitBtn(){
 	}
 }
 
-function adds(){
-	var c = $("#copy").clone();
-	var readonly = false;
+function create(){
+	clear();
+	dp("create");
 	
-	$(c).prop("hidden",false);
-	$(c).removeAttr("id");
-	$(c).find("select").prop("disabled",false);
-	$(c).find("input:not(.variant)").prop("disabled",false);
-	
-	for(var i=0; i<dependencies.variant.length; i++){
-		var v = dependencies.variant[i];
-		
-		var option = document.createElement("option");
-			$(option).html(v.shift_name);
-			$(option).attr("value",v.presensi_type_shift_id);
-			$(option).data("item",v);
-		$(c).find("select").append(option);
-		$(c).find("select").attr("title",v.shift_name);
-		
-		if(v.type==1 || v.type=="1"){
-			readonly = v.presensi_type_shift_id;
-			$(c).find("input").attr("placeholder","Fixed");
-			$(c).find(".fxd").html("Fixed");
-			break;
-		}
-	}
-	
-	if(dependencies.type.type==1){
-		$(c).find(".dp").prop("disabled",true);
-	}
-	
-	if(readonly!=false){
-		$(c).find("select").prop("disabled",true);
-		$(c).find(".variant").prop("disabled",false);
-		$(c).find(".variant").val(readonly);
-	}
-	
-	$("#paste").append(c);
-	
-	dp();
-	openSubmitBtn();
+	$("#modal form").append($("input[name='_token']").clone());
+	$("#modal form").attr("action",digitasLink + "/admin/schedule/store");
+	$("#modal form").attr("method","post");
+	$("#modal .modal-title").html("Create Schedule");
+	$("#modal").modal("show");
 }
 
-function deletes(a){
-	$(a).parents("tr").remove();
+function edit(t){
+	var d = $(t).data("d");
 	
-	openSubmitBtn();
+	clear();
+	dp(d.work_day_start);
+	
+	$("#modal form").append($("input[name='_token']").clone());
+	$("#modal form").append($("input[name='_method']").clone());
+	$("#modal form").attr("action",digitasLink + "/admin/schedule/update/" + d.presensi_config_id);
+	$("#modal form").attr("method","post");
+	$("#modal .modal-title").html("Edit Schedule");
+	$("#modal").modal("show");
 }
 
-function dp(){
-	$('.dp').bootstrapMaterialDatePicker({
-		weekStart : 0,
-		time: false,
-		format : "DD-MM-YYYY"
-	}).on('change', function(e, date){
-		var type = dependencies.type;
-		var parent = $(this).parents("tr")[0];
+function clear(){
+	$("#modal #modalButtonSave").prop("disabled",true);
+	$("#modal input:not(.fxd)").val("");
+	$("#modal select:not(.fxd)").val("");
+	$("#modal input[name='_token']").remove();
+	$("#modal input[name='_method']").remove();
+	$("#modal #endDate").html("");
+	$("#modal #workDay").html("");
+	$("#modal #offDay").html("");
+}
+
+function dp(m){
+	if(m!="create"){
+		var date = new Date(m);
 		
-		var d = new Date(date);
-		var workStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		$('.dp').bootstrapMaterialDatePicker({
+			weekStart : 0,
+			time: false,
+			format : "DD-MM-YYYY",
+			currentDate : date
+		});
 		
-		d = new Date(d).addDays(type.work_day,1);
-		var workEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+		formed(date);
+	}else{
+		$('.dp').bootstrapMaterialDatePicker({
+			weekStart : 0,
+			time: false,
+			format : "DD-MM-YYYY"
+		});
+	}
+	$('.dp').on('change', function(e, date){
+		formed(date);
 		
-		d = new Date(d).addDays(1,0);
-		var offStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
-		
-		d = new Date(d).addDays(type.off_day,1);
-		var offEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
-		
-		$(parent).find(".startDate").val(workStart);
-		$(parent).find(".endDate").html(offEnd);
-		$(parent).find(".workDay").html(workStart + "<br/>-<br/>" + workEnd);
-		$(parent).find(".offDay").html(offStart + "<br/>-<br/>" + offEnd);
-		
-		$(parent).find("input[name='workStart[]']").val(workStart);
-		$(parent).find("input[name='workEnd[]']").val(workEnd);
-		$(parent).find("input[name='offStart[]']").val(offStart);
-		$(parent).find("input[name='offEnd[]']").val(offEnd);
+		$("#modalButtonSave").prop("disabled",false);
 	});
+}
+
+function formed(date){
+	var type = dependencies.type;
+		
+	var d = new Date(date);
+	var workStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+	
+	d = new Date(d).addDays(type.work_day,1);
+	var workEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+	
+	d = new Date(d).addDays(1,0);
+	var offStart = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+	
+	d = new Date(d).addDays(type.off_day,1);
+	var offEnd = d.getDate() + "-" + d.getMonths() + "-" + d.getFullYear();
+	
+	$("#startDate").val(workStart);
+	$("#endDate").html(offEnd);
+	$("#workDay").html(workStart + " until " + workEnd);
+	$("#offDay").html(offStart + " until " + offEnd);
+	
+	$("input[name='workStart']").val(workStart);
+	$("input[name='workEnd']").val(workEnd);
+	$("input[name='offStart']").val(offStart);
+	$("input[name='offEnd']").val(offEnd);
 }
 
 $(document).ready(function() {
