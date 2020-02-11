@@ -13,10 +13,6 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.schedule.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
-				  <span class="fa fa-plus"></span>
-                  Create
-              </a>
             <h4 class="card-title">{{ __('Schedule') }}</h4>
             <div class="col-12 mt-2 container-schedule-alert">
               @include('alerts.success')

@@ -39,7 +39,7 @@ $(document).ready(function() {
 			$(form).attr("action",""+id);
 			$(form).attr("style","display:inline;");
 			
-		$(form).append(info);
+		// $(form).append(info);
 		$(form).append(edit);
 		
 		return form;
