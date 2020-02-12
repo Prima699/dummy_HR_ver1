@@ -83,7 +83,7 @@ class ScheduleController extends Controller
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'pegawai_id';
+		$params['field'] = 'pegawai_name';
 		$params['search'] = $search;
 		$curl->get(Constants::api() . '/pegawaiJadwal', $params);
 		
@@ -250,6 +250,46 @@ class ScheduleController extends Controller
 		}
 		
 		return redirect()->route('admin.schedule.edit',$r->employee);
+	}
+	
+	public function storeFixed(Request $r){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		$i = 0;
+		
+		if($r->i==-1 || $r->i=="-1"){
+			session(['error' => "Please setup presence type & variant first."]);
+			return redirect()->route('admin.schedule.edit',$r->e);
+		}
+		
+		$params = [ "pegawai_id" => $r->e ];
+		$params["presensi_type_shift_id[$i]"] = $r->i;
+		$params["work_day_start[$i]"] = '';
+		$params["work_day_end[$i]"] = '';
+		$params["off_day_start[$i]"] = '';
+		$params["off_day_end[$i]"] = '';
+		$curl->post(Constants::api() . "/pegawaiJadwal/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+		
+		if($curl->error==TRUE){
+			if($curl->response==false){				
+				session(["error" => "Server Unreachable."]);
+			}else{
+				$res = json_decode($curl->response);
+				session(["error" => $res->errormsg]);
+			}
+		}
+		
+		$res = json_decode($curl->response);
+		
+		if($res->errorcode=="0000"){
+			$status = "Success creating new schedule.";
+			session(["status" => $status]);
+		}else{
+			session(['error' => $res->errormsg]);
+		}
+		
+		return redirect()->route('admin.schedule.edit',$r->e);
 	}
 	
 	public function detail(Request $r, $id){

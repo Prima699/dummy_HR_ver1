@@ -3,15 +3,10 @@ var dependencies = {variant:[],type:[]};
 function openSubmitBtn(){
 	var tr = $("#paste tr").length;
 	
-	$("#btn-submit").prop("disabled",true);
 	$(".btn-adds").prop("hidden",true);
 	
 	if( (tr<1 && dependencies.type.type==1) || (dependencies.type.type==0) ){
 		$(".btn-adds").prop("hidden",false);
-	}
-	
-	if(tr>0){
-		$("#btn-submit").prop("disabled",false);
 	}
 }
 

@@ -48,10 +48,17 @@
 			<div class="row">
 				<div class="col-md-12">
 					<caption>
-						<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds" onclick="create()">
-							<span class="fa fa-plus"></span>
-							Add
-						</button>
+						@if($employee->prestype->type!=1)
+							<button type="button" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds" onclick="create()">
+								<span class="fa fa-plus"></span>
+								Add
+							</button>
+						@else
+							<a href="{{ route('admin.schedule.storeFixed') }}?q=fixed&i={{ ($employee!=NULL)? $employee->variant[0]->presensi_type_shift_id : '-1' }}&e={{ ($employee!=NULL)? $employee->pegawai_id : '-1' }}" class="btn btn-primary btn-round btn-sm text-white pull-left btn-adds">
+								<span class="fa fa-plus"></span>
+								Add
+							</a>
+						@endif
 					</caption>
 					<table id="dt1" class="table table-bordered text-center">
 						<thead>
@@ -65,6 +72,7 @@
 							</tr>
 						</thead>
 						<tbody id="paste">
+						@if($data!=NULL)
 						@foreach($data as $d)
 							<tr>
 								<td>
@@ -75,27 +83,30 @@
 										@endif
 									@endforeach
 								</td>
-								<td>{{ date("d-m-Y",strtotime($d->work_day_start)) }}</td>
-								<td>{{ date("d-m-Y",strtotime($d->off_day_end)) }}</td>
+								<td>{{ DateTimes::dmy($d->work_day_start, "Fixed") }}</td>
+								<td>{{ DateTimes::dmy($d->off_day_end, "Fixed") }}</td>
 								<td>
-									{{ date("d-m-Y",strtotime($d->work_day_start)) }}
+									{{ DateTimes::dmy($d->work_day_start, "Fixed") }}
 									<br/>-<br/>
-									{{ date("d-m-Y",strtotime($d->work_day_end)) }}
+									{{ DateTimes::dmy($d->work_day_end, "Fixed") }}
 								</td>
 								<td>
-									{{ date("d-m-Y",strtotime($d->off_day_start)) }}
+									{{ DateTimes::dmy($d->off_day_start, "Fixed") }}
 									<br/>-<br/>
-									{{ date("d-m-Y",strtotime($d->off_day_end)) }}
+									{{ DateTimes::dmy($d->off_day_end, "Fixed") }}
 								</td>
 								<td>
+									@if($employee->prestype->type!=1)
 									<form style="display:inline;">
 										<button type="button" class="btn btn-sm btn-warning" onclick="edit(this)" data-d="{{ json_encode($d) }}">
 											<span class="fas fa-edit"></span>
 										</button>
 									</form>
+									@endif
 								</td>
 							</tr>
 						@endforeach
+						@endif
 						</tbody>
 					</table>
 				</div>
