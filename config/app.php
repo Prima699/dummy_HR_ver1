@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 		'Auths' => App\Helpers\Auth::class,
 		'Constants' => App\Helpers\Constants::class,
+		'DateTimes' => App\Helpers\DateTimes::class,
 
     ],
 

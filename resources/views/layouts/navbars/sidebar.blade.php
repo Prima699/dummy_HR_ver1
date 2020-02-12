@@ -65,12 +65,14 @@
                 <p> {{ ("Tipe Presensi") }} </p>
               </a>
             </li>
+			<!--
             <li class="@if ($activePage == 'presence') active @endif">
               <a href="{{ route('employee.presence.index') }}">
                 <i class="now-ui-icons design_app"></i>
                 <p>{{ ('Presence') }}</p>
               </a>
             </li>
+			-->
           </ul>
         </div>
       </li>
@@ -217,7 +219,7 @@
           </ul>
         </div>
       </li>
-
+<!--
       {{-- User Management --}}
       <li>
         <a data-toggle="collapse" href="#usersmanagement">
@@ -247,14 +249,6 @@
         </div>
       </li>
 
-      {{-- icons --}}
-      <li class="@if ($activePage == 'icons') active @endif">
-        <a href="{{ route('page.index','icons') }}">
-          <i class="now-ui-icons education_atom"></i>
-          <p>{{ ('Icons') }}</p>
-        </a>
-      </li>
-
       {{-- Pengajuan Ijin --}}
             <li class="@if ($activePage == 'pengajuanijin') active @endif">
               <a href="{{ route('pengajuanijin.index') }}">
@@ -272,31 +266,7 @@
               </a>
             </li>
             {{--  --}}
-
-      <!-- <li class = "@if ($activePage == 'maps') active @endif">
-        <a href="{{ route('page.index','maps') }}">
-          <i class="now-ui-icons location_map-big"></i>
-          <p>{{ ('Maps') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'notifications') active @endif">
-        <a href="{{ route('page.index','notifications') }}">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>{{ ('Notifications') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'table') active @endif">
-        <a href="{{ route('page.index','table') }}">
-          <i class="now-ui-icons design_bullet-list-67"></i>
-          <p>{{ ('Table List') }}</p>
-        </a>
-      </li>
-      <li class = "@if ($activePage == 'typography') active @endif">
-        <a href="{{ route('page.index','typography') }}">
-          <i class="now-ui-icons text_caps-small"></i>
-          <p>{{ ('Typography') }}</p>
-        </a>
-      </li> -->
+			-->
     </ul>
   </div>
 </div>
