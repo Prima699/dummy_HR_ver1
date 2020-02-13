@@ -29,10 +29,10 @@
             </div>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
-					<a class="nav-link active" href="{{ route('admin.agenda.index').'?agenda=upComing' }}">Up Coming</a>
+					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=upComing' }}">Up Coming</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=onGoing' }}">On Going</a>
+					<a class="nav-link active" href="{{ route('admin.agenda.index').'?agenda=onGoing' }}">On Going</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=done' }}">Done</a>
@@ -41,7 +41,7 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane container active" id="upComing">
+				<div class="tab-pane container active" id="onGoing">
 					<table id="datatable" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
 						<thead>
 							<tr>
@@ -81,7 +81,7 @@
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/agenda/upComing.js') }}"></script>
+	<script src="{{ asset('public/js/agenda/onGoing.js') }}"></script>
 	<!--
 	-->
 @endpush

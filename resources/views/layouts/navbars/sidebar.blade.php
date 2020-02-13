@@ -4,7 +4,7 @@
 -->
   <div class="logo">
     <a href="#" class="simple-text logo-mini">
-      {{ ('GT') }}
+      <img src="{{ asset(''.'assets') }}/img/favicon.png">
     </a>
     <a href="#" class="simple-text logo-normal">
       {{ Auths::user("user.name") }}
@@ -28,12 +28,14 @@
         </a>
         <div class="collapse submenu" id="agenda">
           <ul class="nav">
-            <li class="@if ($activePage == 'tipe_agenda') active @endif">
-              <a href="#"> 
-                <i class="now-ui-icons users_single-02"></i>
+            {{-- Tipeagenda --}}
+            <li class="@if ($activePage == 'TipeAgenda') active @endif">
+              <a href="{{ route('admin.TipeAgenda.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Tipe Agenda") }} </p>
               </a>
             </li>
+            {{--  --}}
             <li class="@if ($activePage == 'agenda') active @endif">
               <a href="{{ (Auths::user('user.role')=='adm')? route('admin.agenda.index') :route('employee.agenda.index') }}">
                 <i class="now-ui-icons design_app"></i>
@@ -249,6 +251,13 @@
         </div>
       </li>
 
+<!--       {{-- icons --}}
+      <li class="@if ($activePage == 'icons') active @endif">
+        <a href="{{ route('page.index','icons') }}">
+          <i class="now-ui-icons education_atom"></i>
+          <p>{{ ('Icons') }}</p>
+        </a>
+      </li>
       {{-- Pengajuan Ijin --}}
             <li class="@if ($activePage == 'pengajuanijin') active @endif">
               <a href="{{ route('pengajuanijin.index') }}">
@@ -265,8 +274,32 @@
                 <p> {{ ("Pengajuan Subordinat") }} </p>
               </a>
             </li>
-            {{--  --}}
-			-->
+            {{--  --}} -->
+
+      <!-- <li class = "@if ($activePage == 'maps') active @endif">
+        <a href="{{ route('page.index','maps') }}">
+          <i class="now-ui-icons location_map-big"></i>
+          <p>{{ ('Maps') }}</p>
+        </a>
+      </li>
+      <li class = " @if ($activePage == 'notifications') active @endif">
+        <a href="{{ route('page.index','notifications') }}">
+          <i class="now-ui-icons ui-1_bell-53"></i>
+          <p>{{ ('Notifications') }}</p>
+        </a>
+      </li>
+      <li class = " @if ($activePage == 'table') active @endif">
+        <a href="{{ route('page.index','table') }}">
+          <i class="now-ui-icons design_bullet-list-67"></i>
+          <p>{{ ('Table List') }}</p>
+        </a>
+      </li>
+      <li class = "@if ($activePage == 'typography') active @endif">
+        <a href="{{ route('page.index','typography') }}">
+          <i class="now-ui-icons text_caps-small"></i>
+          <p>{{ ('Typography') }}</p>
+        </a>
+      </li> -->
     </ul>
   </div>
 </div>

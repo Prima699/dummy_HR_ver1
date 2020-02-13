@@ -52,7 +52,7 @@
   <link href="{{ asset('public/'.'assets') }}/css/bootstrap.min.css" rel="stylesheet" />
   <link href="{{ asset('public/'.'assets') }}/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="{{ asset('public/'.'assets') }}/demo/demo.css" rel="stylesheet" />
+  <!-- <link href="{{ asset('public/'.'assets') }}/demo/demo.css" rel="stylesheet" /> -->
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -130,7 +130,7 @@
 	</div>
   <!--   Core JS Files   -->
   <script>
-	var digitasLink = "{{ route('index') }}";
+	var digitasLink = "{{ route('logins') }}";
 	var digitasAssetApi = "{{ Constants::assetApi() }}";
   </script>
   <script src="{{ asset('public/'.'assets') }}/js/core/jquery.min.js"></script>
@@ -146,8 +146,9 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('public/'.'assets') }}/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-  <script src="{{ asset('public/'.'assets') }}/demo/demo.js"></script>
+  <!-- <script src="{{ asset('public/'.'assets') }}/demo/demo.js"></script> -->
   <script src="{{ asset('public/') }}/js/app/index.js"></script>
+  <script src="{{ asset('public/') }}/js/app/jscolor.js"></script>
   @stack('js')
 </body>
 

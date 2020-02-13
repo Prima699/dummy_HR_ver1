@@ -126,6 +126,19 @@ Breadcrumbs::for('TipeIjin.edit', function ($t) {
     $t->push('Edit', route('admin.TipeIjin.index'));
 });
 
+// Tipe Agenda
+Breadcrumbs::for('TipeAgenda', function ($t) {
+    $t->push('TipeAgenda', route('admin.TipeAgenda.index'));
+});
+Breadcrumbs::for('TipeAgenda.create', function ($t) {
+    $t->parent('TipeAgenda');
+    $t->push('Create', route('admin.TipeAgenda.create'));
+});
+Breadcrumbs::for('TipeAgenda.edit', function ($t) {
+    $t->parent('TipeAgenda');
+    $t->push('Edit', route('admin.TipeAgenda.index'));
+});
+
 // Departemen
 Breadcrumbs::for('departemen', function ($t) {
     $t->push('departemen', route('admin.departemen.index'));

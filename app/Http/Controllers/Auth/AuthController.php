@@ -20,7 +20,7 @@ class AuthController extends Controller
 		$curl->post(Constants::api() . '/userlogin', array(
 			'username' => $r->email,
 			'password' => $r->password,
-			'role' => $r->role,
+			'role' => 'adm',
 			'platform' => 'dashboard',
 			'location' => ''
 		));
@@ -32,22 +32,22 @@ class AuthController extends Controller
 				$res = json_decode($curl->response);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect("/login");
+			return redirect("/home");
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
 			session(["auth" => $res->data]); // restore auth to auth session
-			return redirect("/");
+			return redirect("/home");
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect("/login");
+			return redirect("/");
 		}
 	}
 	
 	public function LogOut(Request $r){
 		session(["auth" => NULL]); // forget auth session
-		return redirect("login");
+		return redirect("/");
 	}
 }

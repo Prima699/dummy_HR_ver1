@@ -28,7 +28,7 @@ Route::get('/clear-cache', function() {
     return "Cache is cleared";
 });
 
-Route::get('/', 'HomeController@index')->name('index');
+Route::get('/', 'HomeController@login')->name('logins');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
@@ -196,6 +196,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'TipeIJinController@update')->name('update');
 	});
 	// end Tipeijin
+
+	// start TipeAgenda
+	Route::prefix('TipeAgenda')->name('TipeAgenda.')->namespace('Master')->group(function(){			
+		Route::get('/',  'TipeAgendaController@index')->name('index');
+		Route::get('/data', 'TipeAgendaController@data')->name('data');
+		Route::get('/create', 'TipeAgendaController@create')->name('create');
+		Route::post('/store', 'TipeAgendaController@store')->name('store');
+		Route::get('/edit/{id}', 'TipeAgendaController@edit')->name('edit');
+		Route::put('/update/{id}', 'TipeAgendaController@update')->name('update');
+	});
+	// end TipeAgenda
 
 	/* start Employee */
 	Route::prefix('employee')->name('employee.')->namespace('Master\Employee')->group(function(){		

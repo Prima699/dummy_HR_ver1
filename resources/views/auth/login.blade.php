@@ -62,7 +62,7 @@
                     <strong>{{ $errors->first('password') }}</strong>
                     </span>
                 @endif
-				<div class="input-group no-border form-control-lg {{ $errors->has('role') ? ' has-danger' : '' }}">
+				<!-- <div class="input-group no-border form-control-lg {{ $errors->has('role') ? ' has-danger' : '' }}">
                     <div class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="now-ui-icons business_badge"></i></i>
@@ -72,11 +72,11 @@
 						<option value="agt" style="color:black;">Anggota</option>
 						<option value="adm" style="color:black;">Admin</option>
 					</select>
-                </div>
+                </div> -->
                 </div>
                 <div class="card-footer ">
                 <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Login') }}</button>
-                <div class="pull-left">
+                <!-- <div class="pull-left">
                     <h6>
                     <a href="{{ route('register') }}" class="link footer-link">{{ __('Create Account') }}</a>
                     </h6>
@@ -85,7 +85,7 @@
                     <h6>
                     <a href="{{ route('password.request') }}" class="link footer-link">{{ __('Forgot Password?') }}</a>
                     </h6>                
-                </div>
+                </div> -->
                 </div>
             </div>
             </form>
