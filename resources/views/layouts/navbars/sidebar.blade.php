@@ -4,7 +4,7 @@
 -->
   <div class="logo">
     <a href="#" class="simple-text logo-mini">
-      {{ ('GT') }}
+      <img src="{{ asset(''.'assets') }}/img/favicon.png">
     </a>
     <a href="#" class="simple-text logo-normal">
       {{ Auths::user("user.name") }}
@@ -28,12 +28,14 @@
         </a>
         <div class="collapse submenu" id="agenda">
           <ul class="nav">
-            <li class="@if ($activePage == 'tipe_agenda') active @endif">
-              <a href="#"> 
-                <i class="now-ui-icons users_single-02"></i>
+            {{-- Tipeagenda --}}
+            <li class="@if ($activePage == 'TipeAgenda') active @endif">
+              <a href="{{ route('admin.TipeAgenda.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Tipe Agenda") }} </p>
               </a>
             </li>
+            {{--  --}}
             <li class="@if ($activePage == 'agenda') active @endif">
               <a href="{{ (Auths::user('user.role')=='adm')? route('admin.agenda.index') :route('employee.agenda.index') }}">
                 <i class="now-ui-icons design_app"></i>
@@ -247,7 +249,7 @@
         </div>
       </li>
 
-      {{-- icons --}}
+<!--       {{-- icons --}}
       <li class="@if ($activePage == 'icons') active @endif">
         <a href="{{ route('page.index','icons') }}">
           <i class="now-ui-icons education_atom"></i>
@@ -271,7 +273,7 @@
                 <p> {{ ("Pengajuan Subordinat") }} </p>
               </a>
             </li>
-            {{--  --}}
+            {{--  --}} -->
 
       <!-- <li class = "@if ($activePage == 'maps') active @endif">
         <a href="{{ route('page.index','maps') }}">

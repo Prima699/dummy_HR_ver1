@@ -52,7 +52,7 @@ class LoginController extends Controller
 		}
 		
 		if(session("auth")!=NULL){
-			return redirect("/");
+			return redirect("/home");
 		}
 		
 		return view("auth.login");

@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class=" container-fluid ">
-    <nav>
+   <!--  <nav>
       <ul>
         <li>
           <a href="http://presentation.creative-tim.com" target="_blank">
@@ -17,7 +17,7 @@
             {{(" Updivision")}}</a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
     <div class="copyright" id="copyright">
       &copy;
       <script>

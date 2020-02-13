@@ -107,7 +107,9 @@
 									<input type="date" class="form-control" name="date[]" required />
 								</td>
 								<td>
-									<textarea class="form-control" name="address[]" required></textarea>
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+									    Open modal
+									  </button>
 								</td>
 								<td>
 									<input type="time" class="form-control" name="start[]" required />
@@ -198,15 +200,72 @@
     </div>
     <!-- end row -->
   </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="myModal" style="width: 1024px;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Pilih Di Peta</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <!--The div element for the map -->
+    		<div id="map"></div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('css')
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
 	<style>
+		/* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
 	</style>
 @endpush 
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
 	<script src="{{ asset('public/js/agenda/form.js') }}"></script>
+	<script>
+    var map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -7.795580, lng: 110.369490},
+        zoom: 15
+      });
+      var geocoder = new google.maps.Geocoder();
+
+		google.maps.event.addListener(map, 'click', function(event) {
+		  geocoder.geocode({
+		    'latLng': event.latLng
+		  }, function(results, status) {
+		    if (status == google.maps.GeocoderStatus.OK) {
+		      if (results[0]) {
+		        alert(results[0].formatted_address);
+		      }
+		    }
+		  });
+		});
+    }
+  </script>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmSaB0Gax6HYj_3aBLrym0ek4Rr8cX0zM&callback=initMap">
+    </script>
 @endpush

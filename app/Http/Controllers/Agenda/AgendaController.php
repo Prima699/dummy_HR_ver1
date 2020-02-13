@@ -27,9 +27,9 @@ class AgendaController extends Controller
     }
 	
 	public function admin($r){
-		$agenda = "upComing";
-		if(isset($r->agenda) AND $r->agenda=="onGoing"){
-			$agenda = "onGoing";
+		$agenda = "onGoing";
+		if(isset($r->agenda) AND $r->agenda=="upComing"){
+			$agenda = "upComing";
 		}else if(isset($r->agenda) AND $r->agenda=="done"){
 			$agenda = "done";
 		}
