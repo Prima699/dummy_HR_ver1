@@ -67,12 +67,14 @@
                 <p> {{ ("Tipe Presensi") }} </p>
               </a>
             </li>
+			<!--
             <li class="@if ($activePage == 'presence') active @endif">
               <a href="{{ route('employee.presence.index') }}">
                 <i class="now-ui-icons design_app"></i>
                 <p>{{ ('Presence') }}</p>
               </a>
             </li>
+			-->
           </ul>
         </div>
       </li>
@@ -219,7 +221,7 @@
           </ul>
         </div>
       </li>
-
+<!--
       {{-- User Management --}}
       <li>
         <a data-toggle="collapse" href="#usersmanagement">
@@ -256,7 +258,6 @@
           <p>{{ ('Icons') }}</p>
         </a>
       </li>
-
       {{-- Pengajuan Ijin --}}
             <li class="@if ($activePage == 'pengajuanijin') active @endif">
               <a href="{{ route('pengajuanijin.index') }}">
