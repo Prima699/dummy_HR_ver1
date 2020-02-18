@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Curl;
 use Response;
 use Constants;
+use Handlers;
 
 class AuthController extends Controller
 {
@@ -25,25 +26,9 @@ class AuthController extends Controller
 			'location' => ''
 		));
 		
-		if($curl->error==TRUE){
-			if($curl->response==false){				
-				session(["error" => "Server Unreachable."]);
-			}else{
-				$res = json_decode($curl->response);
-				session(["error" => $res->errormsg]);
-			}
-			return redirect("/home");
-		}
-		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode=="0000"){
-			session(["auth" => $res->data]); // restore auth to auth session
-			return redirect("/home");
-		}else{
-			session(['error' => $res->errormsg]);
-			return redirect("/");
-		}
+		return Handlers::curl($curl,"home","index",[
+			"login" => true
+		]);
 	}
 	
 	public function LogOut(Request $r){
