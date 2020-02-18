@@ -21,17 +21,23 @@ $(document).ready(function() {
 				var ii = i+1;
 				var td = $(tr[i]).find("td:nth-child(3)");
 				var fd = $(td).html();
-				$(td).html(generateProcess(img,fd,'fd',id,ii));
+				$(td).html(generateProcess(true,img,fd,'fd',id,ii));
+				
+				var trained = false;
+				if(fd!="" && fd!=null && fd!=undefined){ trained = true; }
 				
 				// tag save
 				var td = $(tr[i]).find("td:nth-child(4)");
 				var ts = $(td).html();
-				$(td).html(generateProcess(img,ts,'ts',id,ii,fd));
+				$(td).html(generateProcess(trained,img,ts,'ts',id,ii,fd));
+				
+				var trained = false;
+				if(ts!="" && ts!=null && ts!=undefined){ trained = true; }
 				
 				// face train
 				var td = $(tr[i]).find("td:nth-child(5)");
 				var ft = $(td).html();
-				$(td).html(generateProcess(img,ft,'ft',id,ii));
+				$(td).html(generateProcess(trained,img,ft,'ft',id,ii));
 			}
 		}
 		
@@ -84,7 +90,7 @@ $(document).ready(function() {
 		return a;
 	}
 	
-	function generateProcess(tr,v,m,id,i,p=null){
+	function generateProcess(t,tr,v,m,id,i,p=null){
 		if(v=="" || v==null || v==undefined){
 			var onclick = "";
 			var classes = m + "-" + i;
@@ -109,8 +115,15 @@ $(document).ready(function() {
 				$(a).attr("onclick",onclick);
 				$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 				$(a).attr("tid",tid);
+				
+				console.log(t);
+				if(t==false){
+					$(a).addClass("disabled");
+				}
+				
 				var txt = document.createTextNode("Process");
 				$(a).html(txt);
+				
 			return a;
 		}else{
 			var span = document.createElement("span");
