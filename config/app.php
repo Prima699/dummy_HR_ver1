@@ -230,6 +230,7 @@ return [
 		'Auths' => App\Helpers\Auth::class,
 		'Constants' => App\Helpers\Constants::class,
 		'DateTimes' => App\Helpers\DateTimes::class,
+		'Handlers' => App\Helpers\ApiHandlers::class,
 
     ],
 

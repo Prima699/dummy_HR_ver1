@@ -141,7 +141,7 @@
             <li class="@if ($activePage == 'category') active @endif">
               <a href="{{ route('admin.category.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Category") }} </p>
+                <p> {{ ("Data Golongan") }} </p>
               </a>
             </li>
             {{--  --}}

@@ -28,7 +28,7 @@ Route::get('/clear-cache', function() {
     return "Cache is cleared";
 });
 
-Route::get('/', 'HomeController@index')->name('logins');
+Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
