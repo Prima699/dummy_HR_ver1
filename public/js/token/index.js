@@ -1,5 +1,5 @@
 $(document).ready(function() {
 	demo.checkFullPageBackgroundImage();
 	
-	getSessionError("div.container-login-alert");
+	getSessionError("div.container-token-alert");
 });

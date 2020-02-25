@@ -1,9 +1,11 @@
 <?php
 namespace App\Helpers;
 
+use Cookies;
+
 class ApiHandlers {
 	
-	public static function curl($curl, $redirectError, $redirectSuccess, $adds=null) {
+	public static function curl($r, $curl, $redirectError, $redirectSuccess, $adds=null) {
 		$defaultErrorMessage = "Unknown error occured.";
 		$defaultAPIErrorMessage = "Response API is not appropriate.";
 		
@@ -84,8 +86,10 @@ class ApiHandlers {
 		if($errorcode=="0000"){
 			if($adds!=null && isset($adds["login"]) && $adds["login"]==true){				
 				session(["auth" => $data]);
+			}else if($adds!=null && isset($adds["token"]) && $adds["token"]==true){		
+				Cookies::create($r, $data);
 			}else{
-				
+				dd($data);
 			}
 			return redirect()->route($redirectSuccess);
 		}else if($errorcode=="00101"){
@@ -97,7 +101,6 @@ class ApiHandlers {
 			session(["error" => $message]);
 			return redirect()->route($redirectError);
 		}
-		dump("asd");
     }
 	
 }

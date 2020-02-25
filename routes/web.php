@@ -12,21 +12,21 @@
 */
 
 Auth::routes();
-Route::get('/test', 'test'); // invoked
-Route::get('/ShowLoggedInUser', 'ShowLoggedInUser'); // invoked
-Route::get('/isSessionEnd', 'isSessionEnd'); // invoked
-Route::get('/getSessionError', 'getSessionError'); // invoked
-Route::get('/rootApp', 'rootApp'); // invoked
+Route::get('/test', 'test')->name("test"); // invoked
+Route::get('/ShowLoggedInUser', 'ShowLoggedInUser')->name("ShowLoggedInUser"); // invoked
+Route::get('/isSessionEnd', 'isSessionEnd')->name("isSessionEnd"); // invoked
+Route::get('/getSessionError', 'getSessionError')->name("getSessionError"); // invoked
+Route::get('/rootApp', 'rootApp')->name("rootApp"); // invoked
 Route::get('/refresh-csrf', function(){
     return csrf_token();
-});
+})->name("csrf");
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
     Artisan::call('config:clear');
     Artisan::call('view:clear');
     return "Cache is cleared";
-});
+})->name("cache");
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -37,6 +37,8 @@ Route::group([
 	'prefix' => 'auth',
 	'namespace' => 'Auth'
 ], function () {	
+	Route::get('token', 'AuthController@token')->name('auth.token');
+	Route::post('token', 'AuthController@submit')->name('auth.submit');
 	Route::post('login', 'AuthController@LogIn')->name('auth.login');
 	Route::get('logout', 'AuthController@LogOut')->name('auth.logout');
 });

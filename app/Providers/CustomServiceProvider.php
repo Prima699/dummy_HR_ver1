@@ -16,6 +16,8 @@ class CustomServiceProvider extends ServiceProvider
 		require_once app_path() . '/Helpers/Auth.php';
 		require_once app_path() . '/Helpers/Constants.php';
 		require_once app_path() . '/Helpers/DateTimes.php';
+		require_once app_path() . '/Helpers/Digitas.php';
+		require_once app_path() . '/Helpers/Cookies.php';
     }
 
     /**

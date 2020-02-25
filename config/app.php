@@ -231,6 +231,8 @@ return [
 		'Constants' => App\Helpers\Constants::class,
 		'DateTimes' => App\Helpers\DateTimes::class,
 		'Handlers' => App\Helpers\ApiHandlers::class,
+		'Digitas' => App\Helpers\Digitas::class,
+		'Cookies' => App\Helpers\Cookies::class,
 
     ],
 
