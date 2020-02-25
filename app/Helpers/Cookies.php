@@ -12,7 +12,7 @@ class Cookies {
 		$name = str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT']));
 		$expire = time() + (86400*30);
 		$path = "/";
-		$domain = $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? Route("index") : false;;
+		$domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
 		$secure = false;
 		$httponly = true;
 		
