@@ -19,7 +19,6 @@ function isSessionEnd(){ // check if session is ended or not
 function refreshToken(){ // replenish csrf token
 	if($('[name="_token"]').length!=0){
 		$.get(digitasLink + '/refresh-csrf').done(function(data){
-			console.log("csrf", data);
 			var csrfToken = $('[name="_token"]').attr('value',data);
 		});
 	}

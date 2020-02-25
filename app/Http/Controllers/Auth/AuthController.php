@@ -49,7 +49,7 @@ class AuthController extends Controller
 		$params['signature'] = $signature;
 		$curl->get(Constants::client() . "/companyCode", $params);
 		
-		return Handlers::curl($r, $curl,"auth.token","auth.login",[
+		return Handlers::curl($r, $curl,"auth.token","login",[
 			"token" => true
 		]);
 	}

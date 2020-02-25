@@ -20,7 +20,7 @@ class middlewareToken
      */
     public function handle($request, Closure $next)
     {
-		$value = str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT'].rand(pow(10, 5-1), pow(10, 5)-1)));
+		$value = str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT']));
 		$value = Cookies::retrieve($request, $value);
 				
 		$exception = Constants::routeException("token");
@@ -36,8 +36,6 @@ class middlewareToken
 			if($match==false){
 				return redirect()->route("auth.token");
 			}
-		}else if(Auths::user()==NULL){			
-			return redirect()->route("auth.login");
 		}
 		
         return $next($request);
