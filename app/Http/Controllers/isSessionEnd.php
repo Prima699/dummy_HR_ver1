@@ -24,6 +24,7 @@ class isSessionEnd extends Controller
 				OR $route=='index' OR $route=='/index'
 				OR $route=='home' OR $route=='/home'
 				OR $route=='' OR $route=='/'
+				OR $route=='token' OR $route=='/token'
 			){
 				$r = 1;
 			}else{
