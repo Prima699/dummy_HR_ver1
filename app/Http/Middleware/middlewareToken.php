@@ -20,8 +20,8 @@ class middlewareToken
      */
     public function handle($request, Closure $next)
     {
-		$value = str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT']));
-		$value = Cookies::retrieve($request, $value);
+		$value = Constants::tokenName();
+		$value = Cookies::retrieve($value);
 				
 		$exception = Constants::routeException("token");
 		$match = false;

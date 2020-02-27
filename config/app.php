@@ -230,7 +230,7 @@ return [
 		'Auths' => App\Helpers\Auth::class,
 		'Constants' => App\Helpers\Constants::class,
 		'DateTimes' => App\Helpers\DateTimes::class,
-		'Handlers' => App\Helpers\ApiHandlers::class,
+		'Handlers' => App\Helpers\Handlers::class,
 		'Digitas' => App\Helpers\Digitas::class,
 		'Cookies' => App\Helpers\Cookies::class,
 

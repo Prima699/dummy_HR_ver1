@@ -9,7 +9,7 @@ use Constants;
 class Cookies {
 	
 	public static function create($r, $value){
-		$name = str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT']));
+		$name = Constants::tokenName();
 		$expire = time() + (86400*30);
 		$path = "/";
 		$domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
@@ -33,9 +33,14 @@ class Cookies {
 		// cookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 	
-	public static function retrieve($r, $value){
-		$value = $r->cookie($value);
-		return $value;
+	public static function retrieve($value){
+		$cookie = NULL;
+		
+		if(isset($_COOKIE[$value])){
+			$cookie = $_COOKIE[$value];
+		}
+		
+		return $cookie;
 	}
 	
 }

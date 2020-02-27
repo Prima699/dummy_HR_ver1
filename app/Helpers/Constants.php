@@ -1,10 +1,17 @@
 <?php
 namespace App\Helpers;
 
+use Cookies;
+
 class Constants {
 	
 	public static function api() {
-		return config('constants.url.api');
+		// return config('constants.url.api');
+		
+		$name = Constants::tokenName();
+		$res = Cookies::retrieve($name);
+		$res = json_decode($res);
+		return $res->config->url;
     }
 	
 	public static function assetApi() {
@@ -31,6 +38,10 @@ class Constants {
 	public static function routeException($p){
 		$v = config('constants.route.exception');
 		return $v[$p];
+	}
+	
+	public static function tokenName(){
+		return str_replace(" ","",preg_replace("/[^a-zA-Z0-9\s]/", "", $_SERVER['HTTP_USER_AGENT']));
 	}
 	
 }

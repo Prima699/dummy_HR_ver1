@@ -3,7 +3,7 @@ namespace App\Helpers;
 
 use Cookies;
 
-class ApiHandlers {
+class Handlers {
 	
 	public static function curl($r, $curl, $redirectError, $redirectSuccess, $adds=null) {
 		$defaultErrorMessage = "Unknown error occured.";
@@ -28,7 +28,7 @@ class ApiHandlers {
 				}
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
 		
 		if($curl->curl_error==TRUE){
@@ -45,7 +45,7 @@ class ApiHandlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
 		
 		if($curl->http_error==TRUE){
@@ -62,7 +62,7 @@ class ApiHandlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
 		
 		$res = json_decode($curl->response);
@@ -70,7 +70,7 @@ class ApiHandlers {
 		if(!is_object($res)){
 			$message = $defaultErrorMessage;
 			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
 		
 		$errorcode = $res->errorcode;
@@ -80,7 +80,7 @@ class ApiHandlers {
 		if(!is_object($data) && !is_array($data)){
 			$message = $defaultAPIErrorMessage;
 			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
 		
 		if($errorcode=="0000"){
@@ -88,19 +88,25 @@ class ApiHandlers {
 				session(["auth" => $data]);
 			}else if($adds!=null && isset($adds["token"]) && $adds["token"]==true){		
 				Cookies::create($r, $data);
-			}else{
-				dd($data);
+			}else if($adds!=null && isset($adds["data"]) && $adds["data"]=="default"){
+				// https://www.php.net/manual/en/functions.anonymous.php
 			}
-			return redirect()->route($redirectSuccess);
+			return Handlers::redirectTo($redirectSuccess);
 		}else if($errorcode=="00101"){
 			$message = $errormsg;
 			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}else if($errorcode=="00102"){
 			$message = $errormsg;
 			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			return Handlers::redirectTo($redirectError);
 		}
     }
+	
+	public static function redirectTo($to, $method="route"){
+		if($method=="route"){
+			return redirect()->route($to);
+		}
+	}
 	
 }
