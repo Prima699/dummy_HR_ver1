@@ -9,6 +9,7 @@ use Response;
 use Constants;
 use Handlers;
 use Digitas;
+use Cookies;
 
 class AuthController extends Controller
 {
@@ -27,9 +28,15 @@ class AuthController extends Controller
 			'location' => ''
 		));
 		
-		return Handlers::curl($r, $curl,"home","index",[
+		$handler = Handlers::curl($curl,[
 			"login" => true
 		]);
+		
+		if($handler==true){
+			session(["auth" => json_decode($curl->response)->data]);
+		}
+		
+		return redirect()->route("dashboard");
 	}
 	
 	public function LogOut(Request $r){
@@ -49,8 +56,15 @@ class AuthController extends Controller
 		$params['signature'] = $signature;
 		$curl->get(Constants::client() . "/companyCode", $params);
 		
-		return Handlers::curl($r, $curl,"auth.token","login",[
-			"token" => true
-		]);
+		$handler = Handlers::curl($curl);
+		
+		if($handler==true){
+			Cookies::create($r, json_decode($curl->response)->data);
+		}else{
+			session(["error" => "Invalid token."]);
+			return redirect()->route("auth.token");
+		}
+		
+		return redirect()->route("login");
 	}
 }

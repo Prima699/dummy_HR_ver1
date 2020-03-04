@@ -3,7 +3,6 @@
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'login',
     'backgroundImage' => asset('public/'.'assets') . "/img/bg14.jpg",
-	'page' => false
 ])
 
 @section('content')
@@ -43,7 +42,7 @@
                         <i class="now-ui-icons users_circle-08"></i>
                     </div>
                     </span>
-                    <input class="form-control {{ $errors->has('company') ? ' is-invalid' : '' }}" placeholder="{{ __('Company Token') }}" type="text" name="company" value="" required autofocus>
+                    <input class="form-control {{ $errors->has('company') ? ' is-invalid' : '' }}" placeholder="{{ __('Company Token') }}" type="text" name="company" value="" maxlength="5" required autofocus>
                 </div>
                 @if ($errors->has('company'))
                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -62,4 +61,5 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('public/') }}/js/token/index.js"></script>
 @endpush

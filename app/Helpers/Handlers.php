@@ -1,11 +1,9 @@
 <?php
 namespace App\Helpers;
 
-use Cookies;
-
 class Handlers {
 	
-	public static function curl($r, $curl, $redirectError, $redirectSuccess, $adds=null) {
+	public static function curl($curl, $adds=null) {
 		$defaultErrorMessage = "Unknown error occured.";
 		$defaultAPIErrorMessage = "Response API is not appropriate.";
 		
@@ -28,7 +26,7 @@ class Handlers {
 				}
 				session(["error" => $res->errormsg]);
 			}
-			return Handlers::redirectTo($redirectError);
+			return false;
 		}
 		
 		if($curl->curl_error==TRUE){
@@ -45,7 +43,7 @@ class Handlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return Handlers::redirectTo($redirectError);
+			return false;
 		}
 		
 		if($curl->http_error==TRUE){
@@ -62,15 +60,15 @@ class Handlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return Handlers::redirectTo($redirectError);
+			return false;
 		}
 		
 		$res = json_decode($curl->response);
 		
-		if(!is_object($res)){
+		if($res==false || !is_object($res)){
 			$message = $defaultErrorMessage;
 			session(["error" => $message]);
-			return Handlers::redirectTo($redirectError);
+			return false;
 		}
 		
 		$errorcode = $res->errorcode;
@@ -78,35 +76,58 @@ class Handlers {
 		$data = $res->data;
 		
 		if(!is_object($data) && !is_array($data)){
-			$message = $defaultAPIErrorMessage;
-			session(["error" => $message]);
-			return Handlers::redirectTo($redirectError);
+			if($errorcode!="0000" && $errorcode!="00001"){				
+				$message = $defaultAPIErrorMessage;
+				session(["error" => $message]);
+				return false;
+			}
 		}
 		
+		$return = false;
+		
 		if($errorcode=="0000"){
-			if($adds!=null && isset($adds["login"]) && $adds["login"]==true){				
-				session(["auth" => $data]);
-			}else if($adds!=null && isset($adds["token"]) && $adds["token"]==true){		
-				Cookies::create($r, $data);
-			}else if($adds!=null && isset($adds["data"]) && $adds["data"]=="default"){
-				// https://www.php.net/manual/en/functions.anonymous.php
-			}
-			return Handlers::redirectTo($redirectSuccess);
+			$return = true;
 		}else if($errorcode=="00101"){
 			$message = $errormsg;
 			session(["error" => $message]);
-			return Handlers::redirectTo($redirectError);
 		}else if($errorcode=="00102"){
 			$message = $errormsg;
 			session(["error" => $message]);
-			return Handlers::redirectTo($redirectError);
+			return redirect()->route('login');
+		}else if($errorcode=="00099"){
+			$message = $defaultErrorMessage;
+			session(["error" => $message]);
+		}else if($errorcode=="00001"){
+			$return = true;
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00002"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00003"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00103"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00104"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00151"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00161"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00160"){
+			$message = $errormsg;
+			session(["error" => $message]);
+		}else if($errorcode=="00169"){
+			$message = $errormsg;
+			session(["error" => $message]);
 		}
+		
+		return $return;
     }
-	
-	public static function redirectTo($to, $method="route"){
-		if($method=="route"){
-			return redirect()->route($to);
-		}
-	}
 	
 }

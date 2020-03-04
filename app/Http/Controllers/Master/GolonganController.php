@@ -12,6 +12,7 @@ use Response;
 use Illuminate\Http\Request;
 use Constants;
 use App\Http\Controllers\Controller;
+use Handlers;
 
 class GolonganController extends Controller{
 
@@ -45,23 +46,21 @@ class GolonganController extends Controller{
 		$params['search'] = $search;
 		$curl->get(Constants::api() . '/golongan', $params);
 		
-		if($curl->error==TRUE){
-			return -1;
+		$handler = Handlers::curl($curl);
+		$return = -1;
+		
+		if($handler==true){
+			$return = count(json_decode($curl->response)->data);
 		}
 		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode!="0000"){
-			return -1;
-		}
-		
-		return count($res->data);
+		return $return;
 	}
 	
 	public function data(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
+		$amount = 0;
 		
 		$search = $r['search']['value']; //filter keyword
 		$start = $r['start']; //offset
@@ -101,28 +100,18 @@ class GolonganController extends Controller{
 		$params['n_item'] = $length;
 		$curl->get(Constants::api() . '/golongan', $params);
 		
-		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+		$handler = Handlers::curl($curl);
+		
+		if($handler!=true){
 			return Response()->json($data);
-		}
-		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode!="0000"){
-			session(["error" => $res->errormsg]);
-			return Response()->json($data);
-		}
-		
-		if($res->data==NULL){ 
-			$amount = 0;
 		}else{
 			$amount = $this->totalData($r);
-			
-			if($amount==-1){				
-				session(["error" => "Server Unreachable."]);
+			if($amount==-1){
 				return Response()->json($data);
 			}
 		}
+		
+		$res = json_decode($curl->response);
 		
 		$data["recordsTotal"] = $amount;
 		$data["recordsFiltered"] = $amount;
@@ -160,21 +149,17 @@ class GolonganController extends Controller{
 		$params['golongan_name'] = $r->name;
 		$curl->post(Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
-		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.category.create');
-		}
+		$handler = Handlers::curl($curl);
+		$route = "index";
 		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode=="0000"){
-			$status = "Success creating new category.";
-			session(["status" => $status]);
-			return redirect()->route('admin.category.index');
+		if($handler!=true){
+			$route = "admin.category.create";
 		}else{
-			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.create');
+			session(["status" => "Success creating new golongan."]);
+			$route = "admin.category.index";
 		}
+		
+		return redirect()->route($route);
 	}
 	
 	public function edit(Request $r, $id){
@@ -189,20 +174,14 @@ class GolonganController extends Controller{
 		$params['golongan_id'] = $id;
 		$curl->get(Constants::api() . '/golongan', $params);
 		
-		if($curl->error==TRUE){
-			session(["error" => "Server Unreachable."]);
+		$handler = Handlers::curl($curl);
+		
+		if($handler!=true){
 			return redirect()->route('admin.category.index');
-		}
-		
-		$res = json_decode($curl->response);
-		
-		if($res->errorcode=="0000"){
-			$data = $res->data[0];
+		}else{
+			$data = json_decode($curl->response)->data[0];
 			$master = $this->master("Edit Category","admin.category.update","category.edit","PUT",$id);
 			return view('master.golongan.form', compact('data','master'));
-		}else{
-			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.index');
 		}
 	}
 	
@@ -229,36 +208,22 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params['golongan_id'] = $id;
-		$params['golongan_name'] = $r->name;
+		
+		$curl = new Curl();
 		$url = Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/golongan_id/$id";
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
-		$res = curl_exec($ch);
+		$params['golongan_name'] = $r->name;
+		$params['golongan_id'] = $id;
+		$curl->put($url, $params, true);
 		
-		if(!$res){
-			session(["error" => "Server Unreachable."]);
+		$handler = Handlers::curl($curl);
+		$route = "index";
+		
+		if($handler!=true){
 			return redirect()->route('admin.category.edit',["id"=>$id]);
-		}
-		
-		$res = json_decode($res);
-		
-		if($res->errorcode=="0000"){
-			$status = "Success updating category.";
-			session(["status" => $status]);
-			return redirect()->route('admin.category.index');
 		}else{
-			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.category.edit',["id"=>$id]);
+			session(["status" => "Success updating category."]);
+			return redirect()->route('admin.category.index');
 		}
 	}
 
 }
-
-
- ?>

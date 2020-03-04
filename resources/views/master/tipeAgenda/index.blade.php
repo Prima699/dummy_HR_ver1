@@ -32,7 +32,6 @@
                 <tr>
                   <th width="5%">No</th>
                   <th>Agenda Name</th>
-                  <th>Agenda Color</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
