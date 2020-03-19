@@ -137,7 +137,7 @@ class TipeAgendaController extends Controller{
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->category_agenda_name, $a->category_agenda_color, $a->category_agenda_id];
+				$tmp = [$i, $a->category_agenda_name, $a->category_agenda_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}

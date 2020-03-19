@@ -1,24 +1,24 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('TipeAgenda'),
-    'activePage' => 'TipeAgenda',  
+    'namePage' => Breadcrumbs::render('calendar'),
+    'activePage' => 'calendar', 
     'activeNav' => '',
 ])
  
 @section('content')
-<div class="panel-header"> 
+<div class="panel-header">  
   </div>
   <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.TipeAgenda.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.calendar.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ __('Tipe Agenda') }}</h4>
-            <div class="col-12 mt-2 container-TipeAgenda-alert">
+            <h4 class="card-title">{{ __('Calendar') }}</h4>
+            <div class="col-12 mt-2 container-calendar-alert">
               @include('alerts.success')
               @include('alerts.errors')
             </div>
@@ -31,7 +31,8 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th>Agenda Name</th>
+                  <th>Name</th>
+                  <th>Date</th>
                   <th class="disabled-sorting" width="15%">Action</th>
                 </tr>
               </thead>
@@ -59,12 +60,6 @@
 @endpush 
 
 @push('js')
-<script>
-    function dataTableAPI(){
-      var r = "{{ route('admin.TipeAgenda.data') }}";
-      return r;
-    }
-  </script>
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>
-	<script src="{{ asset('public/js/Tipeagenda/index.js') }}"></script>
+	<script src="{{ asset('public/js/calendar/index.js') }}"></script>
 @endpush

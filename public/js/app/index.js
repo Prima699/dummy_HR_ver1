@@ -19,7 +19,6 @@ function isSessionEnd(){ // check if session is ended or not
 function refreshToken(){ // replenish csrf token
 	if($('[name="_token"]').length!=0){
 		$.get(digitasLink + '/refresh-csrf').done(function(data){
-			console.log("csrf", data);
 			var csrfToken = $('[name="_token"]').attr('value',data);
 		});
 	}
@@ -30,7 +29,9 @@ function getSessionError(parent){
 		url: digitasLink + "/getSessionError",
 		type: "GET",
 		success: function(r){
-			if(r!=false){
+			if(r=="Access token not granted"){
+				window.location = digitasLink + "/login";
+			}else if(r!=false){
 				var div = document.createElement("div");
 					$(div).attr("class","alert alert-danger alert-dismissible fade show");
 					$(div).attr("role","alert");
@@ -61,9 +62,9 @@ function getSessionError(parent){
 	});
 }
 
-function showError(parent,text){
+function showError(parent,text,color="danger"){
 	var div = document.createElement("div");
-		$(div).attr("class","alert alert-danger alert-dismissible fade show");
+		$(div).attr("class","alert alert-"+ color +" alert-dismissible fade show");
 		$(div).attr("role","alert");
 		
 		var txt = document.createTextNode(text);

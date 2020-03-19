@@ -1,11 +1,9 @@
 <?php
 namespace App\Helpers;
 
-use Cookies;
-
-class ApiHandlers {
+class Handlers {
 	
-	public static function curl($r, $curl, $redirectError, $redirectSuccess, $adds=null) {
+	public static function curl($curl, $adds=null) {
 		$defaultErrorMessage = "Unknown error occured.";
 		$defaultAPIErrorMessage = "Response API is not appropriate.";
 		
@@ -28,7 +26,7 @@ class ApiHandlers {
 				}
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return false;
 		}
 		
 		if($curl->curl_error==TRUE){
@@ -45,7 +43,7 @@ class ApiHandlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return false;
 		}
 		
 		if($curl->http_error==TRUE){
@@ -62,15 +60,15 @@ class ApiHandlers {
 				$res = json_decode($res);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route($redirectError);
+			return false;
 		}
 		
 		$res = json_decode($curl->response);
 		
-		if(!is_object($res)){
+		if($res==false || !is_object($res)){
 			$message = $defaultErrorMessage;
 			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			return false;
 		}
 		
 		$errorcode = $res->errorcode;
@@ -78,29 +76,45 @@ class ApiHandlers {
 		$data = $res->data;
 		
 		if(!is_object($data) && !is_array($data)){
-			$message = $defaultAPIErrorMessage;
-			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			if($errorcode!="0000" && $errorcode!="00001"){				
+				$message = $defaultAPIErrorMessage;
+				session(["error" => $message]);
+				return false;
+			}
 		}
 		
+		$return = false;
+		
 		if($errorcode=="0000"){
-			if($adds!=null && isset($adds["login"]) && $adds["login"]==true){				
-				session(["auth" => $data]);
-			}else if($adds!=null && isset($adds["token"]) && $adds["token"]==true){		
-				Cookies::create($r, $data);
-			}else{
-				dd($data);
-			}
-			return redirect()->route($redirectSuccess);
+			$return = true;
 		}else if($errorcode=="00101"){
-			$message = $errormsg;
-			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00102"){
-			$message = $errormsg;
-			session(["error" => $message]);
-			return redirect()->route($redirectError);
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00099"){
+			session(["error" => $defaultErrorMessage]);
+		}else if($errorcode=="00001"){
+			$return = true;
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00002"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00003"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00103"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00104"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00151"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00161"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00160"){
+			session(["error" => $errormsg]);
+		}else if($errorcode=="00169"){
+			session(["error" => $errormsg]);
 		}
+		
+		return $return;
     }
 	
 }
