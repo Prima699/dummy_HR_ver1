@@ -88,43 +88,30 @@ class Handlers {
 		if($errorcode=="0000"){
 			$return = true;
 		}else if($errorcode=="00101"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00102"){
-			$message = $errormsg;
-			session(["error" => $message]);
-			return redirect()->route('login');
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00099"){
-			$message = $defaultErrorMessage;
-			session(["error" => $message]);
+			session(["error" => $defaultErrorMessage]);
 		}else if($errorcode=="00001"){
 			$return = true;
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00002"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00003"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00103"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00104"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00151"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00161"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00160"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}else if($errorcode=="00169"){
-			$message = $errormsg;
-			session(["error" => $message]);
+			session(["error" => $errormsg]);
 		}
 		
 		return $return;

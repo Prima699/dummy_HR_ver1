@@ -218,6 +218,13 @@
             </li>
             {{--  --}}
             {{-- city --}}
+			
+            <li class="@if ($activePage == 'calendar') active @endif">
+              <a href="{{ route('admin.calendar.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("Data Calendar") }} </p>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

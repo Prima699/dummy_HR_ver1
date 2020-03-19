@@ -8,6 +8,8 @@ use App\Http\Requests\Curl;
 use Auths;
 use Response;
 use Constants;
+use Handlers;
+use DateTimes;
 
 class AgendaController extends Controller
 {
@@ -86,6 +88,17 @@ class AgendaController extends Controller
 		
 		if(isset($r->userID)){
 			$userID = $r->userID;
+		}
+		
+		date_default_timezone_set("Asia/Jakarta");
+		if($r->agenda=="upComing"){
+			$params['agenda_status'] = 1;
+			$params['before_date'] = date("Y-m-d");
+		}else if($r->agenda=="onGoing"){
+			$params['agenda_status'] = 1;
+			$params['due_date'] = date("Y-m-d");
+		}else if($r->agenda=="done"){
+			$params['agenda_status'] = 2;
 		}
 		
 		$params['user_id'] = $userID;
@@ -259,12 +272,12 @@ class AgendaController extends Controller
 		];
 		for($i=0; $i<count($r->date); $i++){
 			$tmp = new \stdClass;
-			$tmp->agenda_detail_date = $r->date[$i];
+			$tmp->agenda_detail_date = DateTimes::ymd($r->date[$i]);
 			$tmp->agenda_detail_address = $r->address[$i];
 			$tmp->agenda_detail_time_start = $r->start[$i];
 			$tmp->agenda_detail_time_end = $r->end[$i];
-			$tmp->agenda_detail_long = 107.6570477;
-			$tmp->agenda_detail_lat = -6.895538;
+			$tmp->agenda_detail_long = $r->lng[$i];
+			$tmp->agenda_detail_lat = $r->lat[$i];
 			$params["hari"][] = $tmp;
 		}
 		for($i=0; $i<count($r->employee); $i++){
@@ -322,7 +335,7 @@ class AgendaController extends Controller
 		
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
-			$master = $this->master("Detail Agenda","admin.agenda.index","agenda.detail","GET",$id);
+			$master = $this->master("Detail Agenda","admin.agenda.verify","agenda.detail","PUT",$id);
 			$back = route('admin.agenda.index');
 			if(Auths::user("user.role")=="agt"){
 				$back = route('employee.agenda.index');
@@ -437,5 +450,41 @@ class AgendaController extends Controller
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.agenda.edit',["id"=>$id]);
 		}
+	}
+	
+	public function verify(Request $r){
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$curl = new Curl();
+		$url = Constants::api() . "/verifikasiagenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/agenda_id/" . $r->id;
+		$params['agenda_id'] = $r->id;
+		$curl->put($url, $params, true);
+		
+		$handler = Handlers::curl($curl);
+		
+		if($handler!=true){
+			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+		}else{
+			session(["status" => "Success updating agenda."]);
+			return redirect()->route('admin.agenda.index');
+		}
+	}
+	
+	public function fcManual(Request $r){
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		$curl = new Curl();
+		
+		$url = Constants::api() . "/verifikasiMember/user_id/$userID/access_token/$token/platform/dashboard/location/xxx";
+		$url .= "/attendance_id/" . $r->id;
+		$url .= "/attendance_status/" . $r->status;
+		
+		$params['attendance_status'] = $r->status;
+		$curl->put($url, $params, true);
+		
+		$handler = Handlers::curl($curl);
+		
+		return Response()->json($handler);
 	}
 }

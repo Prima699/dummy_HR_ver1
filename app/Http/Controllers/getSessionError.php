@@ -20,6 +20,10 @@ class getSessionError extends Controller
 			$r = session("error");
 		}
 		
+		if($r=="Access token not granted"){
+			session(["auth" => NULL]);			
+		}
+		
 		session(["error" => NULL]);
 		
 		return Response()->json($r);

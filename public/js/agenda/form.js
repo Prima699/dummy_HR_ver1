@@ -1,6 +1,8 @@
 var openSubmitBtni = 0;
 var openSubmitBtnLimit = 4;
 var cityF = false;
+var marked = false;
+var address = false;
 
 function openSubmitBtn(i){
 	openSubmitBtni += i;
@@ -141,6 +143,9 @@ function adds(dt){
 	$("#"+dt+" tbody tr:last textarea").val(null);
 	$("#"+dt+" tbody tr:last select").val(null);
 	$("#"+dt+" tbody tr:last input[type='hidden']").val(-1);
+	
+	dp("create");
+	addressOnFocus();
 }
 
 function deletes(dt,type,a){
@@ -149,6 +154,111 @@ function deletes(dt,type,a){
 	}else{		
 		$(a).parents("tr").remove();
 	}
+}
+
+function initGoogleMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -6.930522, lng: 107.622624},
+      zoom: 13
+    });
+    var input = document.getElementById('searchInput');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+
+    var infowindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+    });
+
+    autocomplete.addListener('place_changed', function() {
+        infowindow.close();
+        marker.setVisible(false);
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            // window.alert("Autocomplete's returned place contains no geometry");
+			showError("container-agenda-map-error", "No geometry returned");
+            return;
+        }
+  
+        setMarker(place, map, marker, infowindow);
+    });
+}
+
+function setMarker(place, map, marker, infowindow){
+	// If the place has a geometry, then present it on a map.
+	if (place.geometry.viewport) {
+		map.fitBounds(place.geometry.viewport);
+	} else {
+		map.setCenter(place.geometry.location);
+		map.setZoom(17);
+	}
+	marker.setIcon(({
+		url: place.icon,
+		size: new google.maps.Size(71, 71),
+		origin: new google.maps.Point(0, 0),
+		anchor: new google.maps.Point(17, 34),
+		scaledSize: new google.maps.Size(35, 35)
+	}));
+	marker.setPosition(place.geometry.location);
+	marker.setVisible(true);
+
+	var address = '';
+	if (place.address_components) {
+		address = [
+		  (place.address_components[0] && place.address_components[0].short_name || ''),
+		  (place.address_components[1] && place.address_components[1].short_name || ''),
+		  (place.address_components[2] && place.address_components[2].short_name || '')
+		].join(' ');
+	}
+
+	infowindow.setContent('<div class="autocomplete-gmap"><strong>' + place.name + '</strong><br>' + address);
+	infowindow.open(map, marker);
+	
+	$("#searchInput").val("");
+	
+	if($("#gmap-data").data("target")!="no data"){
+		var target = $("#gmap-data").data("target");
+		var parent = $(target).parent();
+		
+		$(target).val(place.formatted_address);
+		$(parent).find("input[name='lng[]']").val(place.geometry.location.lng());
+		$(parent).find("input[name='lat[]']").val(place.geometry.location.lat());
+	}else{
+		showError("container-agenda-map-error", "Unknown Error");
+	}
+}
+
+function dp(m){
+	var dpParams = {
+		weekStart : 0,
+		time: false,
+		format : "DD-MM-YYYY"
+	};
+	
+	var tpParams = {
+		date: false,
+		shortTime: true,
+		format: "HH:mm"
+	};
+	
+	if(m!="create"){
+		var date = new Date(m);
+		dpParams["currentDate"] = date;
+	}
+	
+	$('.dp').bootstrapMaterialDatePicker(dpParams);
+	
+	$('.tp').bootstrapMaterialDatePicker(tpParams);
+}
+
+function addressOnFocus(){
+	$("input[name='address[]']").on("focus",function(t){
+		$("#gmap").modal("show");
+		$("#gmap-data").data("target", t.target);
+	});
 }
 
 $(document).ready(function() {
@@ -174,4 +284,13 @@ $(document).ready(function() {
 	$("#province").on("change",function(){
 		getCity($("#province").val());
 	});
+	
+	$('#gmap').on('hidden.bs.modal', function () {			
+		$("#resultLocation").html("");
+		$("#gmap-data").data("target", "no data");
+	});
+	
+	addressOnFocus();
+	
+	dp("create");
 } );

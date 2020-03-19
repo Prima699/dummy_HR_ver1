@@ -224,3 +224,16 @@ Breadcrumbs::for('schedule.detail', function ($t) {
 	$t->parent('schedule');
     $t->push('Detail', route('admin.schedule.index'));
 });
+
+// Calendar
+Breadcrumbs::for('calendar', function ($t) {
+    $t->push('Calendar', route('admin.calendar.index'));
+});
+Breadcrumbs::for('calendar.create', function ($t) {
+	$t->parent('calendar');
+    $t->push('Create', route('admin.calendar.create'));
+});
+Breadcrumbs::for('calendar.edit', function ($t) {
+	$t->parent('calendar');
+    $t->push('Edit', route('admin.calendar.index'));
+});

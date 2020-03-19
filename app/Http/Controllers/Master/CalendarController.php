@@ -13,11 +13,12 @@ use Illuminate\Http\Request;
 use Constants;
 use App\Http\Controllers\Controller;
 use Handlers;
+use DateTimes;
 
-class GolonganController extends Controller{
+class CalendarController extends Controller{
 
 	public function index(){
-        return view("master.golongan.index");
+        return view("master.calendar.index");
     }
 	
 	private function totalData($r){
@@ -42,9 +43,9 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'golongan_name';
+		$params['field'] = 'calendar_date;calendar_desc';
 		$params['search'] = $search;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$curl->get(Constants::api() . '/calendar', $params);
 		
 		$handler = Handlers::curl($curl);
 		$return = -1;
@@ -94,11 +95,11 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'golongan_name';
+		$params['field'] = 'calendar_date;calendar_desc';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$curl->get(Constants::api() . '/calendar', $params);
 		
 		$handler = Handlers::curl($curl);
 		
@@ -119,7 +120,7 @@ class GolonganController extends Controller{
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
-				$tmp = [$i, $a->golongan_name, $a->golongan_id];
+				$tmp = [$i, $a->calendar_desc, DateTimes::jfy($a->calendar_date), $a->calendar_id];
 				$data["data"][] = $tmp;
 				$i++;
 			}
@@ -129,8 +130,8 @@ class GolonganController extends Controller{
 	}
 
     public function create(){
-		$master = $this->master("Create Category","admin.category.store","category.create","POST");
-        return view("master.golongan.form", compact('master')); 
+		$master = $this->master("Create Calendar","admin.calendar.store","calendar.create","POST");
+        return view("master.calendar.form", compact('master')); 
     }
 	
 	public function validation(Request $r){
@@ -146,17 +147,19 @@ class GolonganController extends Controller{
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		
-		$params['golongan_name'] = $r->name;
-		$curl->post(Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
+		$params['desc'] = $r->name;
+		$params['from'] = $r->from;
+		$params['to'] = $r->to;
+		$curl->post(Constants::api() . "/calendar/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
 		$handler = Handlers::curl($curl);
 		$route = "index";
 		
 		if($handler!=true){
-			$route = "admin.category.create";
+			$route = "admin.calendar.create";
 		}else{
-			session(["status" => "Success creating new golongan."]);
-			$route = "admin.category.index";
+			session(["status" => "Success creating new calendar."]);
+			$route = "admin.calendar.index";
 		}
 		
 		return redirect()->route($route);
@@ -171,17 +174,17 @@ class GolonganController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['golongan_id'] = $id;
-		$curl->get(Constants::api() . '/golongan', $params);
+		$params['calendar_id'] = $id;
+		$curl->get(Constants::api() . '/calendar', $params);
 		
 		$handler = Handlers::curl($curl);
 		
 		if($handler!=true){
-			return redirect()->route('admin.category.index');
+			return redirect()->route('admin.calendar.index');
 		}else{
 			$data = json_decode($curl->response)->data[0];
-			$master = $this->master("Edit Category","admin.category.update","category.edit","PUT",$id);
-			return view('master.golongan.form', compact('data','master'));
+			$master = $this->master("Edit Calendar","admin.calendar.update","calendar.edit","PUT",$id);
+			return view('master.calendar.form', compact('data','master'));
 		}
 	}
 	
@@ -210,18 +213,20 @@ class GolonganController extends Controller{
 		
 		
 		$curl = new Curl();
-		$url = Constants::api() . "/golongan/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/golongan_id/$id";
-		$params['golongan_name'] = $r->name;
-		$params['golongan_id'] = $id;
+		$url = Constants::api() . "/calendar/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/calendar_id/$id";
+		$params['desc'] = $r->name;
+		$params['date'] = $r->date;
+		$params['calendar_id'] = $id;
 		$curl->put($url, $params, true);
 		
 		$handler = Handlers::curl($curl);
+		$route = "index";
 		
 		if($handler!=true){
-			return redirect()->route('admin.category.edit',["id"=>$id]);
+			return redirect()->route('admin.calendar.edit',["id"=>$id]);
 		}else{
-			session(["status" => "Success updating category."]);
-			return redirect()->route('admin.category.index');
+			session(["status" => "Success updating calendar."]);
+			return redirect()->route('admin.calendar.index');
 		}
 	}
 

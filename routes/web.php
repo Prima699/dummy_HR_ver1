@@ -84,6 +84,8 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/province', 'DependeciesAgendaController@province')->name('province');
 		Route::get('/city', 'DependeciesAgendaController@city')->name('city');
 		Route::get('/employee', 'DependeciesAgendaController@employee')->name('employee');
+		Route::put('/verify', 'AgendaController@verify')->name('verify');
+		Route::post('/fc', 'AgendaController@fcManual')->name('fcm');
 		Route::get('/{id}', 'AgendaController@detail')->name('detail');
 	});
 	/* end agenda */
@@ -99,6 +101,17 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'ScheduleController@update')->name('update');
 	});
 	/* end schedule */
+	
+	/* start calendar */
+	Route::prefix('calendar')->name('calendar.')->namespace('Master')->group(function(){		
+		Route::get('/', 'CalendarController@index')->name('index');
+		Route::get('/data', 'CalendarController@data')->name('data');
+		Route::get('/create', 'CalendarController@create')->name('create');
+		Route::post('/store', 'CalendarController@store')->name('store');
+		Route::get('/edit/{id}', 'CalendarController@edit')->name('edit');
+		Route::put('/update/{id}', 'CalendarController@update')->name('update');
+	});
+	/* end calendar */
 	
 	/* start category */
 	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){		
