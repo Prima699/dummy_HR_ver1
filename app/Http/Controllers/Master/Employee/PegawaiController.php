@@ -189,9 +189,7 @@ class PegawaiController extends Controller{
 			"pegawai_type" => $r->pegawai_type
 		);
     
-		$postfields = array();
 		$upload_file = (isset($_FILES['image'])) ? $_FILES['image'] : array();
-		
 		if (isset($upload_file['name'])) {
 			foreach ($upload_file["error"] as $key => $error) {
 				if ($error == UPLOAD_ERR_OK) {
@@ -208,6 +206,25 @@ class PegawaiController extends Controller{
 							$upload_file['name'][$key]
 						);
 					}
+				}
+			}
+		}
+    
+		$upload_file = (isset($_FILES['pegawai_photo'])) ? $_FILES['pegawai_photo'] : array();
+		if (isset($upload_file['name'])) {
+			if ($upload_file['error'] == UPLOAD_ERR_OK) {
+				if (function_exists('curl_file_create')) { // For PHP 5.5+
+					$params["Pegawai_face"] = curl_file_create(
+						$upload_file['tmp_name'],
+						$upload_file['type'],
+						$upload_file['name']
+					);
+				} else {
+					$params["Pegawai_face"] = '@' . realpath(
+						$upload_file['tmp_name'],
+						$upload_file['type'],
+						$upload_file['name']
+					);
 				}
 			}
 		}
@@ -482,7 +499,6 @@ class PegawaiController extends Controller{
 			$params["eks_image[]"] = 0;
 		}
 		
-		$postfields = array();
 		$upload_file = (isset($_FILES['image'])) ? $_FILES['image'] : array();
 		
 		if (isset($upload_file['name'])) {
@@ -501,6 +517,25 @@ class PegawaiController extends Controller{
 							$upload_file['name'][$key]
 						);
 					}
+				}
+			}
+		}
+    
+		$upload_file = (isset($_FILES['pegawai_photo'])) ? $_FILES['pegawai_photo'] : array();
+		if (isset($upload_file['name'])) {
+			if ($upload_file['error'] == UPLOAD_ERR_OK) {
+				if (function_exists('curl_file_create')) { // For PHP 5.5+
+					$params["pegawai_face"] = curl_file_create(
+						$upload_file['tmp_name'],
+						$upload_file['type'],
+						$upload_file['name']
+					);
+				} else {
+					$params["pegawai_face"] = '@' . realpath(
+						$upload_file['tmp_name'],
+						$upload_file['type'],
+						$upload_file['name']
+					);
 				}
 			}
 		}

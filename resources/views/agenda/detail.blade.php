@@ -82,7 +82,7 @@
 								<th>Address</th>
 								<th width="10%">Start</th>
 								<th width="10%">Finish</th>
-								<th width="10%">Action</th>
+								@if($button==true) <th width="10%">Action</th> @endif
 							</tr>
 						</thead>
 						<tbody>
@@ -92,11 +92,13 @@
 								<td>{{ $d->agenda_detail_address }}</td>
 								<td>{{ $d->agenda_detail_time_start }}</td>
 								<td>{{ $d->agenda_detail_time_end }}</td>
+								@if($button==true)
 								<td>
 									<button class="btn btn-sm btn-success" type="button" title="Face Recognition" onclick="fcManualModal(this)" data-date="{{ DateTimes::jfy($d->agenda_detail_date) }}" data-employee="{{ json_encode($data->anggota_dewan) }}" data-detail="{{ json_encode($d) }}">
 										<span class="fas fa-user-tie"></span>
 									</button>
 								</td>
+								@endif
 							</tr>
 						@endforeach
 						</tbody>
@@ -140,11 +142,7 @@
 					<form action="{{ $master->action }}" method="post">
 					@csrf
 					@method('PUT')
-					@if(
-						$data->agenda_status==1
-						AND $data->agenda_date_end > date("Y-m-d")
-						AND date("Y-m-d") >= $data->agenda_date
-					)
+					@if($button==true)
 						<button type="submit" class="btn btn-primary btn-sm">
 							<span class="fa fa-save"></span>
 							Done
@@ -167,6 +165,7 @@
     <!-- end row -->
   </div>
   
+@if($button==true)
 <div class="modal" id="fcManualModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -181,32 +180,37 @@
 				<label id="fcm-date"></label>
 				<br/>
 				<label id="fcm-address"></label>
-				<table class="table table-bordered">
+				<table class="table table-bordered text-center">
 					<thead>
 						<tr>
-							<th width="10%">No</th>
+							<th>No</th>
 							<th>NIK</th>
 							<th>Name</th>
-							<th width="20%">Check In</th>
+							<th>Photo</th>
+							<th>Check In</th>
+							<th>Check Out</th>
 						</tr>
 					</thead>
 					<tbody id="fcm-employee">
 						<tr id="copy" style="display:none;">
 							<td></td>
 							<td></td>
-							<td></td>
+							<td class="text-left"></td>
 							<td>
-								<button type="button" class="btn btn-sm btn-primary fcm-check" style="display:none;">
+								<a href="" target="_blank">
+									<img src="" style="max-width:60px; max-height:100px;" />
+								</a>
+							</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-primary fcm-check">
 									<span class="fas fa-sign-in-alt"></span>
 									Check In
 								</button>
-								<button type="button" class="btn btn-sm btn-danger fcm-check" style="display:none;">
+							</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-danger fcm-check">
 									<span class="fas fa-sign-out-alt"></span>
 									Check Out
-								</button>
-								<button type="button" class="btn btn-sm btn-success" style="display:none;">
-									<span class="fas fa-check"></span>
-									Done
 								</button>
 							</td>
 						</tr>
@@ -216,6 +220,8 @@
 		</div>
 	</div>
 </div>
+@endif
+
 @endsection
 
 @push('css')
