@@ -34,13 +34,21 @@ function fcManualModal(t){
 		nik = "";
 		name = "";
 		id = 0;
+		img = "";
 		
 		for(ii=0; ii<e.length; ii++){
 			w = e[ii];
 			if(v.pegawai_id==w.pegawai_id){
 				nik = w.pegawai_NIK;
 				name = w.pegawai_name;
-				id = w.id_attendance;
+				
+				img = w.image;
+				if(img==null || img.length<1){
+					img = "";
+				}else{
+					img = digitasAssetApi + img[0].path;
+				}
+				
 				break;
 			}
 		}
@@ -53,17 +61,33 @@ function fcManualModal(t){
 		$(cloned).find("td:nth-child(3)").html(name);
 		
 		td4 = $(cloned).find("td:nth-child(4)");
-		onclick = "fcManual(this,"+id+","+v.checkin+","+v.checkout+")";
-		if(v.checkin==true){
-			if(v.checkout==true){
-				$(td4).find(".btn-success").css("display","inline-block");
-			}else if(v.checkout==false){				
-				$(td4).find(".btn-danger").css("display","inline-block");
-				$(td4).find(".btn-danger").attr("onclick","fcManual(this,"+id+","+v.checkin+","+v.checkout+")");
+		$(td4).find("img").attr("src",img);
+		$(td4).find("a").attr("href",img);
+		
+		td5 = $(cloned).find("td:nth-child(5)");
+		if(v.checkinDetail.length!=0 && v.checkinDetail!=null){
+			if(v.checkinDetail.attendance_methode==2){
+				id = v.checkinDetail.attendance_id;
+				$(td5).find(".btn-primary").attr("onclick","fcManual(this,"+id+","+JSON.stringify(v)+",'in')");
+				$(td5).find(".btn-primary").prop("disabled",false);
+			}else{				
+				$(td5).find(".btn-primary").prop("disabled",true);
 			}
-		}else if(v.checkin==false){
-			$(td4).find(".btn-primary").css("display","inline-block");
-			$(td4).find(".btn-primary").attr("onclick","fcManual(this,"+id+","+v.checkin+","+v.checkout+")");
+		}else{
+			$(td5).find(".btn-primary").prop("disabled",true);
+		}
+		
+		td6 = $(cloned).find("td:nth-child(6)");
+		if(v.checkoutDetail.length!=0 && v.checkoutDetail!=null){
+			if(v.checkoutDetail.attendance_methode==2){
+				id = v.checkoutDetail.attendance_id;
+				$(td6).find(".btn-danger").attr("onclick","fcManual(this,"+id+","+JSON.stringify(v)+",'in')");
+				$(td6).find(".btn-danger").prop("disabled",false);
+			}else{				
+				$(td6).find(".btn-danger").prop("disabled",true);
+			}
+		}else{
+			$(td6).find(".btn-danger").prop("disabled",true);
 		}
 		
 		$("#fcm-employee").append(cloned);
@@ -72,18 +96,16 @@ function fcManualModal(t){
 	$("#fcManualModal").modal("show");
 }
 
-function fcManual(t,id,iz,out){
+function fcManual(t,id,v,m){
+	console.log(v);
+	return;
 	s = 2;
 	txt = "";
 	
-	if(iz==true){
-		if(out==true){
-			return;
-		}else if(out==false){
-			s = 2;
-			txt = "Check-out";
-		}
-	}else if(iz==false){
+	if(m=="out"){
+		s = 2;
+		txt = "Check-out";
+	}else if(m=="in"){
 		s = 1;
 		txt = "Check-in";
 	}
@@ -99,14 +121,7 @@ function fcManual(t,id,iz,out){
 		success : function(r){
 			if(r==true){
 				showError(".container-agenda-fcm-alert", "Success " + txt, "success");
-				$(t).css("display","none");
-				parent = $(t).parent();
-				if(s==1){					
-					$(parent).find(".btn-danger").css("display","inline-block");
-					$(parent).find(".btn-danger").attr("onclick","fcManual(this,"+id+",true,false)");
-				}else if(s==2){
-					$(parent).find(".btn-success").css("display","inline-block");
-				}
+				$(t).prop("disabled",true);
 			}else{
 				showError(".container-agenda-fcm-alert", txt + " failed");
 			}

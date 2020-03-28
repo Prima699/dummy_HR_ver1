@@ -335,12 +335,20 @@ class AgendaController extends Controller
 		
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
+			$button = false;
 			$master = $this->master("Detail Agenda","admin.agenda.verify","agenda.detail","PUT",$id);
 			$back = route('admin.agenda.index');
 			if(Auths::user("user.role")=="agt"){
 				$back = route('employee.agenda.index');
 			}
-			return view('agenda.detail', compact('data','master','back'));
+			if(
+				$data->agenda_status==1
+				AND $data->agenda_date_end > date("Y-m-d")
+				AND date("Y-m-d") >= $data->agenda_date
+			){
+				$button = true;
+			}
+			return view('agenda.detail', compact('data','master','back','button'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.agenda.index');
@@ -478,7 +486,7 @@ class AgendaController extends Controller
 		
 		$url = Constants::api() . "/verifikasiMember/user_id/$userID/access_token/$token/platform/dashboard/location/xxx";
 		$url .= "/attendance_id/" . $r->id;
-		$url .= "/attendance_status/" . $r->status;
+		// $url .= "/attendance_status/" . $r->status;
 		
 		$params['attendance_status'] = $r->status;
 		$curl->put($url, $params, true);

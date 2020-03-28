@@ -62,9 +62,18 @@
 
 			<div class="row">
 				<div class="col-2">
+					<label class="label" for="pegawai_photo">Photo</label>
+				</div>
+				<div class="col-3">
+					<input type="file" class="form-control" name="pegawai_photo" id="pegawai_photo" required />
+					@if( isset($data) && $data->pegawai_face!=NULL && $data->pegawai_face!="" )
+						<a href="{{ $data->pegawai_face }}" target="_blank">Current Photo</a>
+					@endif
+				</div>
+				<div class="col-2">
 					<label class="label" for="pegawai_address">Address</label>
 				</div>
-				<div class="col-8">
+				<div class="col-3">
 					<textarea class="form-control" name="pegawai_address" id="pegawai_address" required>{!! (isset($data))?$data->pegawai_address:'' !!}</textarea>
 				</div>
 			</div>

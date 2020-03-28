@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'data display',
+    'namePage' => Breadcrumbs::render('employee'),
     'activePage' => 'pegawai',
     'activeNav' => '',
 ])
@@ -13,7 +13,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('admin.employee.create') }}">{{ __('Add pegawai') }}</a>
+              <a class="btn btn-primary btn-sm btn-round text-white pull-right" href="{{ route('admin.employee.create') }}">{{ __('Add pegawai') }}</a>
             <h4 class="card-title">{{ ('Pegawai') }}</h4>
             <div class="col-12 mt-2">
               @include('alerts.success')

@@ -62,9 +62,15 @@
 
 			<div class="row">
 				<div class="col-2">
+					<label class="label" for="pegawai_photo">Photo</label>
+				</div>
+				<div class="col-3">
+					<p>: {{ (isset($data))?$data->pegawai_face:'' }}</p>
+				</div>
+				<div class="col-2">
 					<label class="label" for="pegawai_address">Address</label>
 				</div>
-				<div class="col-8">
+				<div class="col-3">
 					<p>: {!! (isset($data))?$data->pegawai_address:'' !!}</p>
 				</div>
 			</div>
