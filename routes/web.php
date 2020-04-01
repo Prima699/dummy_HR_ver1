@@ -72,6 +72,28 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		echo "admin";
 	});
 	
+	/* start user */
+	Route::prefix('user')->name('user.')->namespace('master')->group(function(){
+		Route::get('/', 'UsersController@index')->name('index');
+		Route::get('/data', 'UsersController@data')->name('data');
+		Route::get('/category', 'UsersController@category')->name('category');
+		Route::get('/department', 'UsersController@department')->name('department');
+		Route::get('/create', 'UsersController@create')->name('create');
+		Route::post('/store', 'UsersController@store')->name('store');
+	});
+	/* end user */
+	
+	/* start announcement */
+	Route::prefix('announcement')->name('announcement.')->namespace('announcement')->group(function(){
+		Route::get('/', 'Announcement@index')->name('index');
+		Route::get('/data', 'Announcement@data')->name('data');
+		Route::get('/category', 'Announcement@category')->name('category');
+		Route::get('/department', 'Announcement@department')->name('department');
+		Route::get('/create', 'Announcement@create')->name('create');
+		Route::post('/store', 'Announcement@store')->name('store');
+	});
+	/* end announcement */
+	
 	/* start agenda */
 	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){		
 		Route::get('/', 'AgendaController@index')->name('index');

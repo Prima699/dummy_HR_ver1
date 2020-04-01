@@ -342,12 +342,13 @@ class AgendaController extends Controller
 				$back = route('employee.agenda.index');
 			}
 			if(
-				$data->agenda_status==1
-				AND $data->agenda_date_end > date("Y-m-d")
-				AND date("Y-m-d") >= $data->agenda_date
+				($data->agenda_status==1 OR $data->agenda_status=="1")
+				AND $data->agenda_date_end >= date("Y-m-d")
+				AND $data->agenda_date <= date("Y-m-d") 
 			){
 				$button = true;
 			}
+			dd($data);
 			return view('agenda.detail', compact('data','master','back','button'));
 		}else{
 			session(['error' => $res->errormsg]);

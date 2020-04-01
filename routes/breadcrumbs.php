@@ -237,3 +237,28 @@ Breadcrumbs::for('calendar.edit', function ($t) {
 	$t->parent('calendar');
     $t->push('Edit', route('admin.calendar.index'));
 });
+
+// Announcement
+Breadcrumbs::for('announcement', function ($t) {
+    $t->push('Announcement', route('admin.announcement.index'));
+});
+Breadcrumbs::for('announcement.create', function ($t) {
+	$t->parent('announcement');
+    $t->push('Create', route('admin.announcement.create'));
+});
+Breadcrumbs::for('announcement.edit', function ($t) {
+	$t->parent('announcement');
+    $t->push('Edit', route('admin.announcement.index'));
+});
+// User
+Breadcrumbs::for('user', function ($t) {
+    $t->push('User', route('admin.user.index'));
+});
+Breadcrumbs::for('user.create', function ($t) {
+	$t->parent('user');
+    $t->push('Create', route('admin.user.create'));
+});
+Breadcrumbs::for('user.edit', function ($t) {
+	$t->parent('user');
+    $t->push('Edit', route('admin.user.index'));
+});

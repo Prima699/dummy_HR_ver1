@@ -7,6 +7,11 @@ class Handlers {
 		$defaultErrorMessage = "Unknown error occured.";
 		$defaultAPIErrorMessage = "Response API is not appropriate.";
 		
+		if( ( is_array($curl) && isset($curl["message"]) ) || isset($curl->message) ){
+			session(["error" => "Server unreachable."]);
+			return false;
+		}
+		
 		if($curl->error==TRUE){
 			$res = $curl->response;
 			if($res==false || $res==null){				
