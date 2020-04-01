@@ -84,7 +84,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end user */
 	
 	/* start announcement */
-	Route::prefix('announcement')->name('announcement.')->namespace('announcement')->group(function(){
+	Route::prefix('announcement')->name('announcement.')->namespace('Announcement')->group(function(){
 		Route::get('/', 'Announcement@index')->name('index');
 		Route::get('/data', 'Announcement@data')->name('data');
 		Route::get('/category', 'Announcement@category')->name('category');
