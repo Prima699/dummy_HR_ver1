@@ -30,6 +30,15 @@ class DateTimes {
 		return $date;
     }
 	
+	public static function hijfy($date, $exc=NULL) {
+		if($date=="0000-00-00" AND $exc!=NULL){ return $exc; }
+		
+		$date = strtotime($date);
+		$date = date("H:i - j F Y",$date);
+		
+		return $date;
+    }
+	
 	public static function jfy($date, $exc=NULL) {
 		if($date=="0000-00-00" AND $exc!=NULL){ return $exc; }
 		

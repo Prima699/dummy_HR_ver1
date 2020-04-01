@@ -18,6 +18,12 @@
           <p>{{ ('Dashboard') }}</p>
         </a>
       </li> 
+      <li class="@if ($activePage == 'announcement') active @endif">
+        <a href="{{ route('admin.announcement.index') }}">
+          <i class="now-ui-icons design_app"></i>
+          <p>{{ ('Announcement') }}</p>
+        </a>
+      </li> 
       <li>
         <a data-toggle="collapse" href="#agenda">
             <i class="now-ui-icons loader_gear"></i>
@@ -192,121 +198,39 @@
         </a>
         <div class="collapse submenu" id="datadisplay">
           <ul class="nav">
-            {{-- country --}}
             <li class="@if ($activePage == 'country') active @endif">
               <a href="{{ route('admin.country.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Country") }} </p>
               </a>
             </li>
-            {{--  --}}
-             {{-- province --}}
             <li class="@if ($activePage == 'province') active @endif">
               <a href="{{ route('admin.province.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Province") }} </p>
               </a>
             </li>
-            {{--  --}}
-            {{-- province --}}
-             {{-- city --}}
             <li class="@if ($activePage == 'city') active @endif">
               <a href="{{ route('admin.city.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data City") }} </p>
               </a>
             </li>
-            {{--  --}}
-            {{-- city --}}
-			
             <li class="@if ($activePage == 'calendar') active @endif">
               <a href="{{ route('admin.calendar.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Data Calendar") }} </p>
               </a>
             </li>
-          </ul>
-        </div>
-      </li>
-<!--
-      {{-- User Management --}}
-      <li>
-        <a data-toggle="collapse" href="#usersmanagement">
-            <i class="now-ui-icons loader_gear"></i>
-          <p>
-            {{ ("Users Management") }}
-            <b class="caret"></b>
-          </p>
-        </a>
-        <div class="collapse submenu" id="usersmanagement">
-          <ul class="nav">
-            {{-- Tipeijin --}}
-            <li class="@if ($activePage == 'TipeIjin') active @endif">
-              <a href="{{ route('admin.TipeIjin.index') }}">
+            <li class="@if ($activePage == 'user') active @endif">
+              <a href="{{ route('admin.user.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Tipe ijin") }} </p>
-              </a>
-            </li>
-            {{--  --}}
-            <li class="@if ($activePage == 'users') active @endif">
-              <a href="{{ route('user.index') }}">
-                <i class="now-ui-icons design_bullet-list-67"></i>
-                <p> {{ ("Master Data") }} </p>
+                <p> {{ ("Data User") }} </p>
               </a>
             </li>
           </ul>
         </div>
       </li>
-
-<!--       {{-- icons --}}
-      <li class="@if ($activePage == 'icons') active @endif">
-        <a href="{{ route('page.index','icons') }}">
-          <i class="now-ui-icons education_atom"></i>
-          <p>{{ ('Icons') }}</p>
-        </a>
-      </li>
-      {{-- Pengajuan Ijin --}}
-            <li class="@if ($activePage == 'pengajuanijin') active @endif">
-              <a href="{{ route('pengajuanijin.index') }}">
-                <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Pengajuan Ijin") }} </p>
-              </a>
-            </li>
-            {{--  --}}
-
-      {{-- Pengajuan Ijin --}}
-            <li class="@if ($activePage == 'pengajuanijin') active @endif">
-              <a href="{{ route('pengajuanijin.index') }}">
-                <i class="now-ui-icons shopping_credit-card"></i>
-                <p> {{ ("Pengajuan Subordinat") }} </p>
-              </a>
-            </li>
-            {{--  --}} -->
-
-      <!-- <li class = "@if ($activePage == 'maps') active @endif">
-        <a href="{{ route('page.index','maps') }}">
-          <i class="now-ui-icons location_map-big"></i>
-          <p>{{ ('Maps') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'notifications') active @endif">
-        <a href="{{ route('page.index','notifications') }}">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>{{ ('Notifications') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'table') active @endif">
-        <a href="{{ route('page.index','table') }}">
-          <i class="now-ui-icons design_bullet-list-67"></i>
-          <p>{{ ('Table List') }}</p>
-        </a>
-      </li>
-      <li class = "@if ($activePage == 'typography') active @endif">
-        <a href="{{ route('page.index','typography') }}">
-          <i class="now-ui-icons text_caps-small"></i>
-          <p>{{ ('Typography') }}</p>
-        </a>
-      </li> -->
     </ul>
   </div>
 </div>
