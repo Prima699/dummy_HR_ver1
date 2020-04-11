@@ -93,6 +93,22 @@
 			</div>
 			<br/>
 			<div class="row">
+				<div class="col-md-1">
+					<label class="label" for="pegawai">Pegawai</label>
+				</div>
+				<div class="col-md-5">
+					<select class="form-control" name="pegawai" id="pegawai"
+						data-value="{{ (isset($data))?$data->related_id:'-1' }}">
+					@if($pegawai!=-1)
+						@foreach($pegawai as $p)
+							<option value="{{ $p->pegawai_id }}">{{ $p->pegawai_name }}</option>
+						@endforeach
+					@endif
+					</select>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
 				<div class="col-md-3 offset-md-1">
 					<button type="submit" class="btn btn-info btn-sm" id="button-save">
 						<span class="fa fa-save"></span>

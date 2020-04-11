@@ -42,7 +42,7 @@ class UsersController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'name';
+		$params['field'] = 'name;msisdn;email';
 		$params['search'] = $search;
 		$curl->get(Constants::api() . '/users', $params);
 		
@@ -94,7 +94,7 @@ class UsersController extends Controller{
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
-		$params['field'] = 'name';
+		$params['field'] = 'name;msisdn;email';
 		$params['search'] = $search;
 		$params['page'] = $start;
 		$params['n_item'] = $length;
@@ -130,8 +130,30 @@ class UsersController extends Controller{
 
     public function create(){
 		$master = $this->master("Create User","admin.user.store","user.create","POST");
-        return view("master.user.form", compact('master')); 
+		$pegawai = $this->getPegawai();
+        return view("master.user.form", compact('master','pegawai')); 
     }
+	
+	private function getPegawai(){
+		$curl = new Curl();
+		$userID = Auths::user('user.user_id');
+		$token = Auths::user("access_token");
+		
+		$params['user_id'] = $userID;
+		$params['access_token'] = $token;
+		$params['platform'] = 'dashboard';
+		$params['location'] = 'xxx';
+		$curl->get(Constants::api() . '/pegawai', $params);
+		
+		$handler = Handlers::curl($curl);
+		$return = -1;
+		
+		if($handler==true){
+			$return = json_decode($curl->response)->data;
+		}
+		
+		return $return;
+	}
 	
 	public function validation(Request $r){
 		// $r->validate([
@@ -151,6 +173,7 @@ class UsersController extends Controller{
 		$params['password'] = $r->password;
 		$params['email'] = $r->email;
 		$params['msisdn'] = $r->msisdn;
+		$params['related_id'] = $r->pegawai;
 		
 		$upload_file = (isset($_FILES['image'])) ? $_FILES['image'] : array();
 		if (isset($upload_file['name'])) {

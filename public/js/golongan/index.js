@@ -47,7 +47,7 @@ $(document).ready(function() {
 	
 	function generateInfo(name,id){ // create button info
 		var a = document.createElement("a");
-			$(a).attr("class","btn btn-sm btn-info");
+			$(a).attr("class","btn btn-sm btn-info btn-icon btn-icon-mini");
 			$(a).attr("href","" + id);
 			$(a).attr("title","Detail " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
@@ -61,9 +61,9 @@ $(document).ready(function() {
 
 	function generateEdit(name,id){ // create button edit
 		var a = document.createElement("a");
-			$(a).attr("class","btn btn-sm btn-warning");
+			$(a).attr("class","btn btn-sm btn-warning btn-icon btn-icon-mini");
 			$(a).attr("href", digitasLink + "/admin/category/edit/" + id);
-			$(a).attr("title","Edi " + name);
+			$(a).attr("title","Edit " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
 			var span = document.createElement("span");
