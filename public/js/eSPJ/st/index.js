@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#datatable').DataTable({
-		"ajax" : digitasLink + "/admin/agenda/data?agenda=done",
+		"ajax" : digitasLink + "/admin/st/data",
 		"lengthChange" : false,
         "processing" : true,
         "serverSide" : true,
@@ -8,7 +8,7 @@ $(document).ready(function() {
 	}); // call datatable
 	
 	$('#datatable').on( 'draw.dt', function () { // event datatable on draw
-		var empty = $("#datatable .dataTables_empty").html();
+		var empty = $(".dataTables_empty").html();
 		if(empty!="No data available in table"){
 			var tr = $("#datatable tbody tr");
 			for(var i=0; i<tr.length; i++){
@@ -16,7 +16,7 @@ $(document).ready(function() {
 				var code = $(td).html();
 				
 				if(code>0){
-					var td = $(tr[i]).find("td:nth-child(3)"); // get data action column / id record
+					var td = $(tr[i]).find("td:nth-child(2)"); // get data action column / id record
 					var name = $(td).html();
 					
 					var td = $(tr[i]).find("td:last");
@@ -27,7 +27,7 @@ $(document).ready(function() {
 				}
 			}
 		}
-		getSessionError("div.container-agenda-alert");
+		getSessionError("div.container-st-alert");
 	} );
 	
 	function action(name, id){ // create form action
@@ -40,16 +40,15 @@ $(document).ready(function() {
 			$(form).attr("style","display:inline;");
 			
 		$(form).append(info);
-		// $(form).append(edit);
+		$(form).append(edit);
 		
 		return form;
 	}
 	
 	function generateInfo(name,id){ // create button info
-		route = $("#data").data("route");
 		var a = document.createElement("a");
-			$(a).attr("class","btn btn-sm btn-info");
-			$(a).attr("href",digitasLink + "/admin/" + route + "/" + id);
+			$(a).attr("class","btn btn-sm btn-info btn-icon btn-icon-mini");
+			$(a).attr("href","" + id);
 			$(a).attr("title","Detail " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
@@ -61,11 +60,10 @@ $(document).ready(function() {
 	}
 
 	function generateEdit(name,id){ // create button edit
-		route = $("#data").data("route");
 		var a = document.createElement("a");
-			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/" + route + "/edit/" + id);
-			$(a).attr("title","Edi " + name);
+			$(a).attr("class","btn btn-sm btn-warning btn-icon btn-icon-mini");
+			$(a).attr("href", digitasLink + "/admin/st/edit/" + id);
+			$(a).attr("title","Edit " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
 			var span = document.createElement("span");

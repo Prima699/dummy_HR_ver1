@@ -123,7 +123,7 @@
 							<tr>
 								<td>{{ $i++ }}</td>
 								<td>
-									<a href="{{ route('admin.employee.detail',$d->pegawai_id) }}" title="Open Detail {{$d->pegawai_name}}" target="_blank">
+									<a href="{{ ($d->pegawai_id)? route('admin.employee.detail', $d->pegawai_id) :'' }}" title="Open Detail {{$d->pegawai_name}}" target="_blank">
 										{{ $d->pegawai_name }}
 									</a>
 								</td>

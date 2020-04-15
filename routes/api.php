@@ -16,3 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace("API")->group(function () {
+	Route::prefix('espj')->namespace("eSPJ")->group(function () {
+		Route::prefix('st')->group(function () {
+			Route::get("data","stAPIController@data");
+			Route::get("{id}","stAPIController@detail");
+		});
+		Route::prefix('sp2d')->group(function () {
+			Route::get("data","sp2dAPIController@data");
+		});
+	});
+});

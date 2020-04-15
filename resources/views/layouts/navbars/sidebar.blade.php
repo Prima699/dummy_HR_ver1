@@ -34,18 +34,47 @@
         </a>
         <div class="collapse submenu" id="agenda">
           <ul class="nav">
-            {{-- Tipeagenda --}}
             <li class="@if ($activePage == 'TipeAgenda') active @endif">
               <a href="{{ route('admin.TipeAgenda.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("Tipe Agenda") }} </p>
               </a>
             </li>
-            {{--  --}}
             <li class="@if ($activePage == 'agenda') active @endif">
               <a href="{{ (Auths::user('user.role')=='adm')? route('admin.agenda.index') :route('employee.agenda.index') }}">
                 <i class="now-ui-icons design_app"></i>
                 <p>{{ ('Data Agenda') }}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a data-toggle="collapse" href="#spj">
+            <i class="now-ui-icons loader_gear"></i>
+          <p>
+            {{ ("SPJ") }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse submenu" id="spj">
+          <ul class="nav">
+            <li class="@if ($activePage == 'st') active @endif">
+              <a href="{{ route('admin.st.index') }}">
+                <i class="now-ui-icons design_app"></i>
+                <p>{{ ('Surat Tugas') }}</p>
+              </a>
+            </li>
+            <li class="@if ($activePage == 'sp2d') active @endif">
+              <a href="{{ route('admin.sp2d.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("SP2D") }} </p>
+              </a>
+            </li>
+            <li class="@if ($activePage == 'SPJ') active @endif">
+              <a href="{{ route('admin.spj.index') }}">
+                <i class="now-ui-icons shopping_credit-card"></i>
+                <p> {{ ("SPJ") }} </p>
               </a>
             </li>
           </ul>

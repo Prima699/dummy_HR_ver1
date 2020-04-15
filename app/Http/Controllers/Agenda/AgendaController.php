@@ -10,6 +10,7 @@ use Response;
 use Constants;
 use Handlers;
 use DateTimes;
+use DB;
 
 class AgendaController extends Controller
 {
@@ -30,12 +31,14 @@ class AgendaController extends Controller
 	
 	public function admin($r){
 		$agenda = "onGoing";
+		$module = "Agenda";
+		$route = "agenda";
 		if(isset($r->agenda) AND $r->agenda=="upComing"){
 			$agenda = "upComing";
 		}else if(isset($r->agenda) AND $r->agenda=="done"){
 			$agenda = "done";
 		}
-		return view("agenda.".$agenda);
+		return view("agenda.".$agenda, compact("module","route"));
 	}
 	public function employee(Request $r){
 		$curl = new Curl();
@@ -287,6 +290,16 @@ class AgendaController extends Controller
 		}
 		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
 		
+		$redirect = "admin.agenda";
+		$red = session("redirect.route");
+		$module = "agenda";
+		if($red!=NULL && $red!=""){
+			$redirect = $red;
+			$module = "surat tugas";
+			$this->stInsert($r, $curl);
+			session(["redirect.route" => NULL]);
+		}
+		
 		if($curl->error==TRUE){
 			if($curl->response==false){				
 				session(["error" => "Server Unreachable."]);
@@ -294,19 +307,40 @@ class AgendaController extends Controller
 				$res = json_decode($curl->response);
 				session(["error" => $res->errormsg]);
 			}
-			return redirect()->route('admin.agenda.create');
+			
+			return redirect()->route($redirect . ".create");
 		}
 		
 		$res = json_decode($curl->response);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success creating new agenda.";
+			$status = "Success creating new " . $module . ".";
 			session(["status" => $status]);
-			return redirect()->route('admin.agenda.index');
+			return redirect()->route($redirect . ".index");
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.agenda.create');
+			return redirect()->route($redirect . ".create");
 		}
+	}
+	
+	private function stInsert($r, $agenda){
+		$agenda_id = json_decode($agenda->response)->data->agenda_id;
+		
+		$curl = new Curl();
+		$curl->get("https://www.uuidgenerator.net/api/version4");
+		$uuid = $curl->response;
+		
+		$now = DateTimes::ymdhis();
+		
+		DB::select("
+			INSERT INTO st_surattugas (
+				id, agenda_id, agenda_title,
+				data, created_at, updated_at
+			) VALUES (
+				'$uuid', $agenda_id, '$r->title',
+				'', '$now', '$now'
+			)
+		");
 	}
 	
 	public function detail(Request $r, $id){
@@ -348,7 +382,6 @@ class AgendaController extends Controller
 			){
 				$button = true;
 			}
-			dd($data);
 			return view('agenda.detail', compact('data','master','back','button'));
 		}else{
 			session(['error' => $res->errormsg]);
@@ -444,21 +477,43 @@ class AgendaController extends Controller
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 		$res = curl_exec($ch);
 		
+		$redirect = "admin.agenda";
+		$red = session("redirect.route");
+		$module = "agenda";
+		if($red!=NULL && $red!=""){
+			$redirect = $red;
+			$module = "surat tugas";
+			$this->stUpdate($r,$id);
+			session(["redirect.route" => NULL]);
+		}
+		
 		if(!$res){
 			session(["error" => "Server Unreachable."]);
-			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+			return redirect()->route($redirect . '.edit',["id"=>$id]);
 		}
 		
 		$res = json_decode($res);
 		
 		if($res->errorcode=="0000"){
-			$status = "Success updating agenda.";
+			$status = "Success updating " . $module . ".";
 			session(["status" => $status]);
-			return redirect()->route('admin.agenda.index');
+			return redirect()->route($redirect . '.index');
 		}else{
 			session(['error' => $res->errormsg]);
-			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+			return redirect()->route($redirect . '.edit',["id"=>$id]);
 		}
+	}
+	
+	private function stUpdate($r, $agenda){
+		$now = DateTimes::ymdhis();
+		
+		DB::select("
+			UPDATE st_surattugas SET
+				agenda_title = '$r->title',
+				updated_at = '$now'
+			WHERE
+				agenda_id = $agenda
+		");
 	}
 	
 	public function verify(Request $r){
@@ -473,7 +528,7 @@ class AgendaController extends Controller
 		$handler = Handlers::curl($curl);
 		
 		if($handler!=true){
-			return redirect()->route('admin.agenda.edit',["id"=>$id]);
+			return redirect()->route('admin.agenda.edit',["id"=>$r->id]);
 		}else{
 			session(["status" => "Success updating agenda."]);
 			return redirect()->route('admin.agenda.index');

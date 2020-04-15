@@ -46,9 +46,10 @@ $(document).ready(function() {
 	}
 	
 	function generateInfo(name,id){ // create button info
+		route = $("#data").data("route");
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-info");
-			$(a).attr("href",digitasLink + "/admin/agenda/" + id);
+			$(a).attr("href",digitasLink + "/admin/" + route + "/" + id);
 			$(a).attr("title","Detail " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
@@ -60,9 +61,10 @@ $(document).ready(function() {
 	}
 
 	function generateEdit(name,id){ // create button edit
+		route = $("#data").data("route");
 		var a = document.createElement("a");
 			$(a).attr("class","btn btn-sm btn-warning");
-			$(a).attr("href", digitasLink + "/admin/agenda/edit/" + id);
+			$(a).attr("href", digitasLink + "/admin/" + route + "/edit/" + id);
 			$(a).attr("title","Edi " + name);
 			$(a).attr("style","margin-left: 5px; margin-right: 5px;");
 			
