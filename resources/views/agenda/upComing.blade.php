@@ -1,11 +1,12 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => Breadcrumbs::render('agenda'),
-    'activePage' => 'agenda', 
+    'namePage' => Breadcrumbs::render($route),
+    'activePage' => $route, 
     'activeNav' => '',
 ])
  
 @section('content')
+<div id="data" data-route="{{$route}}"></div>
 <div class="panel-header">  
   </div>
   <div class="content">
@@ -13,11 +14,11 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-              <a href="{{ route('admin.agenda.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
+              <a href="{{ route('admin.'.$route.'.create') }}" class="btn btn-primary btn-round btn-sm text-white pull-right">
 				  <span class="fa fa-plus"></span>
                   Create
               </a>
-            <h4 class="card-title">{{ __('Agenda') }}</h4>
+            <h4 class="card-title">{{ $module }}</h4>
             <div class="col-12 mt-2 container-agenda-alert">
               @include('alerts.success')
               @include('alerts.errors')
@@ -29,13 +30,13 @@
             </div>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
-					<a class="nav-link active" href="{{ route('admin.agenda.index').'?agenda=upComing' }}">Up Coming</a>
+					<a class="nav-link active" href="{{ route('admin.'.$route.'.index').'?agenda=upComing' }}">Up Coming</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=onGoing' }}">On Going</a>
+					<a class="nav-link" href="{{ route('admin.'.$route.'.index').'?agenda=onGoing' }}">On Going</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ route('admin.agenda.index').'?agenda=done' }}">Done</a>
+					<a class="nav-link" href="{{ route('admin.'.$route.'.index').'?agenda=done' }}">Done</a>
 				</li>
 			</ul>
 

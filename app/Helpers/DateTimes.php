@@ -48,4 +48,17 @@ class DateTimes {
 		return $date;
     }
 	
+	public static function ymdhis($date=NULL, $exc=NULL) {
+		if($date==NULL){
+			return date("Y-m-d H:i:s");
+		}
+		
+		if($date=="0000-00-00" AND $exc!=NULL){ return $exc; }
+		
+		$date = strtotime($date);
+		$date = date("Y-m-d H:i:s",$date);
+		
+		return $date;
+    }
+	
 }

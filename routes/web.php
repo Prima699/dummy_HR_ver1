@@ -72,6 +72,38 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		echo "admin";
 	});
 	
+	/* start eSPJ */
+	Route::namespace('eSPJ')->group(function(){
+		Route::prefix('st')->name('st.')->group(function(){
+			Route::get('/', 'stController@index')->name('index');
+			Route::get('/create', 'stController@create')->name('create');
+			Route::get('/data', 'stController@data')->name('data');
+			Route::post('/store', 'stController@store')->name('store');
+			Route::put('/verify', 'stController@verify')->name('verify');
+			Route::get('/edit/{id}', 'stController@edit')->name('edit');
+			Route::get('/{id}', 'stController@detail')->name('detail');
+		});
+		Route::prefix('sp2d')->name('sp2d.')->group(function(){
+			Route::get('/', 'sp2dController@index')->name('index');
+			Route::get('/create', 'sp2dController@create')->name('create');
+			Route::get('/data', 'sp2dController@data')->name('data');
+			Route::post('/store', 'sp2dController@store')->name('store');
+			Route::get('/edit/{id}', 'sp2dController@edit')->name('edit');
+			Route::get('/delete/{id}', 'sp2dController@destroy')->name('delete');
+			Route::get('/sign/{id}', 'sp2dController@sign')->name('sign');
+			Route::get('/{id}', 'sp2dController@detail')->name('detail');
+		});
+		Route::prefix('spj')->name('spj.')->group(function(){
+			Route::get('/', 'spjController@index')->name('index');
+			Route::get('/create', 'spjController@create')->name('create');
+			Route::get('/data', 'spjController@data')->name('data');
+			Route::post('/store', 'spjController@store')->name('store');
+			Route::get('/edit/{id}', 'spjController@edit')->name('edit');
+			Route::get('/{id}', 'spjController@detail')->name('detail');
+		});
+	});
+	/* end eSPJ */
+	
 	/* start user */
 	Route::prefix('user')->name('user.')->namespace('master')->group(function(){
 		Route::get('/', 'UsersController@index')->name('index');

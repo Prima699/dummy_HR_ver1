@@ -195,7 +195,6 @@ class UsersController extends Controller{
 		}
 		
 		$curl->post(Constants::api() . "/users/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params, true);
-		dd($curl);
 		
 		$handler = Handlers::curl($curl);
 		$route = "index";

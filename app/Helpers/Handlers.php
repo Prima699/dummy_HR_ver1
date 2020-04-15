@@ -122,4 +122,12 @@ class Handlers {
 		return $return;
     }
 	
+	public static function removeCurrency($data){
+		$data = explode(".",$data);
+		$data = str_replace("Rp","",$data[1]);
+		$data = str_replace(" ","",$data);
+		$data = (int)str_replace(",","",$data);
+		return $data;
+	}
+	
 }

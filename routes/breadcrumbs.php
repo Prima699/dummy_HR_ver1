@@ -262,3 +262,50 @@ Breadcrumbs::for('user.edit', function ($t) {
 	$t->parent('user');
     $t->push('Edit', route('admin.user.index'));
 });
+
+// Surat Tugas
+Breadcrumbs::for('st', function ($t) {
+    $t->push('Surat Tugas', route('admin.st.index'));
+});
+Breadcrumbs::for('st.create', function ($t) {
+	$t->parent('st');
+    $t->push('Create', route('admin.st.create'));
+});
+Breadcrumbs::for('st.edit', function ($t) {
+	$t->parent('st');
+    $t->push('Edit', route('admin.st.index'));
+});
+Breadcrumbs::for('st.detail', function ($t) {
+	$t->parent('st');
+    $t->push('Detail', route('admin.st.index'));
+});
+
+// SPJ
+Breadcrumbs::for('spj', function ($t) {
+    $t->push('SPJ', route('admin.spj.index'));
+});
+Breadcrumbs::for('spj.create', function ($t) {
+	$t->parent('spj');
+    $t->push('Create', route('admin.spj.create'));
+});
+Breadcrumbs::for('spj.edit', function ($t) {
+	$t->parent('spj');
+    $t->push('Edit', route('admin.spj.index'));
+});
+
+// SP2D
+Breadcrumbs::for('sp2d', function ($t) {
+    $t->push('SP2D', route('admin.sp2d.index'));
+});
+Breadcrumbs::for('sp2d.create', function ($t) {
+	$t->parent('sp2d');
+    $t->push('Create', route('admin.sp2d.create'));
+});
+Breadcrumbs::for('sp2d.edit', function ($t) {
+	$t->parent('sp2d');
+    $t->push('Edit', route('admin.sp2d.index'));
+});
+Breadcrumbs::for('sp2d.detail', function ($t) {
+	$t->parent('sp2d');
+    $t->push('Detail', route('admin.sp2d.index'));
+});
