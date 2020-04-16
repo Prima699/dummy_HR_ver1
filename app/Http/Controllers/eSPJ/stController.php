@@ -124,9 +124,12 @@ class stController extends Controller{
 			$button = false;
 			$master = $this->master("Detail Surat Tugas","admin.st.verify","st.detail","PUT",$id);
 			$back = route('admin.st.index');
+			$st = true;
+			
 			if(Auths::user("user.role")=="agt"){
 				$back = route('employee.agenda.index');
 			}
+			
 			if(
 				($data->agenda_status==1 OR $data->agenda_status=="1")
 				AND $data->agenda_date_end >= date("Y-m-d")
@@ -134,7 +137,8 @@ class stController extends Controller{
 			){
 				$button = true;
 			}
-			return view('agenda.detail', compact('data','master','back','button'));
+			
+			return view('agenda.detail', compact('data','master','back','button','st'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.st.index');
