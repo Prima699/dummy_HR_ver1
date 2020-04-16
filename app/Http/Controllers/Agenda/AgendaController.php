@@ -337,8 +337,8 @@ class AgendaController extends Controller
 				id, agenda_id, agenda_title,
 				data, created_at, updated_at
 			) VALUES (
-				?, ?, ?,
-				?, ?, ?
+				'?', '?', '?',
+				'?', '?', '?'
 			)
 		",[$uuid, $agenda_id, $r->title, "", $now, $now]);
 	}
@@ -509,11 +509,11 @@ class AgendaController extends Controller
 		
 		DB::select("
 			UPDATE st_surattugas SET
-				agenda_title = '$r->title',
-				updated_at = '$now'
+				agenda_title = '?',
+				updated_at = '?'
 			WHERE
-				agenda_id = $agenda
-		");
+				agenda_id = '?'
+		",[$r->title,$now,$agenda]);
 	}
 	
 	public function verify(Request $r){
