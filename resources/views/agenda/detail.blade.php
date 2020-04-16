@@ -82,7 +82,7 @@
 								<th>Address</th>
 								<th width="10%">Start</th>
 								<th width="10%">Finish</th>
-								@if($button==true) <th width="10%">Action</th> @endif
+								@if($button==true) <th width="10%" class="st-not">Action</th> @endif
 							</tr>
 						</thead>
 						<tbody>
@@ -93,7 +93,7 @@
 								<td>{{ $d->agenda_detail_time_start }}</td>
 								<td>{{ $d->agenda_detail_time_end }}</td>
 								@if($button==true)
-								<td>
+								<td class="st-not">
 									<button class="btn btn-sm btn-success" type="button" title="Face Recognition" onclick="fcManualModal(this)" data-date="{{ DateTimes::jfy($d->agenda_detail_date) }}" data-employee="{{ json_encode($data->anggota_dewan) }}" data-detail="{{ json_encode($d) }}">
 										<span class="fas fa-user-tie"></span>
 									</button>
@@ -143,7 +143,7 @@
 					@csrf
 					@method('PUT')
 					@if($button==true)
-						<button type="submit" class="btn btn-primary btn-sm">
+						<button type="submit" class="btn btn-primary btn-sm st-not">
 							<span class="fa fa-save"></span>
 							Done
 						</button>
@@ -226,8 +226,9 @@
 
 @push('css')
 	<link rel="stylesheet" href="{{ asset('public/assets/DataTables/datatables.min.css') }}"/>
-	<style>
-	</style>
+	@if(isset($st) && $st==true)
+		<style>.st-not{display:none;}</style>
+	@endif
 @endpush 
 
 @push('js')
