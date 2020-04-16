@@ -337,7 +337,7 @@ class AgendaController extends Controller
 				id, agenda_id, agenda_title,
 				data, created_at, updated_at
 			) VALUES (
-				'?', '?', '?',
+				'?', ?, '?',
 				'?', '?', '?'
 			)
 		",[$uuid, $agenda_id, $r->title, "", $now, $now]);
@@ -512,7 +512,7 @@ class AgendaController extends Controller
 				agenda_title = '?',
 				updated_at = '?'
 			WHERE
-				agenda_id = '?'
+				agenda_id = ?
 		",[$r->title,$now,$agenda]);
 	}
 	
