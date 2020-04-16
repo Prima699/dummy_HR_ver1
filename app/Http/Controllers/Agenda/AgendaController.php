@@ -340,7 +340,7 @@ class AgendaController extends Controller
 				?, ?, ?,
 				?, ?, ?
 			)
-		",['$uuid', $agenda_id, '$r->title', '', '$now', '$now']);
+		",[$uuid, $agenda_id, $r->title, "", $now, $now]);
 	}
 	
 	public function detail(Request $r, $id){
