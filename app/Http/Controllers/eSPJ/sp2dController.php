@@ -75,23 +75,26 @@ class sp2dController extends Controller{
 		$updated_at = DateTimes::ymdhis();
 		$tanggal = DateTimes::ymdhis($r->tanggal);
 		
-		DB::select("
-			INSERT INTO pd_sp2d (
-				id, code, jenis,
-				surat_tugas, kegiatan, created_by,
-				anggaran, tujuan, instansi,
-				berangkat, kembali, ntpn,
-				mak, approved, created_at,
-				updated_at, tanggal
-			) VALUES (
-				'$uuid', '$code', '$jenis',
-				'$st', '$kegiatan', '$by',
-				'$anggaran', '$tujuan', '$instansi',
-				'$berangkat', '$kembali', '$ntpn',
-				'$mak', '$approved', '$created_at',
-				'$updated_at', '$tanggal'
-			)
-		");
+		DB::table("pd_sp2d")
+			->insert([
+				"id" => $uuid,
+				"code" => $code,
+				"jenis" => $jenis,
+				"surat_tugas" => $st,
+				"kegiatan" => $kegiatan,
+				"created_by" => $by,
+				"anggaran" => $anggaran,
+				"tujuan" => $tujuan,
+				"instansi" => $instansi,
+				"berangkat" => $berangkat,
+				"kembali" => $kembali,
+				"ntpn" => $ntpn,
+				"mak" => $mak,
+				// "approved" => $approved,
+				"created_at" => $created_at,
+				"updated_at" => $updated_at,
+				"tanggal" => $tanggal,
+			]);
 		
 		return redirect()->route("admin.sp2d.index");
 	}
@@ -101,18 +104,19 @@ class sp2dController extends Controller{
 		$r->at = Auths::user('access_token');
 		$r->ov = true;
 		
-		$sp2d = DB::select("SELECT * FROM pd_sp2d WHERE id = '$id'");
-		if(!isset($sp2d[0]) || $sp2d[0]==null){
-			session(["error"=>"Unknown Error"]);
+		$sp2d = DB::table("pd_sp2d")
+			->where("id",$id)
+			->first();
+		if($sp2d==null){
+			session(["error"=>"SP2D is broken"]);
 			return redirect()->route("admin.sp2d.index");
 		}
-		$sp2d = $sp2d[0];
 		
 		$api = new stAPIController();
 		$api = $api->detail($r, $sp2d->surat_tugas);
 		
 		if($api==null || $api=="null"){
-			session(["error"=>"Unknown Error"]);
+			session(["error"=>"SP2D broken"]);
 			return redirect()->route("admin.sp2d.index");
 		}
 		
@@ -122,13 +126,19 @@ class sp2dController extends Controller{
 	}
 	
 	public function destroy(Request $r, $id){
-		DB::select("DELETE FROM pd_sp2d WHERE id = '$id'");
+		DB::table("pd_sp2d")
+			->where("id",$id)
+			->delete();
 		session(["status"=>"an SP2D successfully deleted"]);
 		return redirect()->route("admin.sp2d.index");
 	}
 	
 	public function sign(Request $r, $id){
-		DB::select("UPDATE pd_sp2d SET approved = 1 WHERE id = '$id'");
+		DB::table("pd_sp2d")
+			->where("id",$id)
+			->update([
+				"approved" => 1
+			]);
 		session(["status"=>"an SP2D successfully approved"]);
 		return redirect()->route("admin.sp2d.index");
 	}
