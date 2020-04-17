@@ -332,15 +332,14 @@ class AgendaController extends Controller
 		
 		$now = DateTimes::ymdhis();
 		
-		DB::select("
-			INSERT INTO st_surattugas (
-				id, agenda_id, agenda_title,
-				data, created_at, updated_at
-			) VALUES (
-				'?', ?, '?',
-				'?', '?', '?'
-			)
-		",[$uuid, $agenda_id, $r->title, "", $now, $now]);
+		DB::table("st_surattugas")
+			->insert([
+				"id" => $uuid,
+				"agenda_id" => $agenda_id,
+				"agenda_title" => $r->title,
+				"created_at" => $now,
+				"updated_at" => $now
+			]);
 	}
 	
 	public function detail(Request $r, $id){
@@ -507,13 +506,12 @@ class AgendaController extends Controller
 	private function stUpdate($r, $agenda){
 		$now = DateTimes::ymdhis();
 		
-		DB::select("
-			UPDATE st_surattugas SET
-				agenda_title = '?',
-				updated_at = '?'
-			WHERE
-				agenda_id = ?
-		",[$r->title,$now,$agenda]);
+		DB::table("st_surattugas")
+			->where("agenda_id",$agenda)
+			->update([
+				"agenda_title" => $r->title,
+				"updated_at" => $now
+			]);
 	}
 	
 	public function verify(Request $r){
