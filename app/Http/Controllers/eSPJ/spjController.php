@@ -35,7 +35,7 @@ class spjController extends Controller{
         $master = $this->master("Create SPJ","admin.spj.store","spj.create","POST");
         $jenis = DB::table("pd_pengeluaran_jenis")->get();
 
-        return view("espj.spj.form", compact('master','jenis'));
+        return view("eSPJ.spj.form", compact('master','jenis'));
 	}
 
 	private function master($t,$a,$b,$m,$p=NULL){
@@ -115,7 +115,7 @@ class spjController extends Controller{
             ->get();
 
 		$master = $this->master("Detail SPJ","admin.spj.index","spj.detail","GET");
-        return view("espj.spj.detail", compact('master','pengeluaran','spj','sp2d'));
+        return view("eSPJ.spj.detail", compact('master','pengeluaran','spj','sp2d'));
 	}
 
 	public function destroy(Request $r, $id){
