@@ -36,7 +36,7 @@ Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::group([
 	'prefix' => 'auth',
 	'namespace' => 'Auth'
-], function () {	
+], function () {
 	Route::get('token', 'AuthController@token')->name('auth.token');
 	Route::post('token', 'AuthController@submit')->name('auth.submit');
 	Route::post('login', 'AuthController@LogIn')->name('auth.login');
@@ -49,16 +49,16 @@ Route::name('employee.')->middleware('employee')->prefix('employee')->group(func
 	Route::get('/', function(){
 		echo "employee";
 	});
-	
+
 	/* start presence */
-	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){		
+	Route::prefix('presence')->name('presence.')->namespace('Presence')->group(function(){
 		Route::get('/', 'PresenceController@index')->name('index');
 		Route::get('/status', 'PresenceController@status')->name('status');
 	});
 	/* end presence */
-	
+
 	/* start agenda */
-	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){		
+	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){
 		Route::get('/', 'AgendaController@employee')->name('index');
 		Route::get('/{id}', 'AgendaController@detail')->name('detail');
 	});
@@ -71,7 +71,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/', function(){
 		echo "admin";
 	});
-	
+
 	/* start eSPJ */
 	Route::namespace('eSPJ')->group(function(){
 		Route::prefix('st')->name('st.')->group(function(){
@@ -99,11 +99,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 			Route::get('/data', 'spjController@data')->name('data');
 			Route::post('/store', 'spjController@store')->name('store');
 			Route::get('/edit/{id}', 'spjController@edit')->name('edit');
+			Route::get('/delete/{id}', 'spjController@destroy')->name('delete');
+			Route::get('/sign/{id}', 'spjController@sign')->name('sign');
 			Route::get('/{id}', 'spjController@detail')->name('detail');
 		});
 	});
 	/* end eSPJ */
-	
+
 	/* start user */
 	Route::prefix('user')->name('user.')->namespace('master')->group(function(){
 		Route::get('/', 'UsersController@index')->name('index');
@@ -114,7 +116,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::post('/store', 'UsersController@store')->name('store');
 	});
 	/* end user */
-	
+
 	/* start announcement */
 	Route::prefix('announcement')->name('announcement.')->namespace('Announcement')->group(function(){
 		Route::get('/', 'Announcement@index')->name('index');
@@ -125,15 +127,15 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::post('/store', 'Announcement@store')->name('store');
 	});
 	/* end announcement */
-	
+
 	/* start agenda */
-	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){		
+	Route::prefix('agenda')->name('agenda.')->namespace('Agenda')->group(function(){
 		Route::get('/', 'AgendaController@index')->name('index');
 		Route::get('/data', 'AgendaController@data')->name('data');
 		Route::get('/create', 'AgendaController@create')->name('create');
 		Route::post('/store', 'AgendaController@store')->name('store');
 		Route::get('/edit/{id}', 'AgendaController@edit')->name('edit');
-		Route::put('/update/{id}', 'AgendaController@update')->name('update');	
+		Route::put('/update/{id}', 'AgendaController@update')->name('update');
 		Route::get('/category', 'DependeciesAgendaController@category')->name('category');
 		Route::get('/province', 'DependeciesAgendaController@province')->name('province');
 		Route::get('/city', 'DependeciesAgendaController@city')->name('city');
@@ -143,7 +145,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::get('/{id}', 'AgendaController@detail')->name('detail');
 	});
 	/* end agenda */
-	
+
 	/* start schedule */
 	Route::prefix('schedule')->name('schedule.')->namespace('Schedule')->group(function(){
 		Route::get('/', 'ScheduleController@index')->name('index');
@@ -155,9 +157,9 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'ScheduleController@update')->name('update');
 	});
 	/* end schedule */
-	
+
 	/* start calendar */
-	Route::prefix('calendar')->name('calendar.')->namespace('Master')->group(function(){		
+	Route::prefix('calendar')->name('calendar.')->namespace('Master')->group(function(){
 		Route::get('/', 'CalendarController@index')->name('index');
 		Route::get('/data', 'CalendarController@data')->name('data');
 		Route::get('/create', 'CalendarController@create')->name('create');
@@ -166,9 +168,9 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		Route::put('/update/{id}', 'CalendarController@update')->name('update');
 	});
 	/* end calendar */
-	
+
 	/* start category */
-	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){		
+	Route::prefix('category')->name('category.')->namespace('Master')->group(function(){
 		Route::get('/', 'GolonganController@index')->name('index');
 		Route::get('/data', 'GolonganController@data')->name('data');
 		Route::get('/create', 'GolonganController@create')->name('create');
@@ -179,7 +181,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end category */
 
 	/* start category */
-	Route::prefix('departemen')->name('departemen.')->namespace('Master')->group(function(){		
+	Route::prefix('departemen')->name('departemen.')->namespace('Master')->group(function(){
 		Route::get('/', 'DepartemenController@index')->name('index');
 		Route::get('/data', 'DepartemenController@data')->name('data');
 		Route::get('/create', 'DepartemenController@create')->name('create');
@@ -190,7 +192,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end category */
 
 	// start jabatan
-	Route::prefix('jabatan')->name('jabatan.')->namespace('Master')->group(function(){		
+	Route::prefix('jabatan')->name('jabatan.')->namespace('Master')->group(function(){
 		Route::get('/',  'JabatanController@index')->name('index');
 		Route::get('/data', 'JabatanController@data')->name('data');
 		Route::get('/create', 'JabatanController@create')->name('create');
@@ -201,7 +203,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end jabatan
 
 	// start perusahaan
-	Route::prefix('perusahaan')->name('perusahaan.')->namespace('Master')->group(function(){		
+	Route::prefix('perusahaan')->name('perusahaan.')->namespace('Master')->group(function(){
 		Route::get('/',  'PerusahaanController@index')->name('index');
 		Route::get('/data', 'PerusahaanController@data')->name('data');
 		Route::get('/created', 'PerusahaanController@created')->name('created');
@@ -212,7 +214,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end perusahaan
 
 	// start perusahaan_cabang
-	Route::prefix('perusahaan_cabang')->name('perusahaan_cabang.')->namespace('Master')->group(function(){		
+	Route::prefix('perusahaan_cabang')->name('perusahaan_cabang.')->namespace('Master')->group(function(){
 		Route::get('/',  'PerusahaanCabangController@index')->name('index');
 		Route::get('/data', 'PerusahaanCabangController@data')->name('data');
 		Route::get('/create', 'PerusahaanCabangController@create')->name('create');
@@ -223,7 +225,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end perusahaan
 
 	// start country
-	Route::prefix('country')->name('country.')->namespace('Master')->group(function(){		
+	Route::prefix('country')->name('country.')->namespace('Master')->group(function(){
 		Route::get('/',  'CountryController@index')->name('index');
 		Route::get('/data', 'CountryController@data')->name('data');
 		Route::get('/create', 'CountryController@create')->name('create');
@@ -234,7 +236,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end country
 
 	// start province
-	Route::prefix('province')->name('province.')->namespace('Master')->group(function(){			
+	Route::prefix('province')->name('province.')->namespace('Master')->group(function(){
 		Route::get('/',  'ProvinceController@index')->name('index');
 		Route::get('/data', 'ProvinceController@data')->name('data');
 		Route::get('/create', 'ProvinceController@create')->name('create');
@@ -245,7 +247,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end province
 
 	// start province
-	Route::prefix('city')->name('city.')->namespace('Master')->group(function(){			
+	Route::prefix('city')->name('city.')->namespace('Master')->group(function(){
 		Route::get('/',  'CityController@index')->name('index');
 		Route::get('/data', 'CityController@data')->name('data');
 		Route::get('/create', 'CityController@create')->name('create');
@@ -256,7 +258,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end province
 
 	// start Tipeijin
-	Route::prefix('TipeIjin')->name('TipeIjin.')->namespace('Master')->group(function(){			
+	Route::prefix('TipeIjin')->name('TipeIjin.')->namespace('Master')->group(function(){
 		Route::get('/',  'TipeIJinController@index')->name('index');
 		Route::get('/data', 'TipeIJinController@data')->name('data');
 		Route::get('/create', 'TipeIJinController@create')->name('create');
@@ -267,7 +269,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end Tipeijin
 
 	// start TipeAgenda
-	Route::prefix('TipeAgenda')->name('TipeAgenda.')->namespace('Master')->group(function(){			
+	Route::prefix('TipeAgenda')->name('TipeAgenda.')->namespace('Master')->group(function(){
 		Route::get('/',  'TipeAgendaController@index')->name('index');
 		Route::get('/data', 'TipeAgendaController@data')->name('data');
 		Route::get('/create', 'TipeAgendaController@create')->name('create');
@@ -278,7 +280,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	// end TipeAgenda
 
 	/* start Employee */
-	Route::prefix('employee')->name('employee.')->namespace('Master\Employee')->group(function(){		
+	Route::prefix('employee')->name('employee.')->namespace('Master\Employee')->group(function(){
 		Route::get('/', 'PegawaiController@index')->name('index');
 		Route::get('/data', 'PegawaiController@data')->name('data');
 		Route::get('/create', 'PegawaiController@create')->name('create');
@@ -301,9 +303,9 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 	/* end Employee */
 
 	/* start presence */
-	Route::prefix('presence')->name('presence.')->namespace('Master')->group(function(){	
+	Route::prefix('presence')->name('presence.')->namespace('Master')->group(function(){
 		/* start type */
-		Route::prefix('type')->name('type.')->group(function(){		
+		Route::prefix('type')->name('type.')->group(function(){
 			Route::get('/', 'PresenceTypeController@index')->name('index');
 			Route::get('/data', 'PresenceTypeController@data')->name('data');
 			Route::get('/create', 'PresenceTypeController@create')->name('create');
@@ -322,13 +324,13 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 		/* end variant */
 	});
 	/* end presence */
-	
+
 
 });
 /* end admin */
 
 	// start pengajuanijin
-	Route::prefix('pengajuanijin')->name('pengajuanijin.')->namespace('PengajuanIjin')->group(function(){		
+	Route::prefix('pengajuanijin')->name('pengajuanijin.')->namespace('PengajuanIjin')->group(function(){
 		Route::get('/',  'PengajuanIjinController@index')->name('index');
 		Route::get('/data', 'PengajuanIjinController@data')->name('data');
 		Route::get('/create', 'PengajuanIjinController@create')->name('create');

@@ -292,6 +292,10 @@ Breadcrumbs::for('spj.edit', function ($t) {
 	$t->parent('spj');
     $t->push('Edit', route('admin.spj.index'));
 });
+Breadcrumbs::for('spj.detail', function ($t) {
+	$t->parent('spj');
+    $t->push('Detail', route('admin.spj.index'));
+});
 
 // SP2D
 Breadcrumbs::for('sp2d', function ($t) {

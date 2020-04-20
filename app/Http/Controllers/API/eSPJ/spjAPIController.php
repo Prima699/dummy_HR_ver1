@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use Handlers;
 use DB;
 
-class sp2dAPIController extends Controller{
+class spjAPIController extends Controller{
 
 	public function data(Request $r){
 		$userID = Auths::user('user.user_id');
@@ -52,15 +52,22 @@ class sp2dAPIController extends Controller{
 		}
 
 		$search = strtolower($search);
-		$where = "WHERE approved = '$approve'";
+		$where = "WHERE spj.approved = '$approve'";
 
 		if($search!=""){
-			$where .= " AND (LOWER(kegiatan) LIKE '%$search%' OR LOWER(code) LIKE '%$search%')";
+			$where .= " AND (LOWER(sp2d.kegiatan) LIKE '%$search%' OR LOWER(spj.code) LIKE '%$search%')";
 		}
 
-		$records = DB::select("SELECT id, code, kegiatan FROM pd_sp2d $where ORDER BY created_at ASC LIMIT $length OFFSET $start");
+		$records = DB::select("SELECT spj.id, spj.code, sp2d.kegiatan
+			FROM pd_spj as spj
+			INNER JOIN pd_sp2d as sp2d ON sp2d.id = spj.sp2d
+			$where
+			ORDER BY spj.created_at DESC LIMIT $length OFFSET $start");
 
-		$data["recordsFiltered"] = DB::select("SELECT COUNT(id) AS amount FROM pd_sp2d $where")[0]->amount;
+		$data["recordsFiltered"] = DB::select("SELECT COUNT(spj.id) as amount
+			FROM pd_spj as spj
+			INNER JOIN pd_sp2d as sp2d ON sp2d.id = spj.sp2d
+			$where")[0]->amount;
 		$data["recordsTotal"] = count($records);
 
 		$i = $start + 1;

@@ -71,7 +71,7 @@
                 <p> {{ ("SP2D") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'SPJ') active @endif">
+            <li class="@if ($activePage == 'spj') active @endif">
               <a href="{{ route('admin.spj.index') }}">
                 <i class="now-ui-icons shopping_credit-card"></i>
                 <p> {{ ("SPJ") }} </p>

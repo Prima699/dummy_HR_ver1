@@ -25,6 +25,10 @@ Route::namespace("API")->group(function () {
 		});
 		Route::prefix('sp2d')->group(function () {
 			Route::get("data","sp2dAPIController@data");
+			Route::get("{id}","sp2dAPIController@detail");
+		});
+		Route::prefix('spj')->group(function () {
+			Route::get("data","spjAPIController@data");
 		});
 	});
 });
