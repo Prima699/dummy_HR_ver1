@@ -58,7 +58,7 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $p->jenis }}</td>
                                 <td>
-                                    <a href="{{ Storage::url($p->bukti) }}" target="_blank">Bukti</a>
+                                    <a href="{{ asset('storage/app/'.$p->bukti) }}" target="_blank">Bukti</a>
                                 </td>
                                 <td>{{ $p->keterangan }}</td>
                             </tr>
