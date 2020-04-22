@@ -33,7 +33,7 @@ class sp2dController extends Controller{
 	
 	public function create(){
 		$master = $this->master("Create SP2D","admin.sp2d.store","sp2d.create","POST");
-        return view("espj.sp2d.form", compact('master')); 
+        return view("eSPJ.sp2d.form", compact('master')); 
 	}
 	
 	private function master($t,$a,$b,$m,$p=NULL){
@@ -122,7 +122,7 @@ class sp2dController extends Controller{
 		
 		$detail = $api;
 		$master = $this->master("Detail SP2D","admin.sp2d.index","sp2d.detail","GET");
-        return view("espj.sp2d.detail", compact('master','detail','sp2d')); 
+        return view("eSPJ.sp2d.detail", compact('master','detail','sp2d')); 
 	}
 	
 	public function destroy(Request $r, $id){
