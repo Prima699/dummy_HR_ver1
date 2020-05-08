@@ -71,17 +71,19 @@ class spjController extends Controller{
             ]);
 
         for($i=0; $i<count($r->pengeluaranJenis); $i++){
-			$path = "";
+			$name = "";
 			$file = $r->file('pengeluaranFile')[$i];
 			if(isset($r->file('pengeluaranFile')[$i]) && $file!="" && $file!=NULL){
-				$path = $file->store('spj');
+                $ext = $file->getClientOriginalExtension();
+                $name = rand(100000,1001238912) . date("YmdHis") . "." . $ext;
+                $file->move('public/upload/espj',$name);
 			}
             DB::table("pd_pengeluaran")
                 ->insert([
                     "spj_id" => $uuid,
                     "pegawai_id" => Auths::user('user.user_id'),
                     "jenis" => $r->pengeluaranJenis[$i],
-                    "bukti" => $path,
+                    "bukti" => $name,
                     "keterangan" => $r->pengeluaranDesc[$i],
                     "created_at" => DateTimes::ymdhis(),
                     "updated_at" => DateTimes::ymdhis()

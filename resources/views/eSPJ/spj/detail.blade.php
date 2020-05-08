@@ -48,7 +48,7 @@
                 <thead>
                     <th width="5%">No.</th>
                     <th>Keterangan</th>
-                    <th width="20%">Bukti</th>
+                    <th width="10%">Bukti</th>
                 </thead>
                 <tbody>
                 <?php $i = 1; ?>
@@ -64,7 +64,7 @@
                                 <td></td>
                                 <td class="text-left">{{ $ii++ . ". " . $v->keterangan }}</td>
                                 <td>
-                                    <a href="{{ asset('storage/app/'.$v->bukti) }}" target="_blank">Bukti</a>
+                                    <a href="{{ asset('public/upload/espj/'.$v->bukti) }}" target="_blank">Buka</a>
                                 </td>
                             </tr>
                         @endforeach
