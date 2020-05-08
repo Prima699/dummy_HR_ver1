@@ -44,30 +44,37 @@
 			<br/>
 			<div class="row">
 				<div class="col-md">
-                    <table class="table table-bordered" id="pengeluaran">
-                        <thead>
-                            <th width="5%">No.</th>
-                            <th>Jenis</th>
-                            <th width="20%">Bukti</th>
-                            <th>Keterangan</th>
-                        </thead>
-                        <tbody>
-                        <?php $i = 1; ?>
-                        @foreach($pengeluaran as $p)
+            <table class="table table-bordered" id="pengeluaran">
+                <thead>
+                    <th width="5%">No.</th>
+                    <th>Keterangan</th>
+                    <th width="20%">Bukti</th>
+                </thead>
+                <tbody>
+                <?php $i = 1; ?>
+                @foreach($pengeluaran as $key => $value)
+                    @if(isset($value[0]))
+                        <tr>
+                            <td>{{ $i++ }}</td>
+                            <td colspan="2" class="font-weight-bold text-left">{{ $value[0]->jenis }}</td>
+                        </tr>
+                        <?php $ii = 1; ?>
+                        @foreach($value as $k => $v)
                             <tr>
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $p->jenis }}</td>
+                                <td></td>
+                                <td class="text-left">{{ $ii++ . ". " . $v->keterangan }}</td>
                                 <td>
-                                    <a href="{{ asset('storage/app/'.$p->bukti) }}" target="_blank">Bukti</a>
+                                    <a href="{{ asset('storage/app/'.$v->bukti) }}" target="_blank">Bukti</a>
                                 </td>
-                                <td>{{ $p->keterangan }}</td>
                             </tr>
                         @endforeach
-                        </tbody>
-                    </table>
-				</div>
-            </div>
-            <br/>
+                    @endif
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <br/>
 			<div class="row">
 				<div class="col-md-3">
 					<a href="{{ route('admin.spj.index') }}" class="btn btn-link btn-sm">

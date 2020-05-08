@@ -71,7 +71,11 @@ class spjController extends Controller{
             ]);
 
         for($i=0; $i<count($r->pengeluaranJenis); $i++){
-            $path = $r->file('pengeluaranFile')[$i]->store('spj');
+			$path = "";
+			$file = $r->file('pengeluaranFile')[$i];
+			if(isset($r->file('pengeluaranFile')[$i]) && $file!="" && $file!=NULL){
+				$path = $file->store('spj');
+			}
             DB::table("pd_pengeluaran")
                 ->insert([
                     "spj_id" => $uuid,
@@ -108,13 +112,18 @@ class spjController extends Controller{
 			return redirect()->route("admin.spj.index");
 		}
 
+        $tmp = [];
         $pengeluaran = DB::table("pd_pengeluaran as p")
             ->join("pd_pengeluaran_jenis as j","j.id","=","p.jenis")
-            ->select("p.*","j.name as jenis")
+            ->select("p.*","j.name as jenis","j.id as fk_jenis")
             ->where("p.spj_id",$id)
             ->get();
+        foreach($pengeluaran as $p){
+            $tmp[$p->fk_jenis][] = $p;
+        }
+        $pengeluaran = $tmp;
 
-		$master = $this->master("Detail SPJ","admin.spj.index","spj.detail","GET");
+        $master = $this->master("Detail SPJ","admin.spj.index","spj.detail","GET");
         return view("eSPJ.spj.detail", compact('master','pengeluaran','spj','sp2d'));
 	}
 
