@@ -72,12 +72,14 @@ class spjController extends Controller{
 
         for($i=0; $i<count($r->pengeluaranJenis); $i++){
 			$name = "";
-			$file = $r->file('pengeluaranFile')[$i];
-			if(isset($r->file('pengeluaranFile')[$i]) && $file!="" && $file!=NULL){
+			if(isset($r->file('pengeluaranFile')[$i]) && $r->file('pengeluaranFile')[$i]!="" && $r->file('pengeluaranFile')[$i]!=NULL){
+                $file = $r->file('pengeluaranFile')[$i];
                 $ext = $file->getClientOriginalExtension();
                 $name = rand(100000,1001238912) . date("YmdHis") . "." . $ext;
                 $file->move('public/upload/espj',$name);
-			}
+			}elseif(isset($r->pengeluaranOldFile[$i]) && $r->pengeluaranOldFile[$i]!=false){
+                $name = $r->pengeluaranOldFile[$i];
+            }
             DB::table("pd_pengeluaran")
                 ->insert([
                     "spj_id" => $uuid,
@@ -130,15 +132,19 @@ class spjController extends Controller{
 	}
 
 	public function destroy(Request $r, $id){
-		DB::table("pd_pengeluaran")
+		$this->delete($id);
+		session(["status"=>"an SPJ successfully deleted"]);
+		return redirect()->route("admin.spj.index");
+    }
+
+    private function delete($id){
+        DB::table("pd_pengeluaran")
 			->where("spj_id",$id)
 			->delete();
         DB::table("pd_spj")
             ->where("id",$id)
             ->delete();
-		session(["status"=>"an SPJ successfully deleted"]);
-		return redirect()->route("admin.spj.index");
-	}
+    }
 
 	public function sign(Request $r, $id){
 		DB::table("pd_spj")
@@ -149,5 +155,44 @@ class spjController extends Controller{
 		session(["status"=>"an SPJ successfully approved"]);
 		return redirect()->route("admin.spj.index");
 	}
+
+	public function edit(Request $r, $id){
+		$r->uid = Auths::user('user.user_id');
+		$r->at = Auths::user('access_token');
+		$r->ov = true;
+
+		$spj = DB::table("pd_spj")
+			->where("id",$id)
+			->first();
+		if($spj==null){
+			session(["error"=>"SPJ is broken"]);
+			return redirect()->route("admin.spj.index");
+		}
+
+		$sp2d = DB::table("pd_sp2d")
+			->where("id",$spj->sp2d)
+			->first();
+		if($sp2d==null){
+			session(["error"=>"SPJ is broken"]);
+			return redirect()->route("admin.spj.index");
+		}
+
+        $pengeluaran = DB::table("pd_pengeluaran as p")
+            ->join("pd_pengeluaran_jenis as j","j.id","=","p.jenis")
+            ->select("p.*","j.name as jenis","j.id as fk_jenis")
+            ->where("p.spj_id",$id)
+            ->get();
+
+        $jenis = DB::table("pd_pengeluaran_jenis")->get();
+
+        $master = $this->master("Edit SPJ","admin.spj.update","spj.edit","GET");
+        // dd(compact('master','pengeluaran','spj','sp2d','jenis'));
+        return view("eSPJ.spj.form", compact('master','pengeluaran','spj','sp2d','jenis'));
+    }
+
+    public function update(Request $r){
+        $this->delete($r->_spj);
+        return $this->store($r);
+    }
 
 }

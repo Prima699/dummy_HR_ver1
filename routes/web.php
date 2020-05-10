@@ -99,6 +99,7 @@ Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
 			Route::get('/data', 'spjController@data')->name('data');
 			Route::post('/store', 'spjController@store')->name('store');
 			Route::get('/edit/{id}', 'spjController@edit')->name('edit');
+			Route::post('/update', 'spjController@update')->name('update');
 			Route::get('/delete/{id}', 'spjController@destroy')->name('delete');
 			Route::get('/sign/{id}', 'spjController@sign')->name('sign');
 			Route::get('/{id}', 'spjController@detail')->name('detail');

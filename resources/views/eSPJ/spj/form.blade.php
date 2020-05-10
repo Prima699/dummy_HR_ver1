@@ -7,8 +7,8 @@
 
 @section('content')
 <div id="data"
-	data-sp2did="{{ -1 }}"
-	data-sp2dname="{{ -1 }}"
+	data-sp2did="{{ (isset($sp2d))? $sp2d->id :-1 }}"
+	data-sp2dname="{{ (isset($sp2d))? $sp2d->kegiatan :-1 }}"
 	data-uid="{{ Auths::user('user.user_id') }}"
     data-at="{{ Auths::user('access_token') }}" hidden>
 
@@ -48,14 +48,17 @@
 			@csrf
 			@if($master->method=="PUT")
 				@method('PUT')
-			@endif
+            @endif
+            @if(isset($spj))
+                <input type="hidden" name="_spj" value="{{ $spj->id }}" />
+            @endif
 			<div class="row">
 				<div class="col-md-2">
 					<label class="label" for="sp2d">SP2D</label>
 				</div>
 				<div class="col-md-5">
-					<input type="text" class="form-control" id="sp2d" required />
-					<input type="hidden" class="form-control" name="sp2d" id="sp2did" required />
+					<input type="text" class="form-control" id="sp2d" required value="{{ (isset($sp2d))? $sp2d->kegiatan :'' }}" />
+					<input type="hidden" class="form-control" name="sp2d" id="sp2did" required value="{{ (isset($sp2d))? $sp2d->id :'' }}" />
 				</div>
 			</div>
 			<br/>
@@ -64,7 +67,7 @@
 					<label class="label" for="nomor">Nomor SPJ</label>
 				</div>
 				<div class="col-md-3">
-					<input type="text" class="form-control" id="nomor" name="nomor" required />
+					<input type="text" class="form-control" id="nomor" name="nomor" required value="{{ (isset($spj))? $spj->code :'' }}" />
 				</div>
 			</div>
 			<br/>
@@ -83,6 +86,41 @@
                             <th width="10%">Action</th>
                         </thead>
                         <tbody>
+                        @if(isset($pengeluaran))
+                        <?php $i = 1; ?>
+                        @foreach($pengeluaran as $p)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>
+                                    <select name="pengeluaranJenis[]" class="form-control">
+                                    @foreach($jenis as $j)
+                                        <option value="{{ $j->id }}" {{ ($j->id==$p->fk_jenis)? 'selected' :'' }}>{{ $j->name }}</option>
+                                    @endforeach
+                                    </select>
+                                </td>
+                                <td class="text-left">
+                                    <input type="file" name="pengeluaranFile[]" class="form-control">
+                                    @if($p->bukti!="" && $p->bukti!=null)
+                                        <span>Uploaded file :
+                                            <a target="_blank" href="{{ asset('public/upload/espj/'.$p->bukti) }}">{{ $p->bukti }}</a>
+                                        </span>
+                                        <input type="hidden" name="pengeluaranOldFile[]" value="{{ $p->bukti }}" class="form-control">
+                                    @else
+                                        <input type="hidden" name="pengeluaranOldFile[]" value="false" class="form-control">
+                                    @endif
+                                </td>
+                                <td>
+                                    <textarea name="pengeluaranDesc[]" class="form-control">{{ $p->keterangan }}</textarea>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger btn-icon btn-icon-mini"
+                                        onclick="deletePengeluaran(this)">
+                                    <span class="fa fa-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        @endif
                         </tbody>
                     </table>
 				</div>

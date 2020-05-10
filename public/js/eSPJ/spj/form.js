@@ -22,7 +22,6 @@ function submitBtn(az){
 }
 
 $(document).ready(function(){
-	$("#save").prop("disabled",true);
 	// const anElement = new AutoNumeric('#anggaran');
 
 	// $('.dp').bootstrapMaterialDatePicker({
@@ -146,6 +145,12 @@ $(document).ready(function(){
 				$(a).append(span);
 
 		return a;
+    }
+
+	$("#save").prop("disabled",true);
+    if($("input[name='_spj']").length>0){
+        submitBtn("sp2d");
+        submitBtn("pengeluaran");
     }
 });
 
