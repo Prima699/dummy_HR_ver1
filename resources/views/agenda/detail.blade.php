@@ -4,11 +4,11 @@
     'activePage' => 'agenda',
     'activeNav' => '',
 ])
- 
+
 @section('content')
 <div class="panel-header">
   </div>
-  <div class="content"> 
+  <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -94,7 +94,7 @@
 								<td>{{ $d->agenda_detail_time_end }}</td>
 								@if($button==true)
 								<td class="st-not">
-									<button class="btn btn-sm btn-success" type="button" title="Face Recognition" onclick="fcManualModal(this)" data-date="{{ DateTimes::jfy($d->agenda_detail_date) }}" data-employee="{{ json_encode($data->anggota_dewan) }}" data-detail="{{ json_encode($d) }}">
+									<button class="btn btn-sm btn-info attendance" type="button" title="Face Recognition" onclick="fcManualModal(this)" data-date="{{ DateTimes::jfy($d->agenda_detail_date) }}" data-employee="{{ json_encode($data->anggota_dewan) }}" data-detail="{{ json_encode($d) }}">
 										<span class="fas fa-user-tie"></span>
 									</button>
 								</td>
@@ -105,7 +105,7 @@
 					</table>
 				</div>
 			</div>
-			<br/>			
+			<br/>
 			<div class="row">
 				<div class="col-md-12">
 					<table id="dt2" class="table table-bordered text-center">
@@ -115,6 +115,7 @@
 								<th>Name</th>
 								<th>Phone Number</th>
 								<th>Email</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -128,7 +129,12 @@
 									</a>
 								</td>
 								<td>{{ $d->pegawai_telp }}</td>
-								<td>{{ $d->pegawai_email }}</td>
+                                <td>{{ $d->pegawai_email }}</td>
+                                <td>
+									<button class="btn btn-sm btn-info" type="button" title="Detail" onclick="detailCheck(this)" data-id="{{ $d->pegawai_id }}" data-name="{{ $d->pegawai_name }}">
+										<span class="fas fa-file"></span>
+                                    </button>
+                                </td>
 							</tr>
 						@endforeach
 						</tbody>
@@ -164,9 +170,58 @@
     </div>
     <!-- end row -->
   </div>
-  
+
+<div class="modal" id="detailCheck" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Detail Check In & Check Out</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+                <div class="container-agenda-dc-alert"></div>
+				<label id="dc-pegawai"></label>
+                <br/>
+                <ul class="nav nav-tabs">
+                </ul>
+                <div class="tab-content">
+                </div>
+			</div>
+		</div>
+    </div>
+
+    <li class="nav-item" id="copy-nav-item" style="display:none;">
+        <a class="nav-link active show" data-toggle="tab" href="#menu1">Menu 1</a>
+    </li>
+    <div class="tab-pane container active" id="copy-tab-pane" style="display:none;">
+        <br/>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                </tr>
+                <tr id="copy-pane-tr" style="display:none;">
+                    <td></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card" style="display:none;" id="copy-pane-image">
+        <img class="card-img-top" src="img_avatar1.png" style="width:100%">
+        <div class="card-body">
+            <p class="card-text">Some example text some example text.</p>
+        </div>
+    </div>
+</div>
+
 @if($button==true)
-<div class="modal" id="fcManualModal" tabindex="-1" role="dialog">
+<div class="modal" id="fcManualModal" role="dialog">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -229,7 +284,7 @@
 	@if(isset($st) && $st==true)
 		<style>.st-not{display:none;}</style>
 	@endif
-@endpush 
+@endpush
 
 @push('js')
 	<script src="{{ asset('public/assets/DataTables/datatables.min.js') }}"></script>

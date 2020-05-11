@@ -28,7 +28,7 @@ class AgendaController extends Controller
 			return $this->employee($r);
 		}
     }
-	
+
 	public function admin($r){
 		$agenda = "onGoing";
 		$module = "Agenda";
@@ -45,16 +45,16 @@ class AgendaController extends Controller
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		$pegawaiID = Auths::user("pegawai.pegawai_id");
-		
+
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
 		$params['pegawai_id'] = $pegawaiID;
 		$curl->get(Constants::api() . '/pegawai_agenda', $params);
-		
+
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
@@ -62,9 +62,9 @@ class AgendaController extends Controller
 			}
 			return redirect()->route('employee.agenda.index');
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode=="0000"){
 			$data = $res->data;
 			$master = $this->master("Agenda","admin.agenda.index","agenda","GET");
@@ -74,25 +74,25 @@ class AgendaController extends Controller
 			return redirect()->route('employee.agenda.index');
 		}
 	}
-	
+
 	private function totalData($r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$search = $r['search']['value'];
 		if($search==NULL OR $search==""){
 			$search = "";
 		}
-		
+
 		if(isset($r->token)){
 			$token = $r->token;
 		}
-		
+
 		if(isset($r->userID)){
 			$userID = $r->userID;
 		}
-		
+
 		date_default_timezone_set("Asia/Jakarta");
 		if($r->agenda=="upComing"){
 			$params['agenda_status'] = 1;
@@ -103,7 +103,7 @@ class AgendaController extends Controller
 		}else if($r->agenda=="done"){
 			$params['agenda_status'] = 2;
 		}
-		
+
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
@@ -111,9 +111,9 @@ class AgendaController extends Controller
 		$params['field'] = 'agenda_title;category_agenda_name';
 		$params['search'] = $search;
 		$curl->get(Constants::api() . '/agenda', $params);
-		
+
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
@@ -121,45 +121,45 @@ class AgendaController extends Controller
 			}
 			return -1;
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode!="0000"){
 			return -1;
 		}
-		
+
 		return count($res->data);
 	}
-	
+
 	public function data(Request $r){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$search = $r['search']['value']; //filter keyword
 		$start = $r['start']; //offset
 		$length = $r['length']; //limit
 		$draw = $r['draw'];
 		$search = $r['search']['value'];
-				
+
 		$data = []; // datatable format
 		$data["draw"] = $draw;
 		$data["recordsTotal"] = 0;
 		$data["recordsFiltered"] = 0;
 		$data["data"] = [];
-		
+
 		if(isset($r->token)){
 			$token = $r->token;
 		}
-		
+
 		if(isset($r->userID)){
 			$userID = $r->userID;
 		}
-		
+
 		if($search==NULL OR $search==""){
 			$search = "";
 		}
-		
+
 		if($start!=0){
 			$start = $start / $length;
 		}
@@ -173,7 +173,7 @@ class AgendaController extends Controller
 		}else if($r->agenda=="done"){
 			$params['agenda_status'] = 2;
 		}
-		
+
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
@@ -184,9 +184,9 @@ class AgendaController extends Controller
 		$params['page'] = $start;
 		$params['n_item'] = $length;
 		$curl->get(Constants::api() . '/agenda', $params);
-		
+
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
@@ -194,29 +194,29 @@ class AgendaController extends Controller
 			}
 			return Response()->json($data);
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode!="0000"){
 			session(["error" => $res->errormsg]);
 			return Response()->json($data);
 		}
-		
-		if($res->data==NULL){ 
+
+		if($res->data==NULL){
 			$amount = 0;
 		}else{
 			$amount = $this->totalData($r);
-			
+
 			if($amount==-1){
 				return Response()->json($data);
 			}
 		}
-		
+
 		$data["recordsTotal"] = $amount;
 		$data["recordsFiltered"] = $amount;
-		
+
 		// dd($res->data[0]);
-		
+
 		$i = ($length * $start) + 1;
 		if($res->data!=NULL){
 			foreach($res->data as $a){
@@ -225,45 +225,45 @@ class AgendaController extends Controller
 				$i++;
 			}
 		}
-		
+
 		return Response()->json($data);
 	}
-	
+
 	public function create(Request $r){
 		$master = $this->master("Create Agenda","admin.agenda.store","agenda.create","POST");
-        return view("agenda.form", compact('master')); 
+        return view("agenda.form", compact('master'));
 	}
-	
+
 	private function master($t,$a,$b,$m,$p=NULL){
 		$data = new \stdClass;
-		
+
 		if($p!=NULL){
 			$a = route($a,["id"=>$p]);
 		}else{
 			$a = route($a);
 		}
-		
+
 		$data->title = $t;
 		$data->action = $a;
 		$data->breadcrumb = $b;
 		$data->method = $m;
-		
+
 		return $data;
 	}
-	
+
 	public function validation(Request $r){
 		// $r->validate([
 			// 'name' => 'required|max:45'
 		// ]);
 	}
-	
+
 	public function store(Request $r){
 		$this->validation($r);
-		
+
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$params = [
 			"category_agenda_id" => $r->category,
 			"agenda_title" => $r->title,
@@ -289,7 +289,7 @@ class AgendaController extends Controller
 			$params["anggota"][] = $tmp;
 		}
 		$curl->post(Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx", $params);
-		
+
 		$redirect = "admin.agenda";
 		$red = session("redirect.route");
 		$module = "agenda";
@@ -299,20 +299,20 @@ class AgendaController extends Controller
 			$this->stInsert($r, $curl);
 			session(["redirect.route" => NULL]);
 		}
-		
+
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
 				session(["error" => $res->errormsg]);
 			}
-			
+
 			return redirect()->route($redirect . ".create");
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode=="0000"){
 			$status = "Success creating new " . $module . ".";
 			session(["status" => $status]);
@@ -322,16 +322,16 @@ class AgendaController extends Controller
 			return redirect()->route($redirect . ".create");
 		}
 	}
-	
+
 	private function stInsert($r, $agenda){
 		$agenda_id = json_decode($agenda->response)->data->agenda_id;
-		
+
 		$curl = new Curl();
 		$curl->get("https://www.uuidgenerator.net/api/version4");
 		$uuid = $curl->response;
-		
+
 		$now = DateTimes::ymdhis();
-		
+
 		DB::table("st_surattugas")
 			->insert([
 				"id" => $uuid,
@@ -341,21 +341,21 @@ class AgendaController extends Controller
 				"updated_at" => $now
 			]);
 	}
-	
+
 	public function detail(Request $r, $id){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
 		$params['agenda_id'] = $id;
 		$curl->get(Constants::api() . '/agenda', $params);
-		
+
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
@@ -363,9 +363,9 @@ class AgendaController extends Controller
 			}
 			return redirect()->route('admin.agenda.index');
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
 			$button = false;
@@ -377,34 +377,35 @@ class AgendaController extends Controller
 			if(
 				($data->agenda_status==1 OR $data->agenda_status=="1")
 				AND $data->agenda_date_end >= date("Y-m-d")
-				AND $data->agenda_date <= date("Y-m-d") 
+				AND $data->agenda_date <= date("Y-m-d")
 			){
 				$button = true;
-			}
+            }
+            // dd(compact('data','master','back','button'));
 			return view('agenda.detail', compact('data','master','back','button'));
 		}else{
 			session(['error' => $res->errormsg]);
 			return redirect()->route('admin.agenda.index');
 		}
 	}
-	
+
 	public function edit(Request $r, $id){
 		$curl = new Curl();
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$params['user_id'] = $userID;
 		$params['access_token'] = $token;
 		$params['platform'] = 'dashboard';
 		$params['location'] = 'xxx';
 		$params['agenda_id'] = $id;
 		$curl->get(Constants::api() . '/agenda', $params);
-		
+
 		if($curl->error==TRUE){
 			session(["error" => "Server Unreachable."]);
 		}
 		if($curl->error==TRUE){
-			if($curl->response==false){				
+			if($curl->response==false){
 				session(["error" => "Server Unreachable."]);
 			}else{
 				$res = json_decode($curl->response);
@@ -412,9 +413,9 @@ class AgendaController extends Controller
 			}
 			return redirect()->route('admin.agenda.index');
 		}
-		
+
 		$res = json_decode($curl->response);
-		
+
 		if($res->errorcode=="0000"){
 			$data = $res->data[0];
 			$master = $this->master("Edit Agenda","admin.agenda.update","agenda.edit","PUT",$id);
@@ -424,13 +425,13 @@ class AgendaController extends Controller
 			return redirect()->route('admin.agenda.index');
 		}
 	}
-	
+
 	public function update(Request $r, $id){
 		$this->validation($r);
-		
+
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$params = [
 			"category_agenda_id" => $r->category,
 			"agenda_title" => $r->title,
@@ -448,21 +449,21 @@ class AgendaController extends Controller
 			$tmp->agenda_detail_time_end = $r->end[$i];
 			$tmp->agenda_detail_long = 107.6570477;
 			$tmp->agenda_detail_lat = -6.895538;
-			
+
 			if($r->agenda_detail_id[$i]!=-1){
 				$tmp->agenda_detail_id = $r->agenda_detail_id[$i];
 			}
-			
+
 			$params["hari"][] = $tmp;
 		}
 		for($i=0; $i<count($r->employee); $i++){
 			$tmp = new \stdClass;
 			$tmp->pegawai_id = $r->employee[$i];
-			
+
 			if($r->id_attendance[$i]!=-1){
 				$tmp->id_attendance = $r->id_attendance[$i];
 			}
-			
+
 			$params["anggota"][] = $tmp;
 		}
 		$url = Constants::api() . "/agenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/agenda_id/$id";
@@ -475,7 +476,7 @@ class AgendaController extends Controller
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 		$res = curl_exec($ch);
-		
+
 		$redirect = "admin.agenda";
 		$red = session("redirect.route");
 		$module = "agenda";
@@ -485,14 +486,14 @@ class AgendaController extends Controller
 			$this->stUpdate($r,$id);
 			session(["redirect.route" => NULL]);
 		}
-		
+
 		if(!$res){
 			session(["error" => "Server Unreachable."]);
 			return redirect()->route($redirect . '.edit',["id"=>$id]);
 		}
-		
+
 		$res = json_decode($res);
-		
+
 		if($res->errorcode=="0000"){
 			$status = "Success updating " . $module . ".";
 			session(["status" => $status]);
@@ -502,10 +503,10 @@ class AgendaController extends Controller
 			return redirect()->route($redirect . '.edit',["id"=>$id]);
 		}
 	}
-	
+
 	private function stUpdate($r, $agenda){
 		$now = DateTimes::ymdhis();
-		
+
 		DB::table("st_surattugas")
 			->where("agenda_id",$agenda)
 			->update([
@@ -513,18 +514,18 @@ class AgendaController extends Controller
 				"updated_at" => $now
 			]);
 	}
-	
+
 	public function verify(Request $r){
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
-		
+
 		$curl = new Curl();
 		$url = Constants::api() . "/verifikasiagenda/user_id/$userID/access_token/$token/platform/dashboard/location/xxx/agenda_id/" . $r->id;
 		$params['agenda_id'] = $r->id;
 		$curl->put($url, $params, true);
-		
+
 		$handler = Handlers::curl($curl);
-		
+
 		if($handler!=true){
 			return redirect()->route('admin.agenda.edit',["id"=>$r->id]);
 		}else{
@@ -532,21 +533,21 @@ class AgendaController extends Controller
 			return redirect()->route('admin.agenda.index');
 		}
 	}
-	
+
 	public function fcManual(Request $r){
 		$userID = Auths::user('user.user_id');
 		$token = Auths::user("access_token");
 		$curl = new Curl();
-		
+
 		$url = Constants::api() . "/verifikasiMember/user_id/$userID/access_token/$token/platform/dashboard/location/xxx";
 		$url .= "/attendance_id/" . $r->id;
 		// $url .= "/attendance_status/" . $r->status;
-		
+
 		$params['attendance_status'] = $r->status;
 		$curl->put($url, $params, true);
-		
+
 		$handler = Handlers::curl($curl);
-		
+
 		return Response()->json($handler);
 	}
 }
